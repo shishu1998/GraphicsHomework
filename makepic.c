@@ -14,9 +14,9 @@ void makeimage(){
   int x = open("image.ppm",O_CREAT,O_WRONLY,O_TRUNC);
   char* header = "p3\n255 10 255\n";
   write(x,header,sizeof(header));
-  char* str = "255 0 0";
-  int counter;
-  int counter2;
+  char* str = "255 0 0 ";
+  int counter = 0;
+  int counter2 = 0;
   while(counter2 < 10){
     while(counter < 255){
       /*sprintf(str,"%d ",randNum());
@@ -26,8 +26,10 @@ void makeimage(){
       write(x,str,sizeof(str));
       counter ++;
     }
+    write(x,"\n",sizeof("\n"));
     counter2 ++;
   }
+  close(x);
 }
 
 int main(){
