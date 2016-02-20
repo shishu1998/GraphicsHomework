@@ -61,7 +61,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
 	  x0 += 1;
 	  d += 2*A;
 	}
-	y0 += 1;
+	y0 -= 1;
 	d += 2*B;
       }
     }
@@ -71,7 +71,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
       while(x0 <= x1){
 	plot(s,c,x0,y0);
 	if(d < 0){
-	  y0 += 1;
+	  y0 -= 1;
 	  d += 2*A;
 	}
 	x0 += 1;
