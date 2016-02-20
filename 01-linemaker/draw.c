@@ -8,11 +8,11 @@
 //Insert your line algorithm here
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
   if(x1 < x0){
-    draw_line(x1,x0,y1,y0,s,c);
+    draw_line(x1,y1,x0,y0,s,c);
   }
   else if (x0 == x1){
     if(y0 < y1){
-      while(y0 < y1){
+      while(y0 <= y1){
 	plot(s,c,x0,y0);
 	y0 ++;
       }
