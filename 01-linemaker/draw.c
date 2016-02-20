@@ -54,7 +54,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     }
     //Octant VII
     if(slope <= -1){
-      d = A - 2*B;
+      d = 2*A - B;
       while(y0 >= y1){
 	plot(s,c,x0,y0);
 	if(d < 0){
