@@ -62,7 +62,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
 	  d += 2*A;
 	}
 	y0 -= 1;
-	d -= 2*B;
+	d += 2*B;
       }
     }
     //Octant VIII 
@@ -72,7 +72,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
 	plot(s,c,x0,y0);
 	if(d < 0){
 	  y0 -= 1;
-	  d -= 2*A;
+	  d += 2*A;
 	}
 	x0 += 1;
 	d += 2*B;
