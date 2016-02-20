@@ -25,7 +25,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     int A = y1 - y0;
     int B = -(x1 - x0);
     int d;
-    int slope = A/ -B;
+    float slope = A/ -B;
     //Octant I
     if(0 <= slope && slope <= 1){
       d = 2*A + B;
