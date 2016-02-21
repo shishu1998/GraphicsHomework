@@ -53,10 +53,10 @@ int main() {
   c.blue = MAX_COLOR;
   c.red = 0;
   c.green = MAX_COLOR;
-  int i = 200;
-  while(i < 300){
-    draw_line(i,i, i + 100, i + 100,s,c);
-    i ++;
+  int counter = 200;
+  while(counter < 300){
+    draw_line(0,counter/2, counter/2, 250,s,c);
+    counter ++;
   }
 
   //display(s);
