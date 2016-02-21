@@ -65,7 +65,7 @@ int main() {
     c.blue = counter%MAX_COLOR;
   }
   
-  //display(s);
+  display(s);
 
 
   save_extension(s, "lines.png");
