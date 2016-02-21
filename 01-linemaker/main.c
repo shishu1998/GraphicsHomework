@@ -12,12 +12,12 @@ int main() {
   color c;
  
   c.red = 0;
-  c.green = MAX_COLOR;
+  c.green = 0;
   c.blue = 0;
   
   clear_screen(s);
 
-
+  /*
   //octant 1
   draw_line( 0, 0, XRES-1, YRES - 75, s, c);
   //octant 2
@@ -47,7 +47,23 @@ int main() {
   //horizontal, vertical line
   draw_line( 0, YRES / 2, XRES - 1, YRES / 2, s, c);
   draw_line( XRES / 2, 0, XRES / 2, YRES - 1, s, c);
-   
+  */
+  //Random Lines
+  int counter = 0;
+  while(counter < XRES){
+    draw_line(counter,0,420,420,s,c);
+    draw_line(counter,YRES,420,420,s,c);
+    counter++;
+    c.red = counter%MAX_COLOR;
+  }
+  counter = 0;
+  while(counter < YRES){
+    draw_line(0,counter,420,420,s,c);
+    draw_line(XRES,counter,420,420,s,c);
+    counter++;
+    c.blue = counter%MAX_COLOR;
+  }
+  
   //display(s);
   save_extension(s, "lines.png");
 }  
