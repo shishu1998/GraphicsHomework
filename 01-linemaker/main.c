@@ -54,7 +54,7 @@ int main() {
   c.red = 0;
   c.green = MAX_COLOR;
   int i = 200;
-  while(i < 100){
+  while(i < 300){
     draw_line(i,i, i + 100, i + 100,s,c);
     i ++;
   }
