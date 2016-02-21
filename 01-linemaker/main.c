@@ -11,7 +11,6 @@ int main() {
   screen s;
   color c;
  
-  /*
   c.red = 0;
   c.green = MAX_COLOR;
   c.blue = 0;
@@ -48,23 +47,7 @@ int main() {
   //horizontal, vertical line
   draw_line( 0, YRES / 2, XRES - 1, YRES / 2, s, c);
   draw_line( XRES / 2, 0, XRES / 2, YRES - 1, s, c);
-  
-  */
-  
-  //More random lines Here
-  c.blue = MAX_COLOR;
-  c.red = 0;
-  c.green = MAX_COLOR;
-  int counter = 200;
-  while(counter < 300){
-    draw_line(0,counter/2, counter/2, 250,s,c);
-    counter ++;
-  }
-  counter = 0;
-  while(counter < 20){
-    draw_line(rand()%500,rand()%500,rand()%500,rand()%500,s,c);
-    counter ++;
-  }
+   
   //display(s);
   save_extension(s, "lines.png");
 }  
