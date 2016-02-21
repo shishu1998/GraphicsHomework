@@ -49,6 +49,16 @@ int main() {
   draw_line( 0, YRES / 2, XRES - 1, YRES / 2, s, c);
   draw_line( XRES / 2, 0, XRES / 2, YRES - 1, s, c);
   
-  display(s);
+  //More random lines Here
+  c.blue = MAX_COLOR;
+  c.red = 0;
+  c.green = MAX_COLOR;
+  int i = 0;
+  while(i < 100){
+    draw_line(i,i, i + 100, i + 100,s,c);
+    i ++;
+  }
+
+  //display(s);
   save_extension(s, "lines.png");
 }  

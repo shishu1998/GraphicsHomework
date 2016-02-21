@@ -15,4 +15,4 @@ dsiplay.o: display.c display.h ml6.h
 	$(CC) $(CFLAGS) -c display.c
 
 clean:
-	rm *.o main *~
+	rm *.o main *~ *.png
