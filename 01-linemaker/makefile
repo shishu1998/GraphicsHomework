@@ -13,6 +13,7 @@ draw.o: draw.c draw.h display.h ml6.h
 
 dsiplay.o: display.c display.h ml6.h
 	$(CC) $(CFLAGS) -c display.c
-
+run:
+	./main
 clean:
 	rm *.o main *~ *.png
