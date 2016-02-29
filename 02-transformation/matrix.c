@@ -20,8 +20,8 @@ struct matrix *new_matrix(int rows, int cols) {
 
   tmp = (double **)malloc(rows * sizeof(double *));
   for (i=0;i<rows;i++) {
-      tmp[i]=(double *)malloc(cols * sizeof(double));
-    }
+    tmp[i]=(double *)malloc(cols * sizeof(double));
+  }
 
   m=(struct matrix *)malloc(sizeof(struct matrix));
   m->m=tmp;
@@ -77,6 +77,14 @@ Returns:
 print the matrix
 */
 void print_matrix(struct matrix *m) {
+  int r, c;
+
+  for (r=0; r < m->rows; r++) {
+    for (c=0; c < m->cols; c++){  
+      printf("%g ",m->m[r][c]); 
+    }
+    printf("\n");
+  } 
 }
 
 /*-------------- void ident() --------------
@@ -86,6 +94,15 @@ Returns:
 turns m in to an identity matrix
 */
 void ident(struct matrix *m) {
+  int r,c;
+    
+  for (r=0; r < m->rows; r++){
+    for (c=0; c < m->cols; c++){ 
+      if(r == c){
+	m->m[r][c] = 1;
+      }
+    }
+  } 
 }
 
 
@@ -97,6 +114,15 @@ Returns:
 multiply each element of m by x
 */
 void scalar_mult(double x, struct matrix *m) {
+  int r,c;
+    
+  for (r=0; r < m->rows; r++){
+    for (c=0; c < m->cols; c++){ 
+      if(r == c){
+	m->m[r][c] = m->m[r][c] * x;
+      }
+    }
+  } 
 }
 
 
@@ -122,10 +148,12 @@ copy matrix a to matrix b
 void copy_matrix(struct matrix *a, struct matrix *b) {
 
   int r, c;
-
-  for (r=0; r < a->rows; r++) 
-    for (c=0; c < a->cols; c++)  
-      b->m[r][c] = a->m[r][c];  
+  
+  for (r=0; r < a->rows; r++){
+    for (c=0; c < a->cols; c++){ 
+      b->m[r][c] = a->m[r][c]; 
+    }
+  } 
 }
 
 /*======== struct matrix * make_translate() ==========
@@ -146,6 +174,7 @@ Returns: The translation matrix creates using x, y and z
 as the scale factors
 ====================*/
 struct matrix * make_scale(double x, double y, double z) {
+  return NULL;
 }
 
 /*======== struct matrix * make_rotX() ==========
@@ -155,6 +184,7 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and X as the axis of rotation.
 ====================*/
 struct matrix * make_rotX(double theta) {
+  return NULL;
 }
 
 /*======== struct matrix * make_rotY() ==========
@@ -164,6 +194,7 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and Y as the axis of rotation.
 ====================*/
 struct matrix * make_rotY(double theta) {
+  return NULL;
 }
 
 /*======== struct matrix * make_rotZ() ==========
@@ -173,4 +204,5 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and Z as the axis of rotation.
 ====================*/
 struct matrix * make_rotZ(double theta) {
+  return NULL;
 }
