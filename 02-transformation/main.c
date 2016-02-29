@@ -21,6 +21,8 @@ int main() {
   print_matrix(edges);
   scalar_mult(0.5,edges);
   print_matrix(edges);
+  edges = make_translate(0.5,0.5,0.5);
+  print_matrix(edges);
 
   free_matrix( transform );
   free_matrix( edges );
