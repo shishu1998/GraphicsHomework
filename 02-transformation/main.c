@@ -18,11 +18,19 @@ int main() {
   
   print_matrix(edges);
   ident(edges);
+  printf("Edges - Lastcol = %d\n",edges->lastcol);
   print_matrix(edges);
   scalar_mult(0.5,edges);
   print_matrix(edges);
   edges = make_translate(0.5,0.5,0.5);
   print_matrix(edges);
+  printf("Transform:\n");
+  copy_matrix(edges,transform);
+  print_matrix(transform);
+  printf("Transform - Lastcol = %d\n",transform->lastcol);
+  grow_matrix(transform,8);
+  print_matrix(transform);
+  printf("%g\n",transform->m[0][transform->lastcol]);
 
   free_matrix( transform );
   free_matrix( edges );

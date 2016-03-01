@@ -51,7 +51,6 @@ void free_matrix(struct matrix *m) {
   free(m);
 }
 
-
 /*======== void grow_matrix() ==========
 Inputs:  struct matrix *m
          int newcols 
@@ -102,7 +101,8 @@ void ident(struct matrix *m) {
 	m->m[r][c] = 1;
       }
     }
-  } 
+  }
+  m->lastcol = c-1;
 }
 
 
@@ -117,7 +117,7 @@ void scalar_mult(double x, struct matrix *m) {
   int r,c;
     
   for (r=0; r < m->rows; r++){
-    for (c=0; c < m->cols; c++){ 
+    for (c=0; c < m->lastcol; c++){ 
       if(r == c){
 	m->m[r][c] = m->m[r][c] * x;
       }
@@ -134,6 +134,15 @@ Returns:
 a*b -> b
 */
 void matrix_mult(struct matrix *a, struct matrix *b) {
+  if(a->cols != b->rows){
+    return;
+  }
+  int r,c;
+  for(r=0;r < b->rows; r++){
+    for(c=0;c < b->cols; c++){
+    }
+  }
+  
 }
 
 
@@ -154,6 +163,7 @@ void copy_matrix(struct matrix *a, struct matrix *b) {
       b->m[r][c] = a->m[r][c]; 
     }
   } 
+  b->lastcol = a->lastcol;
 }
 
 /*======== struct matrix * make_translate() ==========
