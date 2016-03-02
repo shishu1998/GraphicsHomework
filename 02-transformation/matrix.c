@@ -137,9 +137,16 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   if(a->cols != b->rows){
     return;
   }
-  int r,c;
+  //t for temp
+  int r,c,t;  
+  double sum;
   for(r=0;r < b->rows; r++){
     for(c=0;c < b->cols; c++){
+      for(t=0;t < a->cols; t++){
+	sum += a->m[t][r]*b->m[c][t];
+      }
+      b->m[r][c] = sum;
+      sum = 0;
     }
   }
   
@@ -190,7 +197,8 @@ Returns: The translation matrix creates using x, y and z
 as the scale factors
 ====================*/
 struct matrix * make_scale(double x, double y, double z) {
-  return NULL;
+  struct matrix* output = new_matrix(4,4);
+  return output;
 }
 
 /*======== struct matrix * make_rotX() ==========

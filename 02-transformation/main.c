@@ -15,7 +15,8 @@ int main() {
 
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
-  
+
+  /*
   print_matrix(edges);
   ident(edges);
   printf("Edges - Lastcol = %d\n",edges->lastcol);
@@ -31,7 +32,13 @@ int main() {
   grow_matrix(transform,8);
   print_matrix(transform);
   printf("%g\n",transform->m[0][transform->lastcol]);
-
+  printf("\n");*/
+  ident(edges);
+  ident(transform);
+  matrix_mult(transform,edges);
+  print_matrix(edges);
+  
+  
   free_matrix( transform );
   free_matrix( edges );
 }  
