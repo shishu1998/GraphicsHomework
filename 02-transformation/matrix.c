@@ -80,7 +80,7 @@ void print_matrix(struct matrix *m) {
 
   for (r=0; r < m->rows; r++) {
     for (c=0; c < m->cols; c++){  
-      printf("%g ",m->m[r][c]); 
+      printf("%g ",m->m[c][r]); 
     }
     printf("\n");
   } 
@@ -102,7 +102,7 @@ void ident(struct matrix *m) {
       }
     }
   }
-  m->lastcol = c-1;
+  m->lastcol = c -1;
 }
 
 
