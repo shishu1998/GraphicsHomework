@@ -80,7 +80,7 @@ void print_matrix(struct matrix *m) {
 
   for (r=0; r < m->rows; r++) {
     for (c=0; c < m->cols; c++){  
-      printf("%g ",m->m[c][r]); 
+      printf("%g ",m->m[r][c]); 
     }
     printf("\n");
   } 

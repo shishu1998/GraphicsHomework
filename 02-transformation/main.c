@@ -41,7 +41,7 @@ int main() {
   add_point(edges,1,1,1);
   add_point(edges,1,1,1);
   add_point(edges,1,1,1);
-  //add_point(edges,1,1,1);
+  add_point(edges,1,1,1);
   int lastcol = edges->lastcol;
   //printf("%d\n",!(edges->m[lastcol][0]));
   print_matrix(edges);
