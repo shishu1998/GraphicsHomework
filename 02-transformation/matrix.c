@@ -98,7 +98,7 @@ void ident(struct matrix *m) {
   for (r=0; r < m->rows; r++){
     for (c=0; c < m->cols; c++){ 
       if(r == c){
-	m->m[r][c] = 1;
+	m->m[c][r] = 1;
       }
     }
   }
@@ -137,18 +137,21 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   if(a->cols != b->rows){
     return;
   }
+  struct matrix* temp = new_matrix(a->cols,b->cols);
   //t for temp
   int r,c,t;  
   double sum;
   for(r=0;r < b->rows; r++){
     for(c=0;c < b->cols; c++){
       for(t=0;t < a->cols; t++){
-	sum += a->m[t][r]*b->m[c][t];
+	sum += a->m[r][t]*b->m[t][c];
       }
-      b->m[r][c] = sum;
+      temp->m[r][c] = sum;
       sum = 0;
     }
   }
+  copy_matrix(temp,b);
+  free_matrix(temp);
   
 }
 
