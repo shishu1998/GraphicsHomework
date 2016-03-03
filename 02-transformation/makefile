@@ -19,6 +19,6 @@ matrix.o: matrix.c matrix.h
 	$(CC) $(CFLAGS) -c matrix.c
 
 clean:
-	rm *.o *~ main
+	rm *.o *~ main matrix.png
 run:
 	./main
