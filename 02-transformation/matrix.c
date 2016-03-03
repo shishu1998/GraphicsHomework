@@ -201,6 +201,10 @@ as the scale factors
 ====================*/
 struct matrix * make_scale(double x, double y, double z) {
   struct matrix* output = new_matrix(4,4);
+  ident(output);
+  output->m[0][0] = x;
+  output->m[1][1] = y;
+  output->m[2][2] = z;
   return output;
 }
 
@@ -211,6 +215,8 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and X as the axis of rotation.
 ====================*/
 struct matrix * make_rotX(double theta) {
+  theta = theta/180 * M_PI;
+  printf("%g\n",theta);
   return NULL;
 }
 

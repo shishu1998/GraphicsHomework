@@ -45,7 +45,7 @@ int main() {
   int lastcol = edges->lastcol;
   //printf("%d\n",!(edges->m[lastcol][0]));
   print_matrix(edges);
-  
+  make_rotX(90);
   
   free_matrix( transform );
   free_matrix( edges );
