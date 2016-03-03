@@ -39,6 +39,8 @@ should use add_point
 void add_edge( struct matrix * points, 
 	       int x0, int y0, int z0, 
 	       int x1, int y1, int z1) {
+  add_point(points,x0,y0,z0);
+  add_point(points,x0,y0,z0);
 }
 
 /*======== void draw_lines() ==========
@@ -50,6 +52,10 @@ Go through points 2 at a time and call draw_line to add that line
 to the screen
 ====================*/
 void draw_lines( struct matrix * points, screen s, color c) {
+  int counter;
+  for(counter = 0;counter < points->lastcol -1; counter += 2){
+    draw_line(points->m[0][counter],points->m[1][counter],points->m[0][counter+1],points->m[1][counter+1],s,c);
+  }
 }
 
 
