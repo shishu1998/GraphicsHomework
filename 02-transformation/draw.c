@@ -38,7 +38,7 @@ void add_edge( struct matrix * points,
 	       int x0, int y0, int z0, 
 	       int x1, int y1, int z1) {
   add_point(points,x0,y0,z0);
-  add_point(points,x0,y0,z0);
+  add_point(points,x1,y1,z1);
 }
 
 /*======== void draw_lines() ==========
