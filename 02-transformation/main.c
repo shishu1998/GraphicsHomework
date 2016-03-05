@@ -12,9 +12,9 @@ int main() {
   screen s;
   color c;
 
-  c.red = 100;
-  c.blue = 100;
-  c.green = 100;
+  c.red = 255;
+  c.blue = 0;
+  c.green = 0;
   clear_screen(s);
   
   struct matrix *edges;
@@ -69,9 +69,9 @@ int main() {
   print_matrix(rotz);
   */
   
-  add_edge(edges,50.0,50.0,50.0,250.0,250.0,250.0);
-  add_edge(edges,250.0,250.0,250.0,300.0,300.0,300.0);
-  add_edge(edges,300.0,50.0,300.0,50.0,50.0,50.0);
+  add_edge(edges,50,50,0,250,50,0);
+  add_edge(edges,50,50,0,150,150,0);
+  add_edge(edges,250,50,0,150,150,0);
   
   
   transform = make_rotZ(1);
