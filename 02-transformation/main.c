@@ -10,6 +10,10 @@
 int main() {
 
   screen s;
+  color c;
+  
+  clear_screen(s);
+  
   struct matrix *edges;
   struct matrix *transform;
 
@@ -67,7 +71,6 @@ int main() {
   add_edge(edges,4,4,4,8,4,4);
   add_edge(edges,8,4,4,6,8,4);
   add_edge(edges,6,8,4,4,4,4);
-  color c;
   c.red = 255;
   c.green = 0;
   c.blue = 0;
@@ -83,7 +86,7 @@ int main() {
     //}
   free_matrix( transform );
   free_matrix( edges );
-  display(s);
+  //display(s);
    
   
   save_extension(s, "matrix.png");
