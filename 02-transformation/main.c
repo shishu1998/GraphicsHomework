@@ -72,15 +72,12 @@ int main() {
   add_edge(edges,50.0,50.0,50.0,250.0,250.0,250.0);
   add_edge(edges,250.0,250.0,250.0,50.0,50.0,50.0);
   add_edge(edges,300.0,300.0,300.0,300.0,300.0,300.0);
-  print_matrix(edges);
-  printf("%d\n", edges->lastcol);
   
   
-  
+  transform = make_rotZ(1);
   int count = 0;
   while(count < 360){
     draw_lines(edges,s,c);
-    transform = make_rotZ(1);
     matrix_mult(transform,edges);
     count ++;
   }
