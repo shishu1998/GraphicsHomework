@@ -66,9 +66,9 @@ int main() {
   print_matrix(rotz);
   */
   
-  add_edge(edges,50,50,50,250,250,250);
-  add_edge(edges,250,250,250,50,50,50);
-  add_edge(edges,300,300,300,300,300,300);
+  add_edge(edges,50.0,50.0,50.0,250.0,250.0,250.0);
+  add_edge(edges,250.0,250.0,250.0,50.0,50.0,50.0);
+  add_edge(edges,300.0,300.0,300.0,300.0,300.0,300.0);
   c.red = 255;
   c.green = 0;
   c.blue = 0;
