@@ -11,7 +11,10 @@ int main() {
 
   screen s;
   color c;
-  
+
+  c.red = 100;
+  c.blue = 100;
+  c.green = 100;
   clear_screen(s);
   
   struct matrix *edges;
@@ -69,19 +72,18 @@ int main() {
   add_edge(edges,50.0,50.0,50.0,250.0,250.0,250.0);
   add_edge(edges,250.0,250.0,250.0,50.0,50.0,50.0);
   add_edge(edges,300.0,300.0,300.0,300.0,300.0,300.0);
-  c.red = 255;
-  c.green = 0;
-  c.blue = 0;
+  print_matrix(edges);
+  printf("%d\n", edges->lastcol);
   
   
   
-  //int count = 0;
-  //while(count < 360){
-  draw_lines(edges,s,c);
-  //transform = make_rotZ(1);
-  //matrix_mult(transform,edges);
-  //count ++;
-    //}
+  int count = 0;
+  while(count < 360){
+    draw_lines(edges,s,c);
+    transform = make_rotZ(1);
+    matrix_mult(transform,edges);
+    count ++;
+  }
   free_matrix( transform );
   free_matrix( edges );
   //display(s);
