@@ -79,7 +79,7 @@ int main() {
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
-  transform = make_scale(2,2,0);
+  transform = make_scale(2.0,2.0,0);
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
