@@ -70,31 +70,18 @@ int main() {
   rotz = make_rotZ(90.0);
   print_matrix(rotz);
   */
-  
-  add_edge(edges,200,250,0,300,250,0);
-  add_edge(edges,300,250,0,300,300,0);
-  add_edge(edges,300,300,0,200,250,0);
-  print_matrix(edges);
-  draw_lines(edges,s,c);
+
   transform = make_translate(-100,0,0);
-  matrix_mult(transform,edges);
-  print_matrix(edges);
-  draw_lines(edges,s,c);
   scale = make_scale(1.5,1.5,0);
-  matrix_mult(scale,edges);
-  print_matrix(edges);
-  draw_lines(edges,s,c);
-  
-  /*
   rot = make_rotZ(10);
+
   int count = 0;
-  while(count < 8){
-    draw_lines(edges,s,c);
-    matrix_mult(rot,edges);
-    print_matrix(edges);
+  while(count < 25){
+    add_point(edges,count,count*2,0);
     count ++;
   }
-  */
+  draw_lines(edges,s,c);
+  
   free_matrix( transform );
   free_matrix( edges );
   //display(s);
