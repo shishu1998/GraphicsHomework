@@ -149,8 +149,9 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
       sum = 0;
       for(t=0;t < a->cols; t++){
 	sum += a->m[r][t]*b->m[t][c];
+	temp->m[r][c] = sum;
       }
-      temp->m[r][c] = sum;
+      //temp->m[r][c] = sum;
     }
   }
   copy_matrix(temp,b);
