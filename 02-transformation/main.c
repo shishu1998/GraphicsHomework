@@ -20,6 +20,7 @@ int main() {
   struct matrix *edges;
   struct matrix *transform;
   struct matrix *rot;
+  struct matrix *scale;
   
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
@@ -79,8 +80,8 @@ int main() {
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
-  transform = make_scale(2.0,2.0,0);
-  matrix_mult(transform,edges);
+  scale = make_scale(2.0,2.0,0);
+  matrix_mult(scale,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
   
