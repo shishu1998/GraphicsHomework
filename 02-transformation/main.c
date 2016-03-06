@@ -76,8 +76,8 @@ int main() {
   transform = make_rotZ(90);
   int count = 0;
   while(count < 4){
-    draw_lines(edges,s,c);
     matrix_mult(transform,edges);
+    draw_lines(edges,s,c);
     count ++;
   }
   free_matrix( transform );
