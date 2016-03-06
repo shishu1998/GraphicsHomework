@@ -77,10 +77,15 @@ int main() {
 
   int count = 0;
   while(count < 25){
-    add_point(edges,count,count*2,0);
+    add_point(edges,count*14.4,count*14.4,0);
     count ++;
   }
   draw_lines(edges,s,c);
+  while(count < 36){
+    draw_lines(edges,s,c);
+    matrix_mult(rot,edges);
+    count ++;
+  }
   
   free_matrix( transform );
   free_matrix( edges );
