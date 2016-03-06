@@ -82,7 +82,7 @@ int main() {
   draw_lines(edges,s,c);
   
   
-  rot = make_rotZ(45);
+  rot = make_rotZ(-30);
   int count = 0;
   while(count < 8){
     draw_lines(edges,s,c);
