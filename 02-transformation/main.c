@@ -75,7 +75,7 @@ int main() {
   add_edge(edges,300,300,0,250,250,0);
   print_matrix(edges);
   draw_lines(edges,s,c);
-  transform = make_translate(-100,-100,0);
+  transform = make_translate(-100,0,0);
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
@@ -84,7 +84,7 @@ int main() {
   print_matrix(edges);
   draw_lines(edges,s,c);
   
-  
+  /*
   rot = make_rotZ(10);
   int count = 0;
   while(count < 8){
@@ -93,7 +93,7 @@ int main() {
     print_matrix(edges);
     count ++;
   }
-  
+  */
   free_matrix( transform );
   free_matrix( edges );
   //display(s);
