@@ -19,7 +19,8 @@ int main() {
   
   struct matrix *edges;
   struct matrix *transform;
-
+  struct matrix *rot;
+  
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
   
@@ -69,9 +70,9 @@ int main() {
   print_matrix(rotz);
   */
   
-  add_edge(edges,50,50,0,250,50,0);
-  add_edge(edges,50,50,0,150,150,0);
-  add_edge(edges,250,50,0,150,150,0);
+  add_edge(edges,250,250,0,400,250,0);
+  add_edge(edges,400,250,0,325,300,0);
+  add_edge(edges,325,300,0,250,250,0);
   draw_lines(edges,s,c);
   transform = make_translate(50,50,0);
   matrix_mult(transform,edges);
@@ -79,14 +80,16 @@ int main() {
   transform = make_scale(2,2,0);
   matrix_mult(transform,edges);
   draw_lines(edges,s,c);
-  /*
+  
+  
+  rot = make_rotZ(45);
   int count = 0;
-  while(count < 4){
+  while(count < 8){
     draw_lines(edges,s,c);
-    matrix_mult(transform,edges);
+    matrix_mult(rot,edges);
     print_matrix(edges);
     count ++;
-    }*/
+  }
   
   free_matrix( transform );
   free_matrix( edges );
