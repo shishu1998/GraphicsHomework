@@ -72,15 +72,22 @@ int main() {
   add_edge(edges,50,50,0,250,50,0);
   add_edge(edges,50,50,0,150,150,0);
   add_edge(edges,250,50,0,150,150,0);
-  //  draw_lines(edges,s,c);
-  transform = make_rotZ(90);
-  print_matrix(transform);
+  draw_lines(edges,s,c);
+  transform = make_translate(50,50,0);
+  matrix_mult(transform,edges);
+  draw_lines(edges,s,c);
+  transform = make_scale(2,2,0);
+  matrix_mult(transform,edges);
+  draw_lines(edges,s,c);
+  /*
   int count = 0;
   while(count < 4){
     draw_lines(edges,s,c);
     matrix_mult(transform,edges);
+    print_matrix(edges);
     count ++;
-  }
+    }*/
+  
   free_matrix( transform );
   free_matrix( edges );
   //display(s);
