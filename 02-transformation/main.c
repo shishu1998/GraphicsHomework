@@ -73,12 +73,15 @@ int main() {
   add_edge(edges,200,250,0,400,250,0);
   add_edge(edges,400,250,0,300,300,0);
   add_edge(edges,300,300,0,250,250,0);
+  print_matrix(edges);
   draw_lines(edges,s,c);
-  transform = make_translate(50,50,0);
+  transform = make_translate(-100,-100,0);
   matrix_mult(transform,edges);
+  print_matrix(edges);
   draw_lines(edges,s,c);
   transform = make_scale(2,2,0);
   matrix_mult(transform,edges);
+  print_matrix(edges);
   draw_lines(edges,s,c);
   
   
