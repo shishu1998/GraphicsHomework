@@ -73,7 +73,7 @@ int main() {
 
   transform = make_translate(-100,0,0);
   scale = make_scale(1.5,1.5,0);
-  rot = make_rotZ(10);
+  rot = make_rotX(10);
 
   int count = 0;
   while(count < 25){
