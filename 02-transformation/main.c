@@ -73,11 +73,12 @@ int main() {
   add_edge(edges,50,50,0,150,150,0);
   add_edge(edges,250,50,0,150,150,0);
   //  draw_lines(edges,s,c);
-  transform = make_rotZ(90);
+  transform = make_rotZ(1);
+  print_matrix(transform);
   int count = 0;
-  while(count < 4){
-    matrix_mult(transform,edges);
+  while(count < 360){
     draw_lines(edges,s,c);
+    matrix_mult(transform,edges);
     count ++;
   }
   free_matrix( transform );

@@ -222,10 +222,10 @@ struct matrix * make_rotX(double theta) {
   theta = M_PI * theta;
   struct matrix* output = new_matrix(4,4);
   ident(output);
-  output->m[0][0] = cos(theta);
-  output->m[0][1] = -sin(theta);
-  output->m[1][0] = sin(theta);
   output->m[1][1] = cos(theta);
+  output->m[1][2] = -sin(theta);
+  output->m[2][1] = sin(theta);
+  output->m[2][2] = cos(theta);
   return output;
 }
 
@@ -240,9 +240,9 @@ struct matrix * make_rotY(double theta) {
   theta = M_PI * theta;
   struct matrix* output = new_matrix(4,4);
   ident(output);
-  output->m[1][1] = cos(theta);
-  output->m[1][2] = -sin(theta);
-  output->m[2][1] = sin(theta);
+  output->m[0][0] = cos(theta);
+  output->m[0][2] = -sin(theta);
+  output->m[2][0] = sin(theta);
   output->m[2][2] = cos(theta);
   return output;
 }
@@ -259,8 +259,8 @@ struct matrix * make_rotZ(double theta) {
   struct matrix* output = new_matrix(4,4);
   ident(output);
   output->m[0][0] = cos(theta);
-  output->m[0][2] = -sin(theta);
-  output->m[2][0] = sin(theta);
-  output->m[2][2] = cos(theta);
+  output->m[0][1] = -sin(theta);
+  output->m[1][0] = sin(theta);
+  output->m[1][1] = cos(theta);
   return output;
 }
