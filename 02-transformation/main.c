@@ -71,8 +71,8 @@ int main() {
   print_matrix(rotz);
   */
   
-  add_edge(edges,200,250,0,400,250,0);
-  add_edge(edges,400,250,0,300,300,0);
+  add_edge(edges,200,250,0,300,250,0);
+  add_edge(edges,300,250,0,300,300,0);
   add_edge(edges,300,300,0,200,250,0);
   print_matrix(edges);
   draw_lines(edges,s,c);
@@ -80,7 +80,7 @@ int main() {
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
-  scale = make_scale(2.0,2.0,0);
+  scale = make_scale(1.5,1.5,0);
   matrix_mult(scale,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
