@@ -140,17 +140,17 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   if(a->cols != b->rows){
     return;
   }
-  struct matrix* temp = new_matrix(a->cols,b->cols);
+  struct matrix* temp = new_matrix(a->rows,b->cols);
   //t for temp
   int r,c,t;  
   double sum;
-  for(r=0;r < b->rows; r++){
+  for(r=0;r < a->rows; r++){
     for(c=0;c < b->cols; c++){
+      sum = 0;
       for(t=0;t < a->cols; t++){
 	sum += a->m[r][t]*b->m[t][c];
       }
       temp->m[r][c] = sum;
-      sum = 0;
     }
   }
   copy_matrix(temp,b);
