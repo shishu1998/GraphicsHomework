@@ -105,7 +105,7 @@ int main() {
   
   free_matrix( transform );
   free_matrix( edges );
-  //display(s);
+  display(s);
    
   
   save_extension(s, "matrix.png");
