@@ -82,10 +82,10 @@ int main() {
   }
   draw_lines(edges,s,c);
   matrix_mult(scale,edges);
-  //print_matrix(edges);
+  print_matrix(edges);
   draw_lines(edges,s,c);
   matrix_mult(transform,edges);
-  //print_matrix(edges);
+  print_matrix(edges);
   draw_lines(edges,s,c);
 
   
