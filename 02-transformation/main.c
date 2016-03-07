@@ -72,21 +72,24 @@ int main() {
   */
 
   transform = make_translate(-100,0,0);
-  scale = make_scale(1.5,1.5,0);
+  scale = make_scale(15.0,15.0,0);
   rot = make_rotX(10);
 
   int count = 0;
-  while(count < 25){
-    add_point(edges,count*14.4,count*14.4,0);
+  while(count < 15){
+    add_point(edges,count,count,0);
     count ++;
   }
   draw_lines(edges,s,c);
+  matrix_mult(scale,edges);
+  draw_lines(edges,s,c);
+  /*
   while(count < 36){
     print_matrix(edges);
     draw_lines(edges,s,c);
     matrix_mult(rot,edges);
     count ++;
-  }
+    }*/
   
   free_matrix( transform );
   free_matrix( edges );
