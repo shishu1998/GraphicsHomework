@@ -92,7 +92,8 @@ int main() {
   matrix_mult(transform,edges);
   print_matrix(edges);
   draw_lines(edges,s,c);
-
+  matrix_mult(rot,edges);
+  draw_lines(edges,s,c);
   
   /*
   while(count < 36){
