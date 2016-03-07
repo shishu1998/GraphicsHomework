@@ -71,7 +71,7 @@ int main() {
   print_matrix(rotz);
   */
 
-  transform = make_translate(-100,0,0);
+  transform = make_translate(-50,0,0);
   scale = make_scale(1.1,1.1,0);
   rot = make_rotZ(10);
 
@@ -82,10 +82,10 @@ int main() {
   }
   draw_lines(edges,s,c);
   matrix_mult(scale,edges);
-  print_matrix(edges);
+  //print_matrix(edges);
   draw_lines(edges,s,c);
   matrix_mult(transform,edges);
-  print_matrix(edges);
+  //print_matrix(edges);
   draw_lines(edges,s,c);
 
   
