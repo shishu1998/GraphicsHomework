@@ -72,12 +72,12 @@ int main() {
   */
 
   transform = make_translate(-100,0,0);
-  scale = make_scale(15.0,15.0,0);
+  scale = make_scale(1.1,1.1,0);
   rot = make_rotZ(10);
 
   int count = 0;
   while(count < 15){
-    add_point(edges,count,count,0);
+    add_point(edges,count*20,count*20,0);
     count ++;
   }
   draw_lines(edges,s,c);
