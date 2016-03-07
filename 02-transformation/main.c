@@ -75,11 +75,16 @@ int main() {
   scale = make_scale(1.1,1.1,0);
   rot = make_rotZ(10);
 
+  /*
   int count = 0;
   while(count < 15){
     add_point(edges,count*20,count*20,0);
     count ++;
-  }
+    }*/
+  add_edge(edges,200,200,0,400,200,0);
+  add_edge(edges,400,200,0,400,400,0);
+  add_edge(edges,400,400,0,200,400,0);
+  add_edge(edges,200,400,0,200,200,0);
   draw_lines(edges,s,c);
   matrix_mult(scale,edges);
   print_matrix(edges);
