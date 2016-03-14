@@ -1,10 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "ml6.h"
 #include "display.h"
 #include "draw.h"
 #include "matrix.h"
+
+
+/*======== void add_circle() ==========
+  Inputs:   struct matrix * points
+            double cx
+	    double cy
+	    double y
+	    double step  
+  Returns: 
+
+
+  03/16/12 19:53:52
+  jdyrlandweaver
+  ====================*/
+void add_circle( struct matrix * points, 
+		 double cx, double cy, 
+		 double r, double step ) {
+}
+
+/*======== void add_curve() ==========
+Inputs:   struct matrix *points
+         double x0
+         double y0
+         double x1
+         double y1
+         double x2
+         double y2
+         double x3
+         double y3
+         double step
+         int type  
+Returns: 
+
+Adds the curve bounded by the 4 points passsed as parameters
+of type specified in type (see matrix.h for curve type constants)
+to the matrix points
+
+03/16/12 15:24:25
+jdyrlandweaver
+====================*/
+void add_curve( struct matrix *points, 
+		double x0, double y0, 
+		double x1, double y1, 
+		double x2, double y2, 
+		double x3, double y3, 
+		double step, int type ) {
+}
 
 /*======== void add_point() ==========
 Inputs:   struct matrix * points
@@ -15,7 +63,17 @@ Returns:
 adds point (x, y, z) to points and increment points.lastcol
 if points is full, should call grow on points
 ====================*/
-void add_point( struct matrix * points, int x, int y, int z) {
+void add_point( struct matrix * points, double x, double y, double z) {
+  
+  if ( points->lastcol == points->cols )
+    grow_matrix( points, points->lastcol + 100 );
+
+  points->m[0][points->lastcol] = x;
+  points->m[1][points->lastcol] = y;
+  points->m[2][points->lastcol] = z;
+  points->m[3][points->lastcol] = 1;
+
+  points->lastcol++;
 }
 
 /*======== void add_edge() ==========
@@ -26,8 +84,10 @@ add the line connecting (x0, y0, z0) to (x1, y1, z1) to points
 should use add_point
 ====================*/
 void add_edge( struct matrix * points, 
-	       int x0, int y0, int z0, 
-	       int x1, int y1, int z1) {
+	       double x0, double y0, double z0, 
+	       double x1, double y1, double z1) {
+  add_point( points, x0, y0, z0 );
+  add_point( points, x1, y1, z1 );
 }
 
 /*======== void draw_lines() ==========
@@ -39,8 +99,21 @@ Go through points 2 at a time and call draw_line to add that line
 to the screen
 ====================*/
 void draw_lines( struct matrix * points, screen s, color c) {
-}
 
+  int i;
+ 
+  if ( points->lastcol < 2 ) {
+    
+    printf("Need at least 2 points to draw a line!\n");
+    return;
+  }
+
+  for ( i = 0; i < points->lastcol - 1; i+=2 ) {
+
+    draw_line( points->m[0][i], points->m[1][i], 
+	       points->m[0][i+1], points->m[1][i+1], s, c);
+  } 	       
+}
 
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
  
@@ -147,3 +220,4 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     }
   }
 }
+

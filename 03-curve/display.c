@@ -8,6 +8,7 @@ for red, green and blue respectively
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "ml6.h"
 #include "display.h"
@@ -48,9 +49,9 @@ void clear_screen( screen s ) {
   int x, y;
   color c;
 
-  c.red = 0;
-  c.green = 0;
-  c.blue = 0;
+  c.red = 255;
+  c.green = 255;
+  c.blue = 255;
 
   for ( y=0; y < YRES; y++ )
     for ( x=0; x < XRES; x++)      
@@ -125,7 +126,21 @@ Will display the screen s on your monitor
 jdyrlandweaver
 ====================*/
 void display( screen s) {
- 
+  int x, i;
+  char *fname = ".tmp.png";
+  save_extension(s, fname);
+  i = fork();
+  if (i == 0) {
+    execlp("display", "display", fname, NULL);
+  }
+  else {
+    wait(&x);
+    remove( fname );
+  }
+  /* For some reason, this refuses to run correctly
+     on some systems. Most likely a strange imagemagick
+     install issue. 
+     Above is a workaroudn for now.
   int x, y;
   FILE *f;
 
@@ -139,5 +154,6 @@ void display( screen s) {
     fprintf(f, "\n");
   }
   pclose(f);
+  */
 }
 
