@@ -295,15 +295,16 @@ struct matrix * make_bezier() {
   ====================*/
 struct matrix * make_hermite() {
   struct matrix * output = new_matrix(4,4);
-  int counter;
+  output->m[0][0] = 2;
+  output->m[0][1] = -2;
+  output->m[0][2] = 1;
   output->m[0][3] = 1;
-  for(counter;counter<3;counter++){
-    output->m[1][counter] = 1;
-  }
+  output->m[1][0] = -3;
+  output->m[1][1] = 3;
+  output->m[1][2] = -2;
+  output->m[1][3] = -1;
   output->m[2][2] = 1;
-  output->m[3][0] = 3;
-  output->m[3][1] = 2;
-  output->m[3][2] = 1;
+  output->m[3][0] = 1;
   return output;
 }
 
@@ -323,5 +324,19 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p1, double p2, 
 				      double p3, double p4, int type) {
+  struct matrix * output = new_matrix(4,1);
+  output->m[0][0] = p1;
+  output->m[1][0] = p2;
+  output->m[2][0] = p3;
+  output->m[3][0] = p4;
+  if(type == HERMITE_MODE){
+    struct matrix* mult = make_hermite();
+    matrix_mult(mult,output);
+  }
+  else if(type == BEZIER_MODE){
+    struct matrix* mult = make_bezier();
+    matrix_mult(mult,output);
+  }
+  return output;
 }
 
