@@ -12,7 +12,7 @@
   Inputs:   struct matrix * points
             double cx
 	    double cy
-	    double y
+	    double r
 	    double step  
   Returns: 
 
@@ -23,6 +23,19 @@
 void add_circle( struct matrix * points, 
 		 double cx, double cy, 
 		 double r, double step ) {
+  int counter = 0;
+  double theta = 2*M_PI/step;
+  double degree = 0;
+  double tx = cx + r*cos(degree);
+  double ty = cy + r*sin(degree);
+  while(counter < step){
+    add_point(points,tx,ty,0);
+    degree += theta;
+    tx = cx + r*cos(degree);
+    ty = cy + r*cos(degree);
+    add_point(points,tx,ty,0);
+    counter ++;
+  }
 }
 
 /*======== void add_curve() ==========
