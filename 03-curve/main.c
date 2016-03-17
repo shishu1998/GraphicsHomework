@@ -23,8 +23,7 @@ int main( int argc, char **argv ) {
 
   edges = new_matrix(4, 4);
   transform = new_matrix(4,4);
-  add_circle(transform,250,250,100,4);
-  print_matrix(transform);
+  add_circle(transform,250,250,100,360);
   draw_lines(transform,s,c);
   display(s);
   

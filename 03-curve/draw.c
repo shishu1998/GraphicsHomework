@@ -24,15 +24,14 @@ void add_circle( struct matrix * points,
 		 double cx, double cy, 
 		 double r, double step ) {
   double theta = 2*M_PI/step;
+  double degree = 0.0;
   double tx = cx + r*cos(degree);
   double ty = cy + r*sin(degree);
-  while(theta < 2*M_PI){
-    add_point(points,tx,ty,0);
+  while(degree < 2*M_PI){
+    add_edge(points,tx,ty,0,cx+r*cos(degree+theta),cy+r*sin(degree+theta),0);
     degree += theta;
     tx = cx + r*cos(degree);
-    ty = cy + r*cos(degree);
-    add_point(points,tx,ty,0);
-    counter ++;
+    ty = cy + r*sin(degree);
   }
 }
 
@@ -63,6 +62,11 @@ void add_curve( struct matrix *points,
 		double x2, double y2, 
 		double x3, double y3, 
 		double step, int type ) {
+  struct * matrix coefx = generate_curve_coefs(x0,x1,x2,x3,type);
+  struct * matrix coefy = generate_curve_coefs(y0,y1,y2,y3,type);
+  while(x0 < x3){
+    
+  }
 }
 
 /*======== void add_point() ==========
