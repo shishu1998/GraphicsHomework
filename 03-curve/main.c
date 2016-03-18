@@ -24,6 +24,8 @@ int main( int argc, char **argv ) {
   edges = new_matrix(4, 4);
   transform = new_matrix(4,4);
   add_circle(transform,250,250,100,360);
+  add_curve(edges,1,1,1,1,1,1,1,1,1,BEZIER_MODE);
+  print_matrix(edges);
   draw_lines(transform,s,c);
   display(s);
   
