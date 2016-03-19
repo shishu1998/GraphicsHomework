@@ -77,6 +77,41 @@ void parse_file ( char * filename,
   
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
+    if(strcmp(line,"apply")){
+    
+    }
+    else if(strcmp(line,"display")){
+      
+    }
+    else{
+      fgets(args,255,f);
+      while(strsep(&args," ")){
+	
+      }
+    }
+    if(strcmp(line,"save")){
+      
+    }
+    if(strcmp(line,"circle")){
+      
+    }
+    if (strcmp(line,"hermite")){
+    }
+    if (strcmp(line,"bezier")){
+    }
+    if (strcmp(line,"ident")){
+    }
+    if (strcmp(line,"scale")){
+    }
+    if (strcmp(line,"translate")){
+    }
+    if (strcmp(line,"xrotate")){
+    }
+    if (strcmp(line,"yrotate")){
+    }
+    if (strcmp(line,"zrotate")){
+    }
+    
     printf(":%s:\n",line);  
   }
 }
