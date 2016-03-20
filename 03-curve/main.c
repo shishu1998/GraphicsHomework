@@ -13,7 +13,7 @@ int main( int argc, char **argv ) {
   screen s;
   color c;
   c.red = 255;
-  c.green = 0;
+  c.green = 255;
   c.blue = 0;
 
   clear_screen(s);
