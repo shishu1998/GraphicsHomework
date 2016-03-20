@@ -62,13 +62,15 @@ void add_curve( struct matrix *points,
 		double x2, double y2, 
 		double x3, double y3, 
 		double step, int type ) {
+  struct matrix* coefx;
+  struct matrix* coefy;
   if(type == HERMITE_MODE){
-    struct matrix* coefx = generate_curve_coefs(x0,x1-x0,x3-x2,x3,type);
-    struct matrix* coefy = generate_curve_coefs(y0,y1-y0,y3-y2,y3,type);
+    coefx = generate_curve_coefs(x0,x1-x0,x3-x2,x3,type);
+    coefy = generate_curve_coefs(y0,y1-y0,y3-y2,y3,type);
   }
   else{
-    struct matrix* coefx = generate_curve_coefs(x0,x1,x2,x3,type);
-    struct matrix* coefy = generate_curve_coefs(y0,y1,y2,y3,type);
+    coefx = generate_curve_coefs(x0,x1,x2,x3,type);
+    coefy = generate_curve_coefs(y0,y1,y2,y3,type);
   }
   double t = 0;
   double x,y;
