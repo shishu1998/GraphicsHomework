@@ -67,6 +67,10 @@ void parse_file ( char * filename,
 
   FILE *f;
   char line[256];
+  color c;
+  c.red = 255;
+  c.blue = 255;
+  c.green = 0;
   
   clear_screen(s);
 
@@ -78,10 +82,11 @@ void parse_file ( char * filename,
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
     if(strcmp(line,"apply")){
-    
+      matrix_mult(transform,pm);
     }
     else if(strcmp(line,"display")){
-      
+      draw_lines(s,c,pm);
+      display(s);
     }
     else{
       fgets(args,255,f);
@@ -92,20 +97,29 @@ void parse_file ( char * filename,
     if(strcmp(line,"save")){
       
     }
-    if(strcmp(line,"circle")){
-      
+    if(!(strcmp(line,"circle"))){
+      add_circle(pm,args[0],args[1],args[2],360);
     }
-    if (strcmp(line,"hermite")){
+    if (!(strcmp(line,"hermite"))){
+      add_curve(pm,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],360,HERMITE_MODE);
     }
     if (strcmp(line,"bezier")){
+      add_curve(pm,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],360,BEZIER_MODE);
     }
     if (strcmp(line,"ident")){
+      ident(transform);
     }
     if (strcmp(line,"scale")){
+      struct matrix* scale = make_scale(args[0],args[1],args[2]);
+      matrix_mult(scale,transform);
     }
     if (strcmp(line,"translate")){
+      struct matrix* translate = make_translate(args[0],args[1],args[2]);
+      matrix_mult(translate,transform);
     }
     if (strcmp(line,"xrotate")){
+      struct matrix* xrotate = make_rotX(args[0]);
+      matrix_mult(translate,transform);
     }
     if (strcmp(line,"yrotate")){
     }
