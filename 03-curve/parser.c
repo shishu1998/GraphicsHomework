@@ -68,6 +68,7 @@ void parse_file ( char * filename,
   FILE *f;
   char line[256];
   char nextline[256];
+  char *next;
   double args[10];
 
   color c;
@@ -87,18 +88,19 @@ void parse_file ( char * filename,
       matrix_mult(transform,pm);
     }
     else if(!(strcmp(line,"display"))){
-      draw_lines(s,c,pm);
+      draw_lines(pm,s,c);
       display(s);
     }
     else if(!(strcmp(line,"save"))){
       fgets(nextline,255,f);
-      save_extention(s,filename);
+      save_extension(s,filename);
     }
     else{
       fgets(nextline,255,f);
+      next = nextline;
       int i = 0;
-      while(nextline){
-	args[i] = strtod(strsep(&nextline," "),NULL);
+      while(!(next)){
+	args[i] = strtod(strsep(&next," "),NULL);
 	i ++;
       }
     }
