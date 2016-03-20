@@ -25,4 +25,3 @@ clean:
 	rm *.o *~ main pic.png
 run:
 	./main script_nocurves
-	./main script_curves
