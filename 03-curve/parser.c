@@ -100,7 +100,7 @@ void parse_file ( char * filename,
       fgets(nextline,255,f);
       next = nextline;
       int i = 0;
-      while(!(next)){
+      while(next){
 	args[i] = strtod(strsep(&next," "),NULL);
 	i ++;
       }
