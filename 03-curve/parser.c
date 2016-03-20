@@ -67,6 +67,9 @@ void parse_file ( char * filename,
 
   FILE *f;
   char line[256];
+  char nextline[256];
+  double args[10];
+
   color c;
   c.red = 255;
   c.blue = 255;
@@ -74,28 +77,33 @@ void parse_file ( char * filename,
   
   clear_screen(s);
 
-  if ( strcmp(filename, "stdin") == 0 ) 
+  if ( strcmp(filename, "stdin") == 0 )
     f = stdin;
   else
     f = fopen(filename, "r");
-  
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
-    if(strcmp(line,"apply")){
+    if(!(strcmp(line,"apply"))){
       matrix_mult(transform,pm);
     }
-    else if(strcmp(line,"display")){
+    else if(!(strcmp(line,"display"))){
       draw_lines(s,c,pm);
       display(s);
     }
+    else if(!(strcmp(line,"save"))){
+      fgets(nextline,255,f);
+      save_extention(s,filename);
+    }
     else{
-      fgets(args,255,f);
-      while(strsep(&args," ")){
-	
+      fgets(nextline,255,f);
+      int i = 0;
+      while(nextline){
+	args[i] = strtod(strsep(&nextline," "),NULL);
+	i ++;
       }
     }
-    if(strcmp(line,"save")){
-      
+    if(!(strcmp(line,"line"))){
+      add_edge(pm,args[0],args[1],args[2],args[3],args[4],args[5]);
     }
     if(!(strcmp(line,"circle"))){
       add_circle(pm,args[0],args[1],args[2],360);
@@ -119,11 +127,15 @@ void parse_file ( char * filename,
     }
     if (strcmp(line,"xrotate")){
       struct matrix* xrotate = make_rotX(args[0]);
-      matrix_mult(translate,transform);
+      matrix_mult(xrotate,transform);
     }
     if (strcmp(line,"yrotate")){
+      struct matrix* yrotate = make_rotY(args[0]);
+      matrix_mult(yrotate,transform);
     }
     if (strcmp(line,"zrotate")){
+      struct matrix* zrotate = make_rotY(args[0]);
+      matrix_mult(zrotate,transform);
     }
     
     printf(":%s:\n",line);  
