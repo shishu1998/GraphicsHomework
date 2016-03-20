@@ -93,7 +93,8 @@ void parse_file ( char * filename,
     }
     else if(!(strcmp(line,"save"))){
       fgets(nextline,255,f);
-      save_extension(s,filename);
+      draw_lines(pm,s,c);
+      save_extension(s,nextline);
     }
     else{
       fgets(nextline,255,f);
