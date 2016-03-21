@@ -122,23 +122,23 @@ void parse_file ( char * filename,
     }
     if (!(strcmp(line,"scale"))){
       struct matrix* scale = make_scale(args[0],args[1],args[2]);
-      matrix_mult(scale,pm);
+      matrix_mult(scale,transform);
     }
     if (!(strcmp(line,"translate"))){
       struct matrix* translate = make_translate(args[0],args[1],args[2]);
-      matrix_mult(translate,pm);
+      matrix_mult(translate,transform);
     }
     if (!(strcmp(line,"xrotate"))){
       struct matrix* xrotate = make_rotX(args[0]);
-      matrix_mult(xrotate,pm);
+      matrix_mult(xrotate,transform);
     }
     if (!(strcmp(line,"yrotate"))){
       struct matrix* yrotate = make_rotY(args[0]);
-      matrix_mult(yrotate,pm);
+      matrix_mult(yrotate,transform);
     }
     if (!(strcmp(line,"zrotate"))){
       struct matrix* zrotate = make_rotZ(args[0]);
-      matrix_mult(zrotate,pm);
+      matrix_mult(zrotate,transform);
     }
     
     printf(":%s:\n",line);  
