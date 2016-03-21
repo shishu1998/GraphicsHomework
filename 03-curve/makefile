@@ -24,4 +24,4 @@ parser.o: parser.c parser.h matrix.h draw.h display.h ml6.h
 clean:
 	rm *.o *~ main pic.png
 run:
-	./main script_curves
+	./main script

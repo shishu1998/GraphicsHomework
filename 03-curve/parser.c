@@ -73,7 +73,7 @@ void parse_file ( char * filename,
 
   color c;
   c.red = 255;
-  c.blue = 0;
+  c.blue = 100;
   c.green = 0;
   
   clear_screen(s);
