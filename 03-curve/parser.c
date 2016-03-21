@@ -114,29 +114,29 @@ void parse_file ( char * filename,
     if (!(strcmp(line,"hermite"))){
       add_curve(pm,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],360,HERMITE_MODE);
     }
-    if (strcmp(line,"bezier")){
+    if (!(strcmp(line,"bezier"))){
       add_curve(pm,args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],360,BEZIER_MODE);
     }
-    if (strcmp(line,"ident")){
+    if (!(strcmp(line,"ident"))){
       ident(transform);
     }
-    if (strcmp(line,"scale")){
+    if (!(strcmp(line,"scale"))){
       struct matrix* scale = make_scale(args[0],args[1],args[2]);
       matrix_mult(scale,transform);
     }
-    if (strcmp(line,"translate")){
+    if (!(strcmp(line,"translate"))){
       struct matrix* translate = make_translate(args[0],args[1],args[2]);
       matrix_mult(translate,transform);
     }
-    if (strcmp(line,"xrotate")){
+    if (!(strcmp(line,"xrotate"))){
       struct matrix* xrotate = make_rotX(args[0]);
       matrix_mult(xrotate,transform);
     }
-    if (strcmp(line,"yrotate")){
+    if (!(strcmp(line,"yrotate"))){
       struct matrix* yrotate = make_rotY(args[0]);
       matrix_mult(yrotate,transform);
     }
-    if (strcmp(line,"zrotate")){
+    if (!(strcmp(line,"zrotate"))){
       struct matrix* zrotate = make_rotY(args[0]);
       matrix_mult(zrotate,transform);
     }
