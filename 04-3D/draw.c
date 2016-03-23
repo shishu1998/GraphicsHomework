@@ -113,6 +113,14 @@ void generate_torus( struct matrix * points,
 void add_box( struct matrix * points,
 	      double x, double y, double z,
 	      double width, double height, double depth ) {
+  add_edge(points,x,y,z,x,y,z);
+  add_edge(points,x+width,y,z,x+width,y,z);
+  add_edge(points,x,y-height,z,x,y-height,z);
+  add_edge(points,x+width,y-height,z,x+width,y-height,z);
+  add_edge(points,x,y,z-depth,x,y,z-depth);
+  add_edge(points,x+width,y,z-depth,x+width,y,z-height);
+  add_edge(points,x,y-height,z-depth,x,y-height,z-depth);
+  add_edge(points,x+width,y-height,z-depth,x+width,y-height,z-depth);
 }
   
 /*======== void add_circle() ==========

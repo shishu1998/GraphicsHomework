@@ -11,8 +11,17 @@
 int main( int argc, char** argv ) {
 
   screen s;
-  struct matrix *edges;
+  color c;
+  c.red = 255;
+  c.blue = 0;
+  c.green = 0;
+
+  struct matrix *edges = new_matrix(4,0);
   struct matrix *transform;
+  
+  add_box(edges,250,250,250,50,50,50);
+  draw_lines(edges,s,c);
+  display(s);
 
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
