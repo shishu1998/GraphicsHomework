@@ -33,6 +33,7 @@ void add_sphere( struct matrix * points,
   for(count = 0; count < temp->lastcol; count ++){
     add_edge(points,temp->m[0][count],temp->m[1][count],0,temp->m[0][count],temp->m[1][count],0);
   }
+  free(temp);
 }
 
 /*======== void generate_sphere() ==========
@@ -55,17 +56,21 @@ void generate_sphere( struct matrix * points,
 		      double cx, double cy, double r, 
 		      double step ) {
   double t;
-  struct matrix* temp = new_matrix(4,1);
-  struct matrix* rot = make_rotY(360 * step);
-  temp->m[0][0] = cx + r;
-  temp->m[1][0] = cy;
-  temp->m[2][0] = 0;
-  temp->m[3][0] = 1;
+  struct matrix* temp = new_matrix(4,0);
+  struct matrix* rot = make_rotX(360 * step);
+  add_circle(temp,0,0,50,step);
+  int add;
   for(t = 0; t <= 1; t += step){
-    add_circle(points,temp->m[0][0],temp->m[1][0],r,step);
+    for(add = 0; add< temp->lastcol; add++){
+      add_point(points,temp->m[0][add],temp->m[1][add],temp->m[2][add]);
+    }
     matrix_mult(rot,temp);
   }
-  
+  struct matrix* translate = make_translate(cx,cy,0);
+  matrix_mult(translate,points);
+  free(translate);
+  free(rot);
+  free(temp);
 }    
 
 /*======== void add_torus() ==========
@@ -118,14 +123,23 @@ void generate_torus( struct matrix * points,
   double t;
   struct matrix* temp = new_matrix(4,1);
   struct matrix* rot = make_rotX(360 * step);
-  temp->m[0][0] = cx + r1;
+  temp->m[0][0] = cx;
   temp->m[1][0] = cy;
   temp->m[2][0] = 0;
   temp->m[3][0] = 1;
   for(t = 0;t <= 1; t += step){
-    add_circle(points,temp->m[0][0],temp->m[1][0],r2,step);
+    struct matrix* trans1 = make_translate(-cx,-cy,0);
+    struct matrix* trans2 = make_translate(cx,cy,0);
+    matrix_mult(trans1,temp);
     matrix_mult(rot,temp);
+    matrix_mult(trans2,temp);
+    free(trans1);
+    free(trans2);
+
+    add_circle(points,temp->m[0][0],temp->m[1][0],r2,step);
   }
+  free(rot);
+  free(temp);
 }
 
 /*======== void add_box() ==========
