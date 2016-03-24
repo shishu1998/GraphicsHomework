@@ -23,7 +23,6 @@ int main( int argc, char** argv ) {
   struct matrix *transform = new_matrix(4,4);
   add_box(edges,250,250,0,100,100,100);
   transform = make_rotX(45);
-  draw_lines(edges,s,c);
   matrix_mult(transform,edges);
   draw_lines(edges,s,c);
   /*

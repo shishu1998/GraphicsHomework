@@ -55,22 +55,13 @@ void add_sphere( struct matrix * points,
 void generate_sphere( struct matrix * points, 
 		      double cx, double cy, double r, 
 		      double step ) {
-  double t;
-  struct matrix* temp = new_matrix(4,0);
-  struct matrix* rot = make_rotX(360 * step);
-  add_circle(temp,0,0,50,step);
-  int add;
-  for(t = 0; t <= 1; t += step){
-    for(add = 0; add< temp->lastcol; add++){
-      add_point(points,temp->m[0][add],temp->m[1][add],temp->m[2][add]);
-    }
-    matrix_mult(rot,temp);
+  double c;
+  double rot;
+  for(rot = 0;rot < 1; rot+=step){
+    for(c = 0;c < 1; c+=step){
+      add_point(points,cx + r*cos(M_PI*c),cy + r*sin(M_PI*c)*cos(2*M_PI*rot),r*sin(M_PI*c)*sin(2*M_PI*rot));
+     }
   }
-  struct matrix* translate = make_translate(cx,cy,0);
-  matrix_mult(translate,points);
-  free(translate);
-  free(rot);
-  free(temp);
 }    
 
 /*======== void add_torus() ==========
