@@ -29,7 +29,7 @@ int main( int argc, char** argv ) {
   */
   add_sphere(edges,250,250,100,0.01);
   draw_lines(edges,s,c);
-  transform = make_rotY(45);
+  transform = make_rotY(90);
   matrix_mult(transform,edges);
   draw_lines(edges,s,c);
   save_extension(s,"pic.png");
