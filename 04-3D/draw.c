@@ -60,9 +60,9 @@ void generate_sphere( struct matrix * points,
   double x,y,z;
   for(rot = 0.0;rot < 1.0; rot+=step){
     for(c = 0.0;c < 1.0; c+=step){
-      x = r*cos(2*M_PI*c)+cx;
-      y = r*sin(2*M_PI*c)*cos(M_PI*rot) - r*sin(M_PI*rot) + cy;
-      z = r*sin(2*M_PI*c)*sin(M_PI*rot) + r*cos(M_PI*rot);
+      x = cx + r*cos(M_PI*c);
+      y = cy + r*sin(M_PI*c)*cos(2*M_PI*rot);
+      z = r*sin(M_PI*c)*sin(2*M_PI*rot);
       add_point(points,x,y,z);
      }
   }
