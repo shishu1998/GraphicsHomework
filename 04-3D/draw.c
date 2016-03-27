@@ -115,26 +115,16 @@ void add_torus( struct matrix * points,
 void generate_torus( struct matrix * points, 
 		     double cx, double cy, double r1, double r2, 
 		     double step ) {
-  double t;
-  struct matrix* temp = new_matrix(4,1);
-  struct matrix* rot = make_rotX(360 * step);
-  temp->m[0][0] = cx;
-  temp->m[1][0] = cy;
-  temp->m[2][0] = 0;
-  temp->m[3][0] = 1;
-  for(t = 0;t <= 1; t += step){
-    struct matrix* trans1 = make_translate(-cx,-cy,0);
-    struct matrix* trans2 = make_translate(cx,cy,0);
-    matrix_mult(trans1,temp);
-    matrix_mult(rot,temp);
-    matrix_mult(trans2,temp);
-    free(trans1);
-    free(trans2);
-
-    add_circle(points,temp->m[0][0],temp->m[1][0],r2,step);
+  double c,rot;
+  double x,y,z;
+  for(rot = 0.0;rot < 1.0; rot +=step){
+    for(c = 0.0; c < 1.0; rot += step){
+      x = cx + r1*cos(M_PI*c);
+      y = cy + cos(2*M_PI*rot)*(r1*sin(M_PI*c)+r2);
+      z = cz + sin(2*M_PI*rot)*(r1*sin(M_PI*c)+r2);
+      add_point(points,x,y,z);
+    }
   }
-  free(rot);
-  free(temp);
 }
 
 /*======== void add_box() ==========
