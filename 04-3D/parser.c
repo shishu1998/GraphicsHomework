@@ -91,7 +91,6 @@ void parse_file ( char * filename,
     //printf(":%s:\n",line);
     double x, y, z, x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
     double cx,cy,r,r1,r2,width,height,depth;
-    
     if ( strncmp(line, "line", strlen(line)) == 0 ) {
       //      printf("LINE!\n");
       fgets(line, 255, f);
@@ -100,6 +99,12 @@ void parse_file ( char * filename,
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
       add_edge(pm, x, y, z, x1, y1, z1);
       // printf( "%lf %lf %lf %lf %lf %lf\n", x, y, z, x1, y1, z1);
+    }
+    else if(line[0] == '#'){
+      continue;
+    }
+    else if ( strncmp(line, "clear", strlen(line)) == 0 ) {
+      clear_screen(s);
     }
     else if ( strncmp(line, "circle", strlen(line)) == 0 ) {
       //printf("CIRCLE\n");
@@ -126,17 +131,17 @@ void parse_file ( char * filename,
     }
     else if (strncmp (line,"box",strlen(line)) == 0 ){
       fgets(line, 255,f);
-      scanf(line, "%lf %lf %lf %lf %lf %lf", &x,&y,&z,&width,&height,&depth);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf", &x,&y,&z,&width,&height,&depth);
       add_box(pm,x,y,z,width,height,depth);
     }
     else if (strncmp (line,"sphere",strlen(line)) == 0 ){
       fgets(line, 255, f);
-      scanf(line, "%lf %lf %lf",&cx,&cy,&r);
+      sscanf(line, "%lf %lf %lf",&cx,&cy,&r);
       add_sphere(pm,cx,cy,r,0.01);
     }
     else if (strncmp (line,"torus",strlen(line)) == 0){
       fgets(line, 255, f);
-      scanf(line, "%lf %lf %lf %lf", &cx, &cy, &r1, &r2);
+      sscanf(line, "%lf %lf %lf %lf", &cx, &cy, &r1, &r2);
       add_torus(pm,cx,cy,r1,r2,0.01);
     }
     else if ( strncmp(line, "scale", strlen(line)) == 0 ) {
@@ -206,7 +211,7 @@ void parse_file ( char * filename,
       return;
     }
     else {
-      printf("Invalid command\n");
+      printf("Invalid command - %s\n",line);
     }
   }
   

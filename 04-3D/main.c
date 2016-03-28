@@ -21,19 +21,24 @@ int main( int argc, char** argv ) {
 
   struct matrix *edges = new_matrix(4,0);
   struct matrix *transform = new_matrix(4,4);
+  /*
     add_box(edges,250,250,0,100,100,100);
     transform = make_rotY(45);
     matrix_mult(transform,edges);
     draw_lines(edges,s,c);
-  /*
-  add_sphere(edges,250,250,100,0.01);
-  draw_lines(edges,s,c);
-  transform = make_rotY(45);
-  matrix_mult(transform,edges);
-  draw_lines(edges,s,c);
+    add_sphere(edges,250,250,100,0.01);
+    draw_lines(edges,s,c);
+    transform = make_rotY(45);
+    matrix_mult(transform,edges);
+    draw_lines(edges,s,c);
+    add_torus(edges,250,250,50,100,0.01);
+    draw_lines(edges,s,c);
+    transform = make_rotY(45);
+    matrix_mult(transform,edges);
+    draw_lines(edges,s,c);
+    save_extension(s,"pic.png");
+    display(s);
   */
-  save_extension(s,"pic.png");
-  
   if ( argc == 2 )
     parse_file( argv[1], transform, edges, s );
   else
