@@ -22,6 +22,6 @@ parser.o: parser.c parser.h matrix.h draw.h display.h ml6.h
 	$(CC) $(CFLAGS) -c parser.c
 
 clean:
-	rm *.o *~ main
+	rm *.o *~ main *.png
 run:	
-	./main script_3d
+	./main script
