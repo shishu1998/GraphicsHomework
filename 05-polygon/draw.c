@@ -31,8 +31,8 @@ void add_polygon( struct matrix *polygons,
 		  double x1, double y1, double z1, 
 		  double x2, double y2, double z2 ) {
   add_point(polygons,x0,y0,z0);
-  add_point(polygons,x1,y1,z1);
   add_point(polygons,x2,y2,z2);
+  add_point(polygons,x1,y1,z1);
 }
 
 /*======== void draw_polygons() ==========
@@ -49,8 +49,17 @@ jdyrlandweaver
 ====================*/
 void draw_polygons( struct matrix *polygons, screen s, color c ) {
   int counter;
+  double x0,x1,x2,y0,y1,y2;
   for(counter = 2;counter < polygons->lastcol;counter ++){
-    draw_line
+    x0 = polygons->m[0][counter-2];
+    x1 = polygons->m[0][counter-1];
+    x2 = polygons->m[0][counter];
+    y0 = polygons->m[1][counter-2];
+    y1 = polygons->m[1][counter-1];
+    y2 = polygons->m[1][counter];
+    draw_line(x0,y0,x1,y1,s,c);
+    draw_line(x1,y1,x2,y2,s,c);
+    draw_line(x2,y2,x0,y0,s,c);
   }
 }
 
