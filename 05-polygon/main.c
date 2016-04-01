@@ -26,10 +26,11 @@ int main( int argc, char** argv ) {
   transform = new_matrix(4, 4);
   polygons = new_matrix(4,4);
   
-  add_polygon(polygons,100,100,100,200,200,200,300,300,300);
+  add_box(polygons,250.0,250.0,250.0,50.0,50.0,50.0);
   draw_polygons(polygons,s,c);
   display(s);
   clear_screen(s);
+  ident(transform);
   transform = make_rotX(45);
   matrix_mult(transform,polygons);
   draw_polygons(polygons,s,c);
