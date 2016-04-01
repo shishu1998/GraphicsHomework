@@ -50,7 +50,7 @@ jdyrlandweaver
 void draw_polygons( struct matrix *polygons, screen s, color c ) {
   int counter;
   double x0,x1,x2,y0,y1,y2;
-  for(counter = 2;counter < polygons->lastcol;counter ++){
+  for(counter = 2;counter < polygons->lastcol;counter += 3){
     x0 = polygons->m[0][counter-2];
     x1 = polygons->m[0][counter-1];
     x2 = polygons->m[0][counter];
@@ -282,10 +282,18 @@ void add_box( struct matrix * points,
   x2 = x + width;
   y2 = y - height;
   z2 = z - depth;
-  add_polygon(points,x,y,z,x2,y2,z,x,y2,z);
-  add_polygon(points,x,y,z,x2,y,z,x,y,z);
-  add_polygon(points,x2,y,z2,x,y2,z2,x2,y2,z2);
-  add_polygon(points,x2,y,z2,x,y,z2,x,y2,z2);
+  add_polygon(points,x,y,z,x,y2,z,x2,y2,z);
+  add_polygon(points,x,y,z,x2,y2,z,x2,y,z);
+  add_polygon(points,x2,y,z,x2,y2,z,x2,y2,z2);
+  add_polygon(points,x2,y,z,x2,y2,z2,x2,y,z2);
+  add_polygon(points,x2,y,z2,x2,y2,z2,x,y2,z2);
+  add_polygon(points,x2,y,z2,x,y2,z2,x,y,z2);
+  add_polygon(points,x,y,z2,x,y2,z2,x,y2,z);
+  add_polygon(points,x,y,z2,x,y2,z,x,y,z);
+  add_polygon(points,x,y,z,x2,y,z,x2,y,z2);
+  add_polygon(points,x,y,z,x2,y,z2,x,y,z2);
+  add_polygon(points,x,y2,z,x2,y,z,x2,y2,z2);
+  add_polygon(points,x,y2,z,x2,y,z2,x,y2,z2);
 }
   
 /*======== void add_circle() ==========
