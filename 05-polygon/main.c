@@ -31,7 +31,7 @@ int main( int argc, char** argv ) {
   display(s);
   clear_screen(s);
   ident(transform);
-  transform = make_rotX(45);
+  transform = make_rotY(45);
   matrix_mult(transform,polygons);
   draw_polygons(polygons,s,c);
   display(s);
