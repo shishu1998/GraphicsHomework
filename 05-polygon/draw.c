@@ -106,6 +106,12 @@ void add_sphere( struct matrix * points,
     for ( longt = longStart; longt < longStop; longt++ ) {
       
       index = lat * (num_steps+1) + longt;
+      int index2 = index + 1;
+      int index3 = index + num_steps;
+      int index4 = index + num_steps + 1;
+      
+      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
+      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4]);
       
     }//end points only
   }

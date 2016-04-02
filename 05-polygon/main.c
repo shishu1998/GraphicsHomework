@@ -25,16 +25,17 @@ int main( int argc, char** argv ) {
   edges = new_matrix(4, 4);
   transform = new_matrix(4, 4);
   polygons = new_matrix(4,4);
-  
-  add_box(polygons,250.0,250.0,250.0,50.0,50.0,50.0);
+
+
+  add_sphere(polygons,250,250,50,100);
   draw_polygons(polygons,s,c);
+  save_extension(s,"pic.png");
   clear_screen(s);
   ident(transform);
   transform = make_rotX(5);
   matrix_mult(transform,polygons);
   draw_polygons(polygons,s,c);
-  display(s);
-  save_extension(s,"pic.png");
+  save_extension(s,"pic2.png");
   
   if ( argc == 2 )
     parse_file( argv[1], transform, edges, s );
