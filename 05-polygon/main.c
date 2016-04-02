@@ -28,14 +28,14 @@ int main( int argc, char** argv ) {
   
   add_box(polygons,250.0,250.0,250.0,50.0,50.0,50.0);
   draw_polygons(polygons,s,c);
-  display(s);
   clear_screen(s);
   ident(transform);
   transform = make_rotY(5);
   matrix_mult(transform,polygons);
   draw_polygons(polygons,s,c);
   display(s);
-					       
+  save_extension(s,"pic.png");
+  
   if ( argc == 2 )
     parse_file( argv[1], transform, edges, s );
   else
