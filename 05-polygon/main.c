@@ -30,7 +30,7 @@ int main( int argc, char** argv ) {
   draw_polygons(polygons,s,c);
   clear_screen(s);
   ident(transform);
-  transform = make_rotY(5);
+  transform = make_rotX(5);
   matrix_mult(transform,polygons);
   draw_polygons(polygons,s,c);
   display(s);
