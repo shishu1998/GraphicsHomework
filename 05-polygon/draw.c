@@ -200,8 +200,8 @@ void add_torus( struct matrix * points,
   longStart = 0;
   latStop = num_steps;
   longtStop = num_steps;
-  for ( lat = 0; lat < num_steps; lat++ )
-    for ( longt = 0; longt < num_steps; longt++ ) {
+  for ( lat = latStart; lat < latStop; lat++ )
+    for ( longt = longStart; longt < longtStop; longt++ ) {
       
       index = lat * num_steps + longt;
       int index2 = index + 1;

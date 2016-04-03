@@ -27,7 +27,7 @@ int main( int argc, char** argv ) {
   polygons = new_matrix(4,4);
 
 
-  add_sphere(polygons,250,250,50,100);
+  add_torus(polygons,250,250,50,50,100);
   draw_polygons(polygons,s,c);
   save_extension(s,"pic.png");
   clear_screen(s);
