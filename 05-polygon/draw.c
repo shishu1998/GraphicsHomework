@@ -31,8 +31,8 @@ void add_polygon( struct matrix *polygons,
 		  double x1, double y1, double z1, 
 		  double x2, double y2, double z2 ) {
   add_point(polygons,x0,y0,z0);
-  add_point(polygons,x2,y2,z2);
   add_point(polygons,x1,y1,z1);
+  add_point(polygons,x2,y2,z2);
 }
 
 /*======== void draw_polygons() ==========
@@ -59,7 +59,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     y2 = polygons->m[1][counter];
     draw_line(x0,y0,x1,y1,s,c);
     draw_line(x1,y1,x2,y2,s,c);
-    draw_line(x2,y2,x0,y0,s,c);
+    draw_line(x0,y0,x2,y2,s,c);
   }
 }
 
@@ -109,7 +109,7 @@ void add_sphere( struct matrix * points,
       int index2 = index + 1;
       int index3 = index + num_steps;
       int index4 = index + num_steps + 1;
-      
+
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4]);
       
@@ -207,6 +207,18 @@ void add_torus( struct matrix * points,
       int index2 = index + 1;
       int index3 = index + num_steps;
       int index4 = index + num_steps + 1;
+      
+      if(index2 > temp->lastcol){
+	index2 = index2%temp->lastcol;
+      }
+            
+      if(index3 > temp->lastcol){
+	index3 = index3%temp->lastcol;
+      }
+      
+      if(index4 > temp->lastcol){
+	index4 = index4%temp->lastcol;
+      }
       
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4]);
@@ -477,7 +489,6 @@ void draw_lines( struct matrix * points, screen s, color c) {
 
 
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
- 
   int x, y, d, dx, dy;
 
   x = x0;

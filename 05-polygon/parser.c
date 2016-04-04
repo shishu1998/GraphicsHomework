@@ -65,7 +65,6 @@ The file follows the following format:
 
 See the file script for an example of the file format
 
-
 IMPORTANT MATH NOTE:
 the trig functions int math.h use radian mesure, but us normal
 humans use degrees, so the file will contain degrees for rotations,
@@ -83,9 +82,9 @@ void parse_file ( char * filename,
   double angle;
   color g;
 
-  g.red = 0;
-  g.green = 255;
-  g.blue = 0;
+  g.red = 255;
+  g.green = 0;
+  g.blue = 255;
   
   clear_screen(s);
 
@@ -203,14 +202,14 @@ void parse_file ( char * filename,
     }
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
       clear_screen(s);
-      draw_lines(pm, s, g);
+      draw_polygons(pm, s, g);
       display(s);
     }
     else if ( strncmp(line, "save", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       // line[strlen(line)-1] = '\0';
       clear_screen(s);
-      draw_lines(pm, s, g);
+      draw_polygons(pm, s, g);
       save_extension(s, line);
     }
     else if ( strncmp(line, "clear", strlen(line)) == 0 ) {
