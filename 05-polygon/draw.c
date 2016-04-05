@@ -51,11 +51,11 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
   int counter;
   double x0,x1,x2,y0,y1,y2;
   for(counter = 2;counter < polygons->lastcol;counter += 3){
-    x0 = polygons->m[0][counter-2];
-    x1 = polygons->m[0][counter-1];
+    x0 = polygons->m[0][counter - 2];
+    x1 = polygons->m[0][counter - 1];
     x2 = polygons->m[0][counter];
-    y0 = polygons->m[1][counter-2];
-    y1 = polygons->m[1][counter-1];
+    y0 = polygons->m[1][counter - 2];
+    y1 = polygons->m[1][counter - 1];
     y2 = polygons->m[1][counter];
     draw_line(x0,y0,x1,y1,s,c);
     draw_line(x1,y1,x2,y2,s,c);
@@ -296,7 +296,7 @@ void add_box( struct matrix * points,
   y2 = y - height;
   z2 = z - depth;
 
-  add_polygon(points,x,y,z,x2,y,z,x2,y2,z2);
+  add_polygon(points,x,y,z,x2,y,z,x2,y2,z);
   add_polygon(points,x,y,z,x2,y2,z,x,y2,z);
   add_polygon(points,x2,y,z2,x,y,z2,x,y2,z2);
   add_polygon(points,x2,y,z2,x,y2,z2,x2,y2,z2);
@@ -304,6 +304,10 @@ void add_box( struct matrix * points,
   add_polygon(points,x2,y,z,x2,y2,z2,x2,y2,z);
   add_polygon(points,x,y,z2,x,y,z,x,y2,z);
   add_polygon(points,x,y,z2,x,y2,z,x,y2,z2);
+  add_polygon(points,x,y,z2,x2,y,z,x,y,z);
+  add_polygon(points,x,y,z2,x2,y,z2,x2,y,z);
+  add_polygon(points,x,y2,z2,x2,y2,z,x,y2,z);
+  add_polygon(points,x,y2,z2,x2,y2,z2,x2,y2,z);
   
 }
   
