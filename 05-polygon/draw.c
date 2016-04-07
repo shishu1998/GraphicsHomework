@@ -216,21 +216,9 @@ void add_torus( struct matrix * points,
     for ( longt = longStart; longt < longtStop; longt++ ) {
       
       index = lat * num_steps + longt;
-      int index2 = index + 1;
-      int index3 = index + num_steps;
-      int index4 = index + num_steps + 1;
-      
-      if(index2 > temp->lastcol){
-	index2 = index2%temp->lastcol;
-      }
-            
-      if(index3 > temp->lastcol){
-	index3 = index3%temp->lastcol;
-      }
-      
-      if(index4 > temp->lastcol){
-	index4 = index4%temp->lastcol;
-      }
+      int index2 = (index + 1)%temp->lastcol;
+      int index3 = (index + num_steps)%temp->lastcol;
+      int index4 = (index + num_steps + 1)%temp->lastcol;
       
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2]);
       
