@@ -50,6 +50,13 @@ jdyrlandweaver
 void draw_polygons( struct matrix *polygons, screen s, color c ) {
   int counter;
   double x0,x1,x2,y0,y1,y2;
+  double* view = (double*)malloc(sizeof(double * 3));
+  view[0] = 0.0;
+  view[1] = 0.0;
+  view[2] = -1.0;
+  double* VecA = (double*)malloc(sizeof(double * 3));
+  double* vecB = (double*)malloc(sizeof(double * 3));
+  double* normal = (double*)malloc(sizeof(double * 3));
   for(counter = 2;counter < polygons->lastcol;counter += 3){
     x0 = polygons->m[0][counter - 2];
     x1 = polygons->m[0][counter - 1];
@@ -57,9 +64,26 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     y0 = polygons->m[1][counter - 2];
     y1 = polygons->m[1][counter - 1];
     y2 = polygons->m[1][counter];
+
+    vecA[0] = x1 - x0;
+    vecA[1] = y1 - y0;
+    vecA[2] = z1 - z0;
+    vecB[0] = x2 - x0;
+    vecB[1] = y2 - y0;
+    vecB[2] = z2 - z0;
+    normal[0] = vecA[1]*vecB[2] - vecA[2]*vecB[1];
+    normal[1] = vecA[2]*vecB[0] - vecA[0]*vec[2];
+    normal[2] = vecA[0]*vecB[1] - vecA[1]*vecB[0];
+    
+    double dotproduct = normal[0] * view[0] + normal[1]*view[1] + normal[2] * view[2];
+    
+    if(dotproduct < 0){
+    
     draw_line(x0,y0,x1,y1,s,c);
     draw_line(x1,y1,x2,y2,s,c);
     draw_line(x0,y0,x2,y2,s,c);
+    }
+    
   }
 }
 
