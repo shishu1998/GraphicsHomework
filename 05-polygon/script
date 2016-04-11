@@ -3,7 +3,7 @@ torus
 torus
 100 0 25 50
 box
--50 0 0 50 20 40
+-25 0 0 50 20 40
 ident
 xrotate
 90
