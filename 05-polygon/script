@@ -2,17 +2,13 @@ torus
 -100 0 25 50
 torus
 100 0 25 50
+box
+250 250 250 20 10 20
 ident
 xrotate
 90
 translate
 250 250 0
-apply
-box
-100 100 0 50 50 50
-ident
-xrotate
-20
 apply
 display
 save
