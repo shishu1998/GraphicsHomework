@@ -78,7 +78,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     
     double dotproduct = normalX * viewX + normalY*viewY + normalZ * viewZ;
     
-    if(dotproduct < 0){
+    if(dotproduct < 0.0){
       
       draw_line(x0,y0,x1,y1,s,c);
       draw_line(x1,y1,x2,y2,s,c);
