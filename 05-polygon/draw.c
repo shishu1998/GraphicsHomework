@@ -147,7 +147,7 @@ void add_sphere( struct matrix * points,
 	index4 = index4%temp->lastcol;
       }
       */
-      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2]);
+      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
       add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4]);
       
     }//end points only
@@ -245,9 +245,9 @@ void add_torus( struct matrix * points,
       int index3 = (index + num_steps)%temp->lastcol;
       int index4 = (index + num_steps + 1)%temp->lastcol;
       
-      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2]);
+      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index2],temp->m[1][index2],temp->m[2][index2],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
       
-      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3]);
+      add_polygon(points,temp->m[0][index],temp->m[1][index],temp->m[2][index],temp->m[0][index3],temp->m[1][index3],temp->m[2][index3],temp->m[0][index4],temp->m[1][index4],temp->m[2][index4]);
       
     }//end points only
 }
