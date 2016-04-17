@@ -107,7 +107,9 @@ void parse_file ( char * filename,
       //      printf("\t%s", line);
       //line[strlen(line)-1]='\0';
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
+      tmp = new matrix(4,4);
       add_edge(tmp, x, y, z, x1, y1, z1);
+      matrix_mult(tmp,s->data[s->top]);
       // printf( "%lf %lf %lf %lf %lf %lf\n", x, y, z, x1, y1, z1);
     }
     else if ( strncmp(line, "push", strlen(line)) == 0){
@@ -120,7 +122,9 @@ void parse_file ( char * filename,
       //printf("CIRCLE\n");
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf", &x, &y, &z);
-      add_circle(pm, x, y, z, 0.01);
+      tmp = new matrix(4,4);
+      add_circle(tmp, x, y, z, 0.01);
+      matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
     }    
     else if ( strncmp(line, "bezier", strlen(line)) == 0 ) {
@@ -128,7 +132,9 @@ void parse_file ( char * filename,
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
-      add_curve(pm, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, BEZIER_MODE );
+	     tmp = new matrix(4,4);
+      add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, BEZIER_MODE );
+      matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
     }    
     else if ( strncmp(line, "hermite", strlen(line)) == 0 ) {
@@ -136,12 +142,15 @@ void parse_file ( char * filename,
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
-      add_curve(pm, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, HERMITE_MODE );
+	     tmp = new matrix(4,4);
+      add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, HERMITE_MODE );
+      matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
     }
     else if ( strncmp(line, "box", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
+      tmp = new matrix(4,4);
       add_box(tmp, x, y, z, x1, y1, z1);
       matrix_mult(tmp,s->data[s->top]);
       
@@ -150,6 +159,7 @@ void parse_file ( char * filename,
     else if (strncmp(line, "sphere", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf", &x, &y, &z);
+      tmp = new matrix(4,4);
       add_sphere(tmp, x, y, z, 10);
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
@@ -157,6 +167,7 @@ void parse_file ( char * filename,
     else if (strncmp(line, "torus", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf", &x, &y, &z, &z1);
+      tmp = new matrix(4,4);
       add_torus(tmp, x, y, z, z1, 10);
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
