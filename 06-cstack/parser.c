@@ -83,6 +83,7 @@ void parse_file ( char * filename,
   double angle;
   color g;
   struct stack * s;
+  int num_steps;
   
   g.red = 0;
   g.green = 255;
@@ -132,7 +133,7 @@ void parse_file ( char * filename,
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
-	     tmp = new matrix(4,4);
+      tmp = new matrix(4,4);
       add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, BEZIER_MODE );
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
@@ -142,7 +143,7 @@ void parse_file ( char * filename,
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
-	     tmp = new matrix(4,4);
+      tmp = new matrix(4,4);
       add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, HERMITE_MODE );
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
@@ -150,7 +151,7 @@ void parse_file ( char * filename,
     else if ( strncmp(line, "box", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
-      tmp = new matrix(4,4);
+      tmp = new matrix(36,4);
       add_box(tmp, x, y, z, x1, y1, z1);
       matrix_mult(tmp,s->data[s->top]);
       
@@ -159,7 +160,8 @@ void parse_file ( char * filename,
     else if (strncmp(line, "sphere", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf", &x, &y, &z);
-      tmp = new matrix(4,4);
+      num_steps = MAX_STEPS/10;
+      tmp = new matrix(num_steps * num_steps,4);
       add_sphere(tmp, x, y, z, 10);
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
@@ -167,7 +169,8 @@ void parse_file ( char * filename,
     else if (strncmp(line, "torus", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf", &x, &y, &z, &z1);
-      tmp = new matrix(4,4);
+      num_steps = MAX_STEPS/10;
+      tmp = new matrix(num_steps * num_steps,4);
       add_torus(tmp, x, y, z, z1, 10);
       matrix_mult(tmp,s->data[s->top]);
       //printf( "%lf %lf %lf\n", x, y, z);
