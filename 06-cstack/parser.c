@@ -110,8 +110,9 @@ void parse_file ( char * filename,
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
       tmp = new_matrix(2,4);
       add_edge(tmp, x, y, z, x1, y1, z1);
-      matrix_mult(tmp,stack->data[stack->top]);
+      matrix_mult(stack->data[stack->top],tmp);
       // printf( "%lf %lf %lf %lf %lf %lf\n", x, y, z, x1, y1, z1);
+      free(tmp);
     }
     else if ( strncmp(line, "push", strlen(line)) == 0){
       push(stack);
@@ -125,8 +126,10 @@ void parse_file ( char * filename,
       sscanf(line, "%lf %lf %lf", &x, &y, &z);
       tmp = new_matrix(MAX_STEPS * MAX_STEPS,4);
       add_circle(tmp, x, y, z, 0.01);
-      matrix_mult(tmp,stack->data[stack->top]);
+      matrix_mult(stack->data[stack->top],tmp);
       //printf( "%lf %lf %lf\n", x, y, z);
+      draw_lines(tmp,s,g);
+      free(tmp);
     }    
     else if ( strncmp(line, "bezier", strlen(line)) == 0 ) {
       //printf("BEZIER\n");
@@ -135,8 +138,10 @@ void parse_file ( char * filename,
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
       tmp = new_matrix(4,4);
       add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, BEZIER_MODE );
-      matrix_mult(tmp,stack->data[stack->top]);
+      matrix_mult(stack->data[stack->top],tmp);
+      draw_lines(tmp,s,g);
       //printf( "%lf %lf %lf\n", x, y, z);
+      free(tmp);
     }    
     else if ( strncmp(line, "hermite", strlen(line)) == 0 ) {
       //printf("HERMITE\n");
@@ -145,15 +150,19 @@ void parse_file ( char * filename,
 	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
       tmp = new_matrix(4,4);
       add_curve(tmp, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, HERMITE_MODE );
-      matrix_mult(tmp,stack->data[stack->top]);
+      matrix_mult(stack->data[stack->top],tmp);
+      draw_lines(tmp,s,g);
       //printf( "%lf %lf %lf\n", x, y, z);
+      free(tmp);
     }
     else if ( strncmp(line, "box", strlen(line)) == 0 ) {
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf", &x, &y, &z, &x1, &y1, &z1);
       tmp = new_matrix(36,4);
       add_box(tmp, x, y, z, x1, y1, z1);
-      matrix_mult(tmp,stack->data[stack->top]);
+      matrix_mult(stack->data[stack->top],tmp);
+      draw_polygons(tmp,s,g);
+      free(tmp);
       
       // printf( "%lf %lf %lf %lf %lf %lf\n", x, y, z, x1, y1, z1);
     }
@@ -163,7 +172,9 @@ void parse_file ( char * filename,
       num_steps = MAX_STEPS/10;
       tmp = new_matrix(num_steps * num_steps,4);
       add_sphere(tmp, x, y, z, 10);
-      matrix_mult(tmp,stack->data[stack->top]);
+      draw_polygons(tmp,s,g);
+      matrix_mult(stack->data[stack->top],tmp);
+      free(tmp);
       //printf( "%lf %lf %lf\n", x, y, z);
     }
     else if (strncmp(line, "torus", strlen(line)) == 0 ) {
@@ -172,8 +183,10 @@ void parse_file ( char * filename,
       num_steps = MAX_STEPS/10;
       tmp = new_matrix(num_steps * num_steps,4);
       add_torus(tmp, x, y, z, z1, 10);
-      matrix_mult(tmp,stack->data[stack->top]);
+      draw_polygons(tmp,s,g);
+      matrix_mult(stack->data[stack->top],tmp);
       //printf( "%lf %lf %lf\n", x, y, z);
+      free(tmp);
     }
     else if ( strncmp(line, "scale", strlen(line)) == 0 ) {
       //printf("SCALE\n");
@@ -192,6 +205,7 @@ void parse_file ( char * filename,
       tmp = make_translate(x, y, z);
       matrix_mult(tmp, stack->data[stack->top]);
       //print_matrix(transform);
+      free(tmp);
     }
     else if ( strncmp(line, "xrotate", strlen(line)) == 0 ) {
       //printf("ROTATE!\n");
@@ -224,11 +238,9 @@ void parse_file ( char * filename,
       //printf("APPLY!\n");
       //print_matrix( transform );
       //      print_matrix(pm);
-      matrix_mult(transform, pm);
+      //matrix_mult(transform, pm);
     }
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
-      clear_screen(s);
-      draw_polygons(pm, s, g);
       display(s);
     }
     else if ( strncmp(line, "save", strlen(line)) == 0 ) {

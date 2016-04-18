@@ -279,7 +279,7 @@ void add_sphere( struct matrix * points,
   free_matrix(temp);
 }
 
-/*======== void generate_sphere() ==========
+======== void generate_sphere() ==========
   Inputs:   struct matrix * points
             double cx
 	    double cy
