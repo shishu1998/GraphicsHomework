@@ -1,7 +1,6 @@
 #test box mesh
 box
 0 0 0 200 100 400
-display
 ident
 xrotate
 20
@@ -9,8 +8,7 @@ yrotate
 20
 translate
 150 200 0
-box
-0 0 0 200 100 400
+apply
 display
 #clear the edge matrix, test the sphere
 clear
@@ -23,8 +21,7 @@ yrotate
 90
 translate
 250 250 0
-sphere
-0 0 200
+apply
 display
 #reset sphere, rotate 90 degrees about x to check lines
 ident
@@ -36,8 +33,7 @@ xrotate
 90
 translate
 250 250 0
-sphere
-0 0 200
+apply
 display
 #reset sphere, rotate to make it look cool
 ident
@@ -51,8 +47,7 @@ zrotate
 70
 translate
 250 250 0
-sphere
-0 0 200
+apply
 display
 #clear the edge matrix, test torus
 clear
@@ -65,8 +60,7 @@ yrotate
 90
 translate
 250 250 0
-torus
-0 0 25 150
+apply
 display
 #reset torus, rotate 90 degrees about x to check lines
 ident
@@ -78,8 +72,7 @@ xrotate
 90
 translate
 250 250 0
-torus
-0 0 25 150
+apply
 display
 #reset torus, rotate to make it look cool
 ident
@@ -91,8 +84,7 @@ yrotate
 20
 translate
 250 250 0
-torus
-0 0 25 150
+apply
 display
 #pretty? picture
 clear
@@ -103,10 +95,7 @@ sphere
 ident
 zrotate
 70
-sphere
-0 0 100
-sphere
-0 0 100
+apply
 torus
 0 -250 35 175
 ident
@@ -116,11 +105,6 @@ yrotate
 20
 translate
 250 350 0
-sphere
-0 0 100
-sphere
-0 0 100
-torus
-0 -250 35 175
+apply
 display
 quit
