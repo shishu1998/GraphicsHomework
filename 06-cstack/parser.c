@@ -205,7 +205,6 @@ void parse_file ( char * filename,
       tmp = make_translate(x, y, z);
       matrix_mult(tmp, stack->data[stack->top]);
       //print_matrix(transform);
-      free(tmp);
     }
     else if ( strncmp(line, "xrotate", strlen(line)) == 0 ) {
       //printf("ROTATE!\n");
@@ -242,6 +241,7 @@ void parse_file ( char * filename,
     }
     else if ( strncmp(line, "display", strlen(line)) == 0 ) {
       display(s);
+      clear_screen(s);
     }
     else if ( strncmp(line, "save", strlen(line)) == 0 ) {
       fgets(line, 255, f);
@@ -251,7 +251,8 @@ void parse_file ( char * filename,
       save_extension(s, line);
     }
     else if ( strncmp(line, "clear", strlen(line)) == 0 ) {
-      pm->lastcol = 0;
+      free(stack);
+      stack = new_stack();
     }
     else if ( strncmp(line, "quit", strlen(line)) == 0 ) {
       return;
