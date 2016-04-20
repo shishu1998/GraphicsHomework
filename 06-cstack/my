@@ -11,7 +11,7 @@ push
 pop
 push
 translate
-100 150 0
+100 50 0
 xrotate
 50
 box
@@ -20,7 +20,7 @@ box
 pop
 push
 translate
--100 150 0
+-100 50 0
 xrotate
 -50
 box
