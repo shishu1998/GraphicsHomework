@@ -15,7 +15,7 @@ translate
 xrotate
 50
 box
-0 0 20 50 200 40
+0 0 20 50 100 40
 #left arm
 pop
 push
@@ -24,7 +24,7 @@ translate
 xrotate
 -50
 box
--50 0 0 50 200 40
+-50 0 0 50 100 40
 #right leg
 pop
 push
