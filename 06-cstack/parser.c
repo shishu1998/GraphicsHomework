@@ -85,7 +85,7 @@ void parse_file ( char * filename,
   struct stack * stack = new_stack();
   int num_steps;
   
-  g.red = 0;
+  g.red = 255;
   g.green = 255;
   g.blue = 0;
   
