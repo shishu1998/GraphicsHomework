@@ -12,6 +12,10 @@ translate
 -50 101 0
 sphere
 0 0 20
+translate
+100 0 0
+sphere
+0 0 20
 #right arm
 pop
 push
