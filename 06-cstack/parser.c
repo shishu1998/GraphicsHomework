@@ -173,8 +173,8 @@ void parse_file ( char * filename,
       num_steps = MAX_STEPS/10;
       tmp = new_matrix(num_steps * num_steps,4);
       add_sphere(tmp, x, y, z, 10);
-      draw_polygons(tmp,s,g);
       matrix_mult(stack->data[stack->top],tmp);
+      draw_polygons(tmp,s,g);
       free(tmp);
       //printf( "%lf %lf %lf\n", x, y, z);
     }
