@@ -6,12 +6,7 @@ yrotate
 45
 box
 -100 150 25 200 300 50
-#head
 push
-translate
-0 201 0
-sphere
-0 0  50
 #right arm
 pop
 push
