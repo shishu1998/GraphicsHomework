@@ -30,4 +30,4 @@ gmath.o: gmath.c gmath.h matrix.h
 clean:
 	rm *.o *~ main
 run:
-	./main myrobot
+	./main my
