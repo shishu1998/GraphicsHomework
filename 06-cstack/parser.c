@@ -115,6 +115,16 @@ void parse_file ( char * filename,
       draw_lines(tmp,s,g);
       free(tmp);
     }
+    else if ( strncmp(line,"red", strlen(line)) == 0 ){
+      g.red = 255;
+      g.green = 0;
+      g.blue = 0;
+    }
+    else if ( strncmp(line,"yellow", strlen(line)) == 0 ){
+      g.red = 255;
+      g.green = 255;
+      g.blue = 0;
+    }
     else if ( strncmp(line, "push", strlen(line)) == 0){
       push(stack);
     }

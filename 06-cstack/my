@@ -7,6 +7,7 @@ yrotate
 box
 -100 150 25 200 300 50
 #eyes
+red
 push
 translate
 -50 101 0
@@ -17,6 +18,7 @@ translate
 sphere
 0 0 20
 #right arm
+yellow
 pop
 push
 translate
