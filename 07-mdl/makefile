@@ -42,7 +42,7 @@ stack.o: stack.c stack.h matrix.h
 	$(CC) $(CFLAGS) -c stack.c 
 
 clean:
-	rm y.tab.c y.tab.h
+	rm y.tab.c y.tab.h mdl
 	rm lex.yy.c
 	rm -rf mdl.dSYM
 	rm *.o *~

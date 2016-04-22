@@ -57,7 +57,7 @@ void my_main( int polygons ) {
   double xval, yval, zval;
   struct matrix *transform;
   struct matrix *tmp;
-  struct stack *s;
+  struct stack *s = new_stack();
   screen t;
   color g;
   
@@ -67,6 +67,30 @@ void my_main( int polygons ) {
 
   for (i=0;i<lastop;i++) {  
     switch (op[i].opcode) {
+    case PUSH:
+      push(s);
+      break;
+    case POP:
+      pop(s);
+      break;
+    case MOVE:
+      break;
+    case ROTATE:
+      break;
+    case SCALE:
+      break;
+    case BOX:
+      break;
+    case SPHERE:
+      break;
+    case TORUS:
+      break;
+    case LINE:
+      break;
+    case SAVE:
+      break;
+    case DISPLAY:
+      break;
     }
   }
 }
