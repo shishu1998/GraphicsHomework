@@ -74,22 +74,56 @@ void my_main( int polygons ) {
       pop(s);
       break;
     case MOVE:
+      xval = op[i].op.move.d[0];
+      yval = op[i].op.move.d[1];
+      zval = op[i].op.move.d[2];
+      transform = make_translate(xval,yval,zval);
+      matrix_mult(s->data[s->top],transform);
+      copy_matrix(transform,s->data[s->top]);
       break;
     case ROTATE:
+      if(op[i].op.rotate.axis == 0){
+	transform = make_rotX(op[i].op.rotate.degrees * (M_PI/180));
+      }
+      else if(op[i].op.rotate.axis == 1){
+	transform = makerotY(op[i].op.rotate.degrees * (M_PI/180));
+      }
+      else{
+	transform = makerotZ(op[i].op.rotate.degrees * (M_PI/180));
+      }
+      matrix_mult(s->data[s->top],transform);
+      copy_matrix(transform,s->data[s->top]);
       break;
     case SCALE:
+      xval = op[i].op.scale.d[0];
+      yval = op[i].op.scale.d[1];
+      zval = op[i].op.scale.d[2];
+      transform = make_scale(xval,yval,zval);
+      matrix_mult(s->data[s->top],transform);
+      copy_matrix(transform,s->data[s->top]);
       break;
     case BOX:
+      
       break;
     case SPHERE:
       break;
     case TORUS:
       break;
     case LINE:
+      tmp[0][0] = op[i].op.line.p0[0];
+      tmp[0][1] = op[i].op.line.p0[1];
+      tmp[0][2] = op[i].op.line.p0[2];
+      tmp[1][0] = op[i].op.line.p1[0];
+      tmp[1][1] = op[i].op.line.p1[1];
+      tmp[1][2] = op[i].op.line.p1[2];
+      matrix_mult(s->data[s->top],tmp);
+      draw_lines(tmp,t,g);
       break;
     case SAVE:
+      save_extension(t,op[i].op.save.p);
       break;
     case DISPLAY:
+      display(t);
       break;
     }
   }
