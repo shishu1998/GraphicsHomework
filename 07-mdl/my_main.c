@@ -54,7 +54,7 @@ void my_main( int polygons ) {
 
   int i;
   double step;
-  double xval, yval, zval;
+  double xval, yval, zval,width,height,depth,r,cx,cy,cz,r1,r2;
   struct matrix *transform;
   struct matrix *tmp;
   struct stack *s = new_stack();
@@ -86,10 +86,10 @@ void my_main( int polygons ) {
 	transform = make_rotX(op[i].op.rotate.degrees * (M_PI/180));
       }
       else if(op[i].op.rotate.axis == 1){
-	transform = makerotY(op[i].op.rotate.degrees * (M_PI/180));
+	transform = make_rotY(op[i].op.rotate.degrees * (M_PI/180));
       }
       else{
-	transform = makerotZ(op[i].op.rotate.degrees * (M_PI/180));
+	transform = make_rotZ(op[i].op.rotate.degrees * (M_PI/180));
       }
       matrix_mult(s->data[s->top],transform);
       copy_matrix(transform,s->data[s->top]);
@@ -103,24 +103,47 @@ void my_main( int polygons ) {
       copy_matrix(transform,s->data[s->top]);
       break;
     case BOX:
-      
+      xval = op[i].op.box.d0[0];
+      yval = op[i].op.box.d0[1];
+      zval = op[i].op.box.d0[2];
+      width = op[i].op.box.d1[0];
+      height = op[i].op.box.d1[1];
+      depth = op[i].op.box.d1[2];
+      add_box(tmp,xval,yval,zval,width,depth,height);
+      matrix_mult(s->data[s->top],tmp);
+      draw_polygons(tmp,t,g);
       break;
     case SPHERE:
+      cx = op[i].op.sphere.d[0];
+      cy = op[i].op.sphere.d[1];
+      cz = op[i].op.sphere.d[2];
+      r = op[i].op.sphere.r;
+      add_sphere(tmp,cx,cy,cz,r,100);
+      matrix_mult(s->data[s->top],tmp);
+      draw_polygons(tmp,t,g);
       break;
     case TORUS:
+      cx = op[i].op.torus.d[0];
+      cy = op[i].op.torus.d[1];
+      cz = op[i].op.torus.d[2];
+      r1 = op[i].op.torus.r0;
+      r2 = op[i].op.torus.r1;
+      add_torus(tmp,cx,cy,cz,r1,r2,100);
+      matrix_mult(s->data[s->top],tmp);
+      draw_polygons(tmp,t,g);
       break;
     case LINE:
-      tmp[0][0] = op[i].op.line.p0[0];
-      tmp[0][1] = op[i].op.line.p0[1];
-      tmp[0][2] = op[i].op.line.p0[2];
-      tmp[1][0] = op[i].op.line.p1[0];
-      tmp[1][1] = op[i].op.line.p1[1];
-      tmp[1][2] = op[i].op.line.p1[2];
+      tmp->m[0][0] = op[i].op.line.p0[0];
+      tmp->m[0][1] = op[i].op.line.p0[1];
+      tmp->m[0][2] = op[i].op.line.p0[2];
+      tmp->m[1][0] = op[i].op.line.p1[0];
+      tmp->m[1][1] = op[i].op.line.p1[1];
+      tmp->m[1][2] = op[i].op.line.p1[2];
       matrix_mult(s->data[s->top],tmp);
       draw_lines(tmp,t,g);
       break;
     case SAVE:
-      save_extension(t,op[i].op.save.p);
+      //      save_extension(t,yyvsp[0].string);
       break;
     case DISPLAY:
       display(t);
