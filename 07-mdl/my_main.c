@@ -87,10 +87,10 @@ void my_main( int polygons ) {
       break;
     case ROTATE:
       printf("%s\n","rotate");
-      if(op[i].op.rotate.axis == 0){
+      if(op[i].op.rotate.axis < 1.1){
 	transform = make_rotX(op[i].op.rotate.degrees * (M_PI/180));
       }
-      else if(op[i].op.rotate.axis == 1){
+      else if(op[i].op.rotate.axis < 2.1){
 	transform = make_rotY(op[i].op.rotate.degrees * (M_PI/180));
       }
       else{
@@ -146,12 +146,13 @@ void my_main( int polygons ) {
       break;
     case LINE:
       printf("%s\n","line");
-      tmp->m[0][0] = op[i].op.line.p0[0];
-      tmp->m[0][1] = op[i].op.line.p0[1];
-      tmp->m[0][2] = op[i].op.line.p0[2];
-      tmp->m[1][0] = op[i].op.line.p1[0];
-      tmp->m[1][1] = op[i].op.line.p1[1];
-      tmp->m[1][2] = op[i].op.line.p1[2];
+      add_edge(tmp,
+	       op[i].op.line.p0[0],
+	       op[i].op.line.p0[1],
+	       op[i].op.line.p0[2],
+	       op[i].op.line.p1[0],
+	       op[i].op.line.p1[1],
+	       op[i].op.line.p1[2]);
       matrix_mult(s->data[s->top],tmp);
       draw_lines(tmp,t,g);
       break;
