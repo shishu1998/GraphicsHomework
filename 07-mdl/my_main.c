@@ -143,7 +143,7 @@ void my_main( int polygons ) {
       draw_lines(tmp,t,g);
       break;
     case SAVE:
-      //      save_extension(t,yyvsp[0].string);
+      save_extension(t,op[i].op.save.p->name);
       break;
     case DISPLAY:
       display(t);
