@@ -119,6 +119,7 @@ void my_main( int polygons ) {
       add_box(tmp,xval,yval,zval,width,depth,height);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      ident(tmp);
       break;
     case SPHERE:
       printf("%s\n","sphere");
@@ -129,6 +130,7 @@ void my_main( int polygons ) {
       add_sphere(tmp,cx,cy,cz,r,100);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      ident(tmp);
       break;
     case TORUS:
       printf("%s\n","torus");
@@ -140,6 +142,7 @@ void my_main( int polygons ) {
       add_torus(tmp,cx,cy,cz,r1,r2,100);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      ident(tmp);
       break;
     case LINE:
       printf("%s\n","line");
