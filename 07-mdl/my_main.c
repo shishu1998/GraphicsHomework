@@ -83,10 +83,10 @@ void my_main( int polygons ) {
       copy_matrix(transform,s->data[s->top]);
       break;
     case ROTATE:
-      if(op[i].op.rotate.axis < 1.1){
+      if(op[i].op.rotate.axis == 0){
 	transform = make_rotX(op[i].op.rotate.degrees * (M_PI/180));
       }
-      else if(op[i].op.rotate.axis < 2.1){
+      else if(op[i].op.rotate.axis == 1){
 	transform = make_rotY(op[i].op.rotate.degrees * (M_PI/180));
       }
       else{
@@ -110,18 +110,22 @@ void my_main( int polygons ) {
       width = op[i].op.box.d1[0];
       height = op[i].op.box.d1[1];
       depth = op[i].op.box.d1[2];
-      add_box(tmp,xval,yval,zval,width,depth,height);
+      add_box(tmp,xval,yval,zval,width,height,depth);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      free_matrix(tmp);
+      tmp = new_matrix(4, 1000);
       break;
     case SPHERE:
       cx = op[i].op.sphere.d[0];
       cy = op[i].op.sphere.d[1];
       cz = op[i].op.sphere.d[2];
       r = op[i].op.sphere.r;
-      add_sphere(tmp,cx,cy,cz,r,100);
+      add_sphere(tmp,cx,cy,cz,r,10);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      free_matrix(tmp);
+      tmp = new_matrix(4, 1000);
       break;
     case TORUS:
       cx = op[i].op.torus.d[0];
@@ -129,9 +133,11 @@ void my_main( int polygons ) {
       cz = op[i].op.torus.d[2];
       r1 = op[i].op.torus.r0;
       r2 = op[i].op.torus.r1;
-      add_torus(tmp,cx,cy,cz,r1,r2,100);
+      add_torus(tmp,cx,cy,cz,r1,r2,10);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
+      free_matrix(tmp);
+      tmp = new_matrix(4, 1000);
       break;
     case LINE:
       add_edge(tmp,
@@ -143,6 +149,8 @@ void my_main( int polygons ) {
 	       op[i].op.line.p1[2]);
       matrix_mult(s->data[s->top],tmp);
       draw_lines(tmp,t,g);
+      free_matrix(tmp);
+      tmp = new_matrix(4, 1000);
       break;
     case SAVE:
       save_extension(t,op[i].op.save.p->name);
