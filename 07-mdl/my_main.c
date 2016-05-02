@@ -70,14 +70,11 @@ void my_main( int polygons ) {
     switch (op[i].opcode) {
     case PUSH:
       push(s);
-      printf("%s\n", "push");
       break;
     case POP:
       pop(s);
-      printf("%s\n","pop");
       break;
     case MOVE:
-      printf("%s\n","move");
       xval = op[i].op.move.d[0];
       yval = op[i].op.move.d[1];
       zval = op[i].op.move.d[2];
@@ -86,7 +83,6 @@ void my_main( int polygons ) {
       copy_matrix(transform,s->data[s->top]);
       break;
     case ROTATE:
-      printf("%s\n","rotate");
       if(op[i].op.rotate.axis < 1.1){
 	transform = make_rotX(op[i].op.rotate.degrees * (M_PI/180));
       }
@@ -100,7 +96,6 @@ void my_main( int polygons ) {
       copy_matrix(transform,s->data[s->top]);
       break;
     case SCALE:
-      printf("%s\n","scale");
       xval = op[i].op.scale.d[0];
       yval = op[i].op.scale.d[1];
       zval = op[i].op.scale.d[2];
@@ -109,7 +104,6 @@ void my_main( int polygons ) {
       copy_matrix(transform,s->data[s->top]);
       break;
     case BOX:
-      printf("%s\n","box");
       xval = op[i].op.box.d0[0];
       yval = op[i].op.box.d0[1];
       zval = op[i].op.box.d0[2];
@@ -119,10 +113,8 @@ void my_main( int polygons ) {
       add_box(tmp,xval,yval,zval,width,depth,height);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
-      ident(tmp);
       break;
     case SPHERE:
-      printf("%s\n","sphere");
       cx = op[i].op.sphere.d[0];
       cy = op[i].op.sphere.d[1];
       cz = op[i].op.sphere.d[2];
@@ -130,10 +122,8 @@ void my_main( int polygons ) {
       add_sphere(tmp,cx,cy,cz,r,100);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
-      ident(tmp);
       break;
     case TORUS:
-      printf("%s\n","torus");
       cx = op[i].op.torus.d[0];
       cy = op[i].op.torus.d[1];
       cz = op[i].op.torus.d[2];
@@ -142,10 +132,8 @@ void my_main( int polygons ) {
       add_torus(tmp,cx,cy,cz,r1,r2,100);
       matrix_mult(s->data[s->top],tmp);
       draw_polygons(tmp,t,g);
-      ident(tmp);
       break;
     case LINE:
-      printf("%s\n","line");
       add_edge(tmp,
 	       op[i].op.line.p0[0],
 	       op[i].op.line.p0[1],
@@ -157,11 +145,9 @@ void my_main( int polygons ) {
       draw_lines(tmp,t,g);
       break;
     case SAVE:
-      printf("%s\n","saving");
       save_extension(t,op[i].op.save.p->name);
       break;
     case DISPLAY:
-      printf("%s\n","displaying");
       display(t);
       break;
     }
