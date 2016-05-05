@@ -82,6 +82,27 @@
   jdyrlandweaver
   ====================*/
 void first_pass() {
+  int i;
+  boolean framecheck = false;
+  boolean basecheck = false;
+  boolean varycheck = false;
+  while(op[i]){
+    if(op[i].opcode == FRAMES){
+      framecheck = true;
+    }
+    if(op[i].opcode == BASENAME){
+      basecheck = true;
+    }
+    if(op[i].opcode == VARY){
+      varycheck = true;
+    }
+  }
+  if(!framecheck && varycheck){
+    return;
+  }
+  if(framecheck && !basecheck){
+    
+  }
 }
 
 /*======== struct vary_node ** second_pass()) ==========
