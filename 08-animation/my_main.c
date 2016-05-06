@@ -83,25 +83,30 @@
   ====================*/
 void first_pass() {
   int i;
-  boolean framecheck = false;
-  boolean basecheck = false;
-  boolean varycheck = false;
-  while(op[i]){
-    if(op[i].opcode == FRAMES){
-      framecheck = true;
-    }
-    if(op[i].opcode == BASENAME){
-      basecheck = true;
-    }
-    if(op[i].opcode == VARY){
-      varycheck = true;
-    }
+  int framecheck = 0;
+  int basecheck = 0;
+  int varycheck = 0;
+  for (i=0;i<lastop;i++) { 
+    switch (op[i].opcode) 
+      {
+      case FRAMES:
+	framecheck = 1;
+	set_value(op[i].num_frames,10);
+	break;
+      case BASENAME:
+	basecheck = 1;
+	break;
+      case VARY:
+	varycheck = 1;
+	break;
+      }
   }
   if(!framecheck && varycheck){
     return;
   }
   if(framecheck && !basecheck){
-    
+    op.basename.p->name = "basename";
+    printf("%s\n","The temporary basename used is 'basename'");
   }
 }
 
