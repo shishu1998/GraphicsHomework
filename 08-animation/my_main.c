@@ -91,7 +91,7 @@ void first_pass() {
       {
       case FRAMES:
 	framecheck = 1;
-	set_value(op[i].num_frames,10);
+	num_frames = 10;
 	break;
       case BASENAME:
 	basecheck = 1;
@@ -105,7 +105,7 @@ void first_pass() {
     return;
   }
   if(framecheck && !basecheck){
-    op.basename.p->name = "basename";
+    strcpy(name,"basename");
     printf("%s\n","The temporary basename used is 'basename'");
   }
 }
@@ -133,6 +133,15 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
+  vary_node* list[128];
+  int i;
+  for(i = 0; i<lastop; i ++){
+    switch(op[i].opcode)
+      {
+      case VARY:
+	
+      }
+  }
 }
 
 
