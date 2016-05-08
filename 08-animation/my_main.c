@@ -133,13 +133,13 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
-  vary_node* list[128];
+  struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * 128);
   int i;
   for(i = 0; i<lastop; i ++){
     switch(op[i].opcode)
       {
       case VARY:
-	
+	return;
       }
   }
 }
