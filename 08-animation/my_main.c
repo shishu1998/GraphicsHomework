@@ -91,9 +91,10 @@ void first_pass() {
       {
       case FRAMES:
 	framecheck = 1;
-	num_frames = 10;
+	num_frames = op[i].frames.num_frames;
 	break;
       case BASENAME:
+	strcpy(name,op[i].op.basename.p->name);
 	basecheck = 1;
 	break;
       case VARY:
@@ -133,13 +134,27 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
+  double increment = 1.0/num_frames;
+  int start,end;
   struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * 128);
   int i;
-  for(i = 0; i<lastop; i ++){
+  for(i = 0; i<num_frames; i ++){
     switch(op[i].opcode)
       {
       case VARY:
-	return;
+	int start = op.vary.start_frame;
+	int end = op.vary.end_frame;
+	int increment = (op.vary.end_val - op.vary.start_val)/(end - start);
+	list[start].value = op.vary.start_val;
+	for(start; start < end; start ++){
+	  strcpy(list[start].name, op[i].vary.p->name);
+	  if(i != start){
+	    list[start].value = list[start - 1] + increment;
+	  }
+	  if(i != end){
+	    list[i].next = list[i+1];
+	  }
+	}
       }
   }
 }
