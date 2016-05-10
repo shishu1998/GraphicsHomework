@@ -91,7 +91,7 @@ void first_pass() {
       {
       case FRAMES:
 	framecheck = 1;
-	num_frames = op[i].frames.num_frames;
+	num_frames = op[i].op.frames.num_frames;
 	break;
       case BASENAME:
 	strcpy(name,op[i].op.basename.p->name);
@@ -134,25 +134,26 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
-  double increment = 1.0/num_frames;
+  double increment,knobinc = 1.0/num_frames;
   int start,end;
   struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
   int i;
   for(i = 0; i<num_frames; i ++){
     switch(op[i].opcode)
       {
+	//set to temporary and add to list says raymond
       case VARY:
-	int start = op.vary.start_frame;
-	int end = op.vary.end_frame;
-	int increment = (op.vary.end_val - op.vary.start_val)/(end - start);
-	list[start].value = op.vary.start_val;
+	start = op[i].op.vary.start_frame;
+	end = op[i].op.vary.end_frame;
+	knobinc = (op[i].op.vary.end_val - op[i].op.vary.start_val)/(end - start);
+	list[start]->value = op[i].op.vary.start_val;
 	for(start; start < end; start ++){
-	  strcpy(list[start].name, op[i].vary.p->name);
+	  strcpy(list[start]->name, op[i].op.vary.p->name);
 	  if(i != start){
-	    list[start].value = list[start - 1] + increment;
+	    list[start]->value = list[start - 1]->value + increment;
 	  }
 	  if(i != end){
-	    list[i].next = list[i+1];
+	    list[i]->next = list[i+1];
 	  }
 	}
       }
@@ -239,7 +240,9 @@ void my_main( int polygons ) {
   g.green = 255;
   g.blue = 255;
 
-    
+  first_pass();
+  knobs = second_pass();
+  
     for (i=0;i<lastop;i++) {
   
       switch (op[i].opcode) {
