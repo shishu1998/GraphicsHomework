@@ -136,7 +136,7 @@ void first_pass() {
 struct vary_node ** second_pass() {
   double increment = 1.0/num_frames;
   int start,end;
-  struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * 128);
+  struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
   int i;
   for(i = 0; i<num_frames; i ++){
     switch(op[i].opcode)
@@ -157,6 +157,7 @@ struct vary_node ** second_pass() {
 	}
       }
   }
+  return list;
 }
 
 
