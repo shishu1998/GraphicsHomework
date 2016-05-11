@@ -137,24 +137,24 @@ struct vary_node ** second_pass() {
   double increment,knobinc = 1.0/num_frames;
   int start,end;
   struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
+  struct vary_node* temp;
   int i;
   for(i = 0; i<num_frames; i ++){
     switch(op[i].opcode)
       {
-	//set to temporary and add to list says raymond
       case VARY:
 	start = op[i].op.vary.start_frame;
 	end = op[i].op.vary.end_frame;
 	knobinc = (op[i].op.vary.end_val - op[i].op.vary.start_val)/(end - start);
-	list[start]->value = op[i].op.vary.start_val;
+	temp = (struct vary_node*)malloc(sizeof(struct vary_node));
+	temp->value = op[i].op.vary.start_val;
 	for(start; start < end; start ++){
-	  strcpy(list[start]->name, op[i].op.vary.p->name);
+	  strcpy(temp->name, op[i].op.vary.p->name);
 	  if(i != start){
-	    list[start]->value = list[start - 1]->value + increment;
+	    temp->value = list[start - 1]->value + increment;
+	    list[start - 1]->next = temp;
 	  }
-	  if(i != end){
-	    list[i]->next = list[i+1];
-	  }
+	  list[start] = temp;
 	}
       }
   }
@@ -221,6 +221,7 @@ void print_knobs() {
 void my_main( int polygons ) {
 
   int i, f, j;
+  int current;
   double step;
   double xval, yval, zval, knob_value;
   struct matrix *transform;
@@ -242,11 +243,16 @@ void my_main( int polygons ) {
 
   first_pass();
   knobs = second_pass();
-  
+
+  for(current = 0; current < num_frames;current++){
+
     for (i=0;i<lastop;i++) {
   
       switch (op[i].opcode) {
-
+	knob_value = 1;
+	if(num_frames > 1 && knobs){
+	  vn = knobs[f];
+	}
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy
@@ -299,20 +305,49 @@ void my_main( int polygons ) {
 	xval = op[i].op.move.d[0];
 	yval =  op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
-      
+
+	if(op[i].op.move.p != NULL){
+	  vn = knobs[current];
+	  if(vn && op[i].op.move.p){
+	    knob_value = vn->value;
+	  }
+	  while(vn != NULL){
+	    if(strcmp(vn->name,op[i].op.scale.p->name)==0){
+	      xval *= vn->value;
+	      yval *= vn->value;
+	      zval *= vn->value;
+	    }
+	    vn = vn->next;
+	  }
+	}
+	
 	transform = make_translate( xval, yval, zval );
 	//multiply by the existing origin
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
+	
+      
 	break;
-
+	
       case SCALE:
 	xval = op[i].op.scale.d[0];
 	yval = op[i].op.scale.d[1];
 	zval = op[i].op.scale.d[2];
-      
+
+	if(op[i].op.scale.p != NULL){
+	  vn = knobs[current];
+	  while(vn != NULL){
+	    if(strcmp(vn->name,op[i].op.scale.p->name) == 0){
+	      xval *= vn->value;
+	      yval *= vn->value;
+	      zval *= vn->value;
+	    }
+	    vn = vn->next;
+	  }
+	}
+	
 	transform = make_scale( xval, yval, zval );
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
@@ -322,7 +357,17 @@ void my_main( int polygons ) {
 
       case ROTATE:
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
-
+	if(op[i].op.scale.p == NULL){
+	  vn = knobs[current];
+	  while(vn != NULL){
+	    if(strcmp(vn ->name, op[i].op.rotate.p->name) == 0){
+	      xval *= vn->value;
+	    }
+	    vn = vn->next;
+	  }
+	}
+	
+	
 	//get the axis
 	if ( op[i].op.rotate.axis == 0 ) 
 	  transform = make_rotX( xval );
@@ -351,8 +396,13 @@ void my_main( int polygons ) {
 	break;
       }
     }
+    
+  }
   
     free_stack( s );
     free_matrix( tmp );
     //free_matrix( transform );
+    sprintf(frame_name,"./anim/%s%3d.png",name,current);
+    save_extension(t,frame_name);
+    clear_screen(t);
 }
