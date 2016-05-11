@@ -134,7 +134,7 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
-  double increment,knobinc = 1.0/num_frames;
+  double increment,knobinc;
   int start,end;
   struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
   struct vary_node* temp;
@@ -145,6 +145,7 @@ struct vary_node ** second_pass() {
       case VARY:
 	start = op[i].op.vary.start_frame;
 	end = op[i].op.vary.end_frame;
+	increment = 1.0/num_frames;
 	knobinc = (op[i].op.vary.end_val - op[i].op.vary.start_val)/(end - start);
 	temp = (struct vary_node*)malloc(sizeof(struct vary_node));
 	temp->value = op[i].op.vary.start_val;
@@ -225,8 +226,8 @@ void my_main( int polygons ) {
   double step;
   double xval, yval, zval, knob_value;
   struct matrix *transform;
-  struct matrix *tmp;
-  struct stack *s;
+  struct matrix *tmp = new_matrix(4,1000);
+  struct stack *s = new_stack();
   screen t;
   color g;
 
@@ -250,9 +251,6 @@ void my_main( int polygons ) {
   
       switch (op[i].opcode) {
 	knob_value = 1;
-	if(num_frames > 1 && knobs){
-	  vn = knobs[f];
-	}
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy
@@ -398,7 +396,6 @@ void my_main( int polygons ) {
     }
     
   }
-  
     free_stack( s );
     free_matrix( tmp );
     //free_matrix( transform );
