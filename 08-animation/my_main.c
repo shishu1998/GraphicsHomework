@@ -216,9 +216,8 @@ void print_knobs() {
   05/17/12 09:41:35
   jdyrlandweaver
   ====================*/
-void my_main( int polygons ) {
-
-  int i, f, j;
+  void my_main( int polygons ) {
+	int i, f, j;
   double step;
   double xval, yval, zval, knob_value;
   struct matrix *transform;
@@ -239,18 +238,14 @@ void my_main( int polygons ) {
   g.blue = 255;
 
   first_pass();
-  if (num_frames>1){
-    knobs = second_pass();
-  }
+  knobs = second_pass();
 
-  int cur_frame;
+  int current;
   char frame_num_string[4];
   
-  for (cur_frame=0;cur_frame<num_frames-1;cur_frame++){
-    strcpy(frame_name,"animation_frames/");
-    strcat(frame_name,name);
-    sprintf(frame_num_string,"%03d",cur_frame+1);
-    strcat(frame_name,frame_num_string);
+  for (current=0;current<num_frames;current++){
+    printf("%s%03d\n","generating frame # ",current);	
+    sprintf(frame_name,"./anim/%s%03d.png",name,current);
 
     s = new_stack();
     tmp = new_matrix(4,0);
@@ -305,36 +300,22 @@ void my_main( int polygons ) {
 	tmp->lastcol = 0;
 	break;
 
-      case SET:
-	vn = knobs[cur_frame];
-	while (vn != NULL){
-	  if (strcmp(vn->name,op[i].op.set.p->name)==0){
-	    vn->value = op[i].op.set.val;
-	  }
-	  vn = vn->next;
-	}
-	break;
-
-      case SETKNOBS:
-	vn = knobs[cur_frame];
-	while (vn != NULL){
-	  vn->value = op[i].op.setknobs.value;
-	  vn = vn->next;
-	}
-	break;
-
       case MOVE:
 	//get the factors
 	xval = op[i].op.move.d[0];
 	yval = op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
 	if (op[i].op.move.p != NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
-	      xval*=vn->value;
-	      yval*=vn->value;
-	      zval*=vn->value;
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -355,12 +336,16 @@ void my_main( int polygons ) {
 	zval = op[i].op.scale.d[2];
 
 	if (op[i].op.scale.p != NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
-	      xval*=vn->value;
-	      yval*=vn->value;
-	      zval*=vn->value;
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -374,10 +359,14 @@ void my_main( int polygons ) {
       case ROTATE:
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
 	if (op[i].op.scale.p == NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
-	      xval*=vn->value;
+	      xval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -408,11 +397,9 @@ void my_main( int polygons ) {
 	break;
       }
     }
-    if (num_frames > 1){
-      save_extension( t, frame_name );
-      clear_screen(t);
-      free_stack( s );
-      free_matrix( tmp );
-    }
+    save_extension( t, frame_name );
+    clear_screen(t);
+    free_stack( s );
+    free_matrix( tmp );
   }
 }
