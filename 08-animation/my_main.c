@@ -78,11 +78,12 @@ void first_pass() {
     }
   }
   if (strlen(name)>0){
-    strcpy(name,"animation");
+    strcpy(name,"basename");
   }
   if (num_knobs>0 && num_frames==1){
     exit(0);
   }
+  printf("%s\n","First pass done!");
 }
 
 /*======== struct vary_node ** second_pass()) ==========
@@ -104,29 +105,29 @@ void first_pass() {
   jdyrlandweaver
   ====================*/
 struct vary_node ** second_pass() {
-  struct vary_node** frames = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
-  struct vary_node* cur;
-  double step;
+  double knobinc;
+  int start,end;
+  struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
+  struct vary_node* temp;
   int i,frame;
   for (i=0;i<lastop;i++){
     if (op[i].opcode == VARY){
+      start = op[i].op.vary.start_frame;
+      end = op[i].op.vary.end_frame;
+      knobinc = (op[i].op.vary.end_val-op[i].op.vary.start_val)/(end - start);
 
-      step = (op[i].op.vary.end_val-op[i].op.vary.start_val)/
-	(op[i].op.vary.end_frame-op[i].op.vary.start_frame);
+      for (frame=start;frame<end;frame++){
 
-      for (frame=op[i].op.vary.start_frame;
-	   frame<op[i].op.vary.end_frame;
-	   frame++){
-
-        cur = (struct vary_node*)malloc(sizeof(struct vary_node));
-	strcpy(cur->name,op[i].op.vary.p->name);
-	cur->value = op[i].op.vary.start_val+step*(frame-op[i].op.vary.start_frame);
-	cur->next = frames[frame];
-	frames[frame]=cur;
+        temp = (struct vary_node*)malloc(sizeof(struct vary_node));
+	strcpy(temp->name,op[i].op.vary.p->name);
+	temp->value = op[i].op.vary.start_val+knobinc*(frame-op[i].op.vary.start_frame);
+	temp->next = list[frame];
+	list[frame]=temp;
       }
     }
   }
-  return frames;
+  printf("%s\n","Second pass done!");
+  return list;
 }
 
 
@@ -202,15 +203,14 @@ void my_main( int polygons ) {
     knobs = second_pass();
   }
 
-  int cur_frame;
+  int current;
   char frame_num_string[4];
   
-  for (cur_frame=0;cur_frame<num_frames-1;cur_frame++){
-    strcpy(frame_name,"animation_frames/");
-    strcat(frame_name,name);
-    sprintf(frame_num_string,"%03d",cur_frame+1);
-    strcat(frame_name,frame_num_string);
-
+  for (current=0;current<num_frames;current++){
+    printf("%s%03d\n","generating frame # ", current);
+    sprintf(frame_name,"./anim/%s%03d.png",name,current);
+    
+    
     s = new_stack();
     tmp = new_matrix(4,0);
     for (i=0;i<lastop;i++) {
@@ -264,36 +264,19 @@ void my_main( int polygons ) {
 	tmp->lastcol = 0;
 	break;
 
-      case SET:
-	vn = knobs[cur_frame];
-	while (vn != NULL){
-	  if (strcmp(vn->name,op[i].op.set.p->name)==0){
-	    vn->value = op[i].op.set.val;
-	  }
-	  vn = vn->next;
-	}
-	break;
-
-      case SETKNOBS:
-	vn = knobs[cur_frame];
-	while (vn != NULL){
-	  vn->value = op[i].op.setknobs.value;
-	  vn = vn->next;
-	}
-	break;
-
       case MOVE:
 	//get the factors
 	xval = op[i].op.move.d[0];
 	yval = op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
 	if (op[i].op.move.p != NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
 	      xval*=vn->value;
 	      yval*=vn->value;
 	      zval*=vn->value;
+	      //printf("x: %f y: %f z: %f \n",xval,yval,zval);
 	    }
 	    vn = vn->next;
 	  }
@@ -314,13 +297,14 @@ void my_main( int polygons ) {
 	zval = op[i].op.scale.d[2];
 
 	if (op[i].op.scale.p != NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
 	      xval*=vn->value;
 	      yval*=vn->value;
 	      zval*=vn->value;
 	    }
+	    //printf("x: %f y: %f z: %f \n",xval,yval,zval);
 	    vn = vn->next;
 	  }
 	}
@@ -333,11 +317,12 @@ void my_main( int polygons ) {
       case ROTATE:
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
 	if (op[i].op.scale.p == NULL){
-	  vn = knobs[cur_frame];
+	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
 	      xval*=vn->value;
 	    }
+	    //printf("x: %f \n", xval);
 	    vn = vn->next;
 	  }
 	}
