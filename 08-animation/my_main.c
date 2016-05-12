@@ -247,8 +247,8 @@ void my_main( int polygons ) {
   char frame_num_string[4];
   
   for (current=0;current<num_frames - 1;current++){
-    printf("%s%3d\n","generating frame # ",current);	
-    sprintf(frame_name,"./anim/%s%3d.png",name,current);
+    printf("%s%03d\n","generating frame # ",current);	
+    sprintf(frame_name,"./anim/%s%03d.png",name,current);
 
     s = new_stack();
     tmp = new_matrix(4,0);
