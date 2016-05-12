@@ -77,7 +77,7 @@ void first_pass() {
       num_knobs+=1;
     }
   }
-  if (strlen(name)>0){
+  if (strlen(name) == 0){
     strcpy(name,"basename");
   }
   if (num_knobs>0 && num_frames==1){
