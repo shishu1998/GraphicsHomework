@@ -217,41 +217,43 @@ void print_knobs() {
   jdyrlandweaver
   ====================*/
 void my_main( int polygons ) {
+ 
   int i, f, j;
   double step;
-  double xval, yval, zval;
-  double knob_value = 1;
-  //struct matrix *transform;
-  //struct matrix *tmp = new_matrix(4, 1000);
-  //struct stack *s = new_stack();
+  double xval, yval, zval, knob_value;
+  struct matrix *transform;
+  struct matrix *tmp;
+  struct stack *s;
   screen t;
   color g;
 
   struct vary_node **knobs;
   struct vary_node *vn;
   char frame_name[128];
+  
   num_frames = 1;
-  first_pass();
   step = 5;
-  // printf("here2\n");
-  if(num_frames>1)
-    knobs = second_pass();
+ 
   g.red = 0;
   g.green = 255;
   g.blue = 255;
-  for(f = 0; f < num_frames; f++){
 
-    //printf("here\n");
-    
-      struct matrix *transform;
-      struct matrix *tmp = new_matrix(4, 1000);
-      struct stack *s = new_stack();
-      for(i = 0; i < lastop; i++){
-      knob_value = 1;
-      if(num_frames>1&&knobs)
-	vn = knobs[f];
-      //printf("here2\n");
+  first_pass();
+  knobs = second_pass();
+
+  int current;
+  char frame_num_string[4];
+  
+  for (current=0;current<num_frames;current++){
+    printf("%s%03d\n","generating frame # ",current);	
+    sprintf(frame_name,"./anim/%s%03d.png",name,current);
+
+    s = new_stack();
+    tmp = new_matrix(4,0);
+    for (i=0;i<lastop;i++) {
+      
       switch (op[i].opcode) {
+
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy
@@ -266,8 +268,8 @@ void my_main( int polygons ) {
 
       case TORUS:
 	add_torus( tmp, op[i].op.torus.d[0], //cx
-		   op[i].op.torus.d[1],     //cy
-		   op[i].op.torus.d[2],    //cz
+		   op[i].op.torus.d[1],      //cy
+		   op[i].op.torus.d[2],      //cz
 		   op[i].op.torus.r0,
 		   op[i].op.torus.r1,
 		   step);
@@ -300,73 +302,76 @@ void my_main( int polygons ) {
 	break;
 
       case MOVE:
-	//printf("MOVING\n");
 	//get the factors
 	xval = op[i].op.move.d[0];
-	yval =  op[i].op.move.d[1];
+	yval = op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
-	
-	while(knobs&&num_frames>1&&vn&&op[i].op.move.p&&strcmp(vn->name,op[i].op.move.p->name))
-	  vn=vn->next;
-	//printf("HERE2\n");
-	
-	if(vn&&op[i].op.move.p){
-	  knob_value = vn->value;
-	  // printf("MOVING WORKS\n");
+	if (op[i].op.move.p != NULL){
+	  vn = knobs[current];
+	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
+	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
+	    }
+	    vn = vn->next;
+	  }
 	}
-	//printf("HERE3\n");
-	xval *=knob_value;
-	yval *=knob_value;
-	zval *=knob_value;
-
-	//printf("%s: %f\n",vn->name,yval);
-	
 	transform = make_translate( xval, yval, zval );
 	//multiply by the existing origin
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
+
 	break;
 
       case SCALE:
-	//printf("SCALING\n");
+
 	xval = op[i].op.scale.d[0];
 	yval = op[i].op.scale.d[1];
 	zval = op[i].op.scale.d[2];
 
-	while(knobs&&num_frames>1&&vn&&op[i].op.scale.p&&strcmp(vn->name,op[i].op.scale.p->name))
-	  vn = vn->next;
-
-	if(vn&&op[i].op.scale.p)
-	  knob_value = vn->value;
-
-	xval *=knob_value;
-	yval *=knob_value;
-	zval *=knob_value;
-	
+	if (op[i].op.scale.p != NULL){
+	  vn = knobs[current];
+	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
+	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
+	    }
+	    vn = vn->next;
+	  }
+	}
 	transform = make_scale( xval, yval, zval );
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
-
       case ROTATE:
-	//printf("ROTATING\n");
-	while(knobs&&num_frames>1&&vn&&op[i].op.rotate.p&&strcmp(vn->name,op[i].op.rotate.p->name)){
-	  vn = vn->next;
+	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
+	if (op[i].op.scale.p == NULL){
+	  vn = knobs[current];
+	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
+	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
+	      xval*=knob_value;
+	    }
+	    vn = vn->next;
+	  }
 	}
-
-	if(vn&&op[i].op.rotate.p){
-	  knob_value = vn->value;
-	  //printf("WORKSSS\n");
-	}
-	    
-	xval = op[i].op.rotate.degrees * ( M_PI / 180 ) * knob_value;
-
-	//printf("%s: %f\n",vn->name,xval);
-
 	//get the axis
 	if ( op[i].op.rotate.axis == 0 ) 
 	  transform = make_rotX( xval );
@@ -374,13 +379,11 @@ void my_main( int polygons ) {
 	  transform = make_rotY( xval );
 	else if ( op[i].op.rotate.axis == 2 ) 
 	  transform = make_rotZ( xval );
-
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
-
       case PUSH:
 	push( s );
 	break;
@@ -394,15 +397,10 @@ void my_main( int polygons ) {
 	display( t );
 	break;
       }
-      //printf("here7\n");
     }
-      //printf("here8\n");
-    //print_symtab();
-    free_stack( s );
-    free_matrix( tmp );
-    //free_matrix( transform );
-    sprintf(frame_name, "./anim/%s%03d.png",name,f);
     save_extension( t, frame_name );
     clear_screen(t);
+    free_stack( s );
+    free_matrix( tmp );
   }
  }
