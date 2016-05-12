@@ -223,19 +223,18 @@ void print_knobs() {
 void my_main( int polygons ) {
 
   int i, f, j;
-  int current;
   double step;
   double xval, yval, zval, knob_value;
   struct matrix *transform;
-  struct matrix *tmp = new_matrix(4, 1000);
-  struct stack *s = new_stack();
+  struct matrix *tmp;
+  struct stack *s;
   screen t;
   color g;
 
   struct vary_node **knobs;
   struct vary_node *vn;
   char frame_name[128];
-
+  
   num_frames = 1;
   step = 5;
  
@@ -244,13 +243,23 @@ void my_main( int polygons ) {
   g.blue = 255;
 
   first_pass();
-  knobs = second_pass();
-  print_knobs();
-  for(current = 0; current < num_frames;current++) {
+  if (num_frames>1){
+    knobs = second_pass();
+  }
 
+  int current;
+  char frame_num_string[4];
+  
+  for (current=0;current<num_frames - 1;current++){
+    printf("%s%3d\n","generating frame # ",current);	
+    sprintf(frame_name,"./anim/%s%3d.png",name,current);
+
+    s = new_stack();
+    tmp = new_matrix(4,0);
     for (i=0;i<lastop;i++) {
-      knob_value = 1;
-      switch(op[i].opcode) {
+      
+      switch (op[i].opcode) {
+
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy
@@ -265,8 +274,8 @@ void my_main( int polygons ) {
 
       case TORUS:
 	add_torus( tmp, op[i].op.torus.d[0], //cx
-		   op[i].op.torus.d[1],     //cy
-		   op[i].op.torus.d[2],    //cz
+		   op[i].op.torus.d[1],      //cy
+		   op[i].op.torus.d[2],      //cz
 		   op[i].op.torus.r0,
 		   op[i].op.torus.r1,
 		   step);
@@ -303,81 +312,72 @@ void my_main( int polygons ) {
 	xval = op[i].op.move.d[0];
 	yval = op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
-
-	if(op[i].op.move.p != NULL) {
+	if (op[i].op.move.p != NULL){
 	  vn = knobs[current];
 	  if(vn && op[i].op.move.p){
 	    knob_value = vn->value;
 	    printf("knob value: %f\n",knob_value);
 	  }
-	  while(vn != NULL){
-	    if(strcmp(vn->name, op[i].op.scale.p->name) == 0) {
-	      xval *= knob_value;
-	      yval *= knob_value;
-	      zval *= knob_value;
-	      printf("x:%f y:%fz:%f\n",xval,yval,zval);
+	  while (vn != NULL){
+	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
+	      xval*=vn->value;
+	      yval*=vn->value;
+	      zval*=vn->value;
 	    }
 	    vn = vn->next;
 	  }
 	}
-	
 	transform = make_translate( xval, yval, zval );
 	//multiply by the existing origin
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
-	
-      
+
 	break;
-	
+
       case SCALE:
+
 	xval = op[i].op.scale.d[0];
 	yval = op[i].op.scale.d[1];
 	zval = op[i].op.scale.d[2];
-	printf("x:%f y:%f z:%f\n",xval,yval,zval);
-	if(op[i].op.scale.p != NULL){
+
+	if (op[i].op.scale.p != NULL){
 	  vn = knobs[current];
 	  if(vn && op[i].op.move.p){
 	    knob_value = vn->value;
 	    printf("knob value: %f\n",knob_value);
 	  }
-	  while(vn){
-	    if(strcmp(vn->name,op[i].op.scale.p->name) == 0){
-	      xval *= knob_value;
-	      yval *= knob_value;
-	      zval *= knob_value;
-	      printf("x:%f y:%f z:%f\n",xval,yval,zval);
+	  while (vn != NULL){
+	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
+	      xval*=vn->value;
+	      yval*=vn->value;
+	      zval*=vn->value;
 	    }
 	    vn = vn->next;
 	  }
 	}
-	
 	transform = make_scale( xval, yval, zval );
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
-
       case ROTATE:
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
-	if(op[i].op.scale.p == NULL){
+	if (op[i].op.scale.p == NULL){
 	  vn = knobs[current];
 	  if(vn && op[i].op.move.p){
 	    knob_value = vn->value;
 	    printf("knob value: %f\n",knob_value);
 	  }
-	  while(vn != NULL){
-	    if(strcmp(vn ->name, op[i].op.rotate.p->name) == 0){
-	      xval *= knob_value;
-	      //printf("x:%f\n",xval);
+	  while (vn != NULL){
+	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
+	      xval*=vn->value;
 	    }
 	    vn = vn->next;
 	  }
 	}
-	
-	
 	//get the axis
 	if ( op[i].op.rotate.axis == 0 ) 
 	  transform = make_rotX( xval );
@@ -385,13 +385,11 @@ void my_main( int polygons ) {
 	  transform = make_rotY( xval );
 	else if ( op[i].op.rotate.axis == 2 ) 
 	  transform = make_rotZ( xval );
-
 	matrix_mult( s->data[ s->top ], transform );
 	//put the new matrix on the top
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
-
       case PUSH:
 	push( s );
 	break;
@@ -406,13 +404,11 @@ void my_main( int polygons ) {
 	break;
       }
     }
-
-    printf("%s%3d\n","generating frame # ",current);
-    free_stack( s );
-    free_matrix( tmp );
-    //free_matrix( transform );
-    sprintf(frame_name,"./anim/%s%3d.png",name,current);
-    save_extension(t,frame_name);
-    clear_screen(t);
+    if (num_frames > 1){
+      save_extension( t, frame_name );
+      clear_screen(t);
+      free_stack( s );
+      free_matrix( tmp );
+    }
   }
 }
