@@ -1,8 +1,8 @@
 frames 50
 basename ball
 push
-move 0 250 0 move1
-move 0 -250 0 move2
+move 0 -250 0 move1
+move 0 250 0 move2
 sphere 250 250 0 100
-vary move1 0 24 0 1
-vary move2 24 49 0 1
+vary move1 0 23 0 1
+vary move2 25 49 0 1
