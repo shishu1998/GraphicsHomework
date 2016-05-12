@@ -1,8 +1,8 @@
 frames 50
 basename hammer
 push
-torus 200 100 0 50 50 100
-torus 200 200 0 50 50 100
+//torus 200 100 0 50 50 100
+//torus 200 200 0 50 50 100
 torus 200 300 0 50 50 100
 box 250 200 0 100 100 100
 rotate y 90 spin
