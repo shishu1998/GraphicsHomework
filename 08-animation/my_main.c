@@ -246,7 +246,7 @@ void my_main( int polygons ) {
   int current;
   char frame_num_string[4];
   
-  for (current=0;current<num_frames - 1;current++){
+  for (current=0;current<num_frames;current++){
     printf("%s%03d\n","generating frame # ",current);	
     sprintf(frame_name,"./anim/%s%03d.png",name,current);
 
