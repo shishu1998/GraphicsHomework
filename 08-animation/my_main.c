@@ -82,30 +82,33 @@
   jdyrlandweaver
   ====================*/
 void first_pass() {
- int i;
-  int f,n,v = 0;
-  for (i = 0; i < lastop; i++){
-    switch (op[i].opcode){
+  int i;
+  int framecheck = 0;
+  int basecheck = 0;
+  int varycheck = 0;
+  for(i=0; i<lastop; i++) { 
+    switch(op[i].opcode) {
       case FRAMES:
+	framecheck = 1;
 	num_frames = op[i].op.frames.num_frames;
-	f = 1;
 	break;
       case BASENAME:
 	strcpy(name,op[i].op.basename.p->name);
-	n = 1;
+	basecheck = 1;
 	break;
       case VARY:
-	v = 1;
+	varycheck = 1;
 	break;
     }
   }
-  if (v && !f)
+  if(!framecheck && varycheck) {
     exit(0);
-  if (f && !n){
-    strcpy(name,"anim");
-    printf("Basename not inputted, using anim as basename.\n");
   }
-  printf("%s\n","First Pass Done");
+  if(framecheck && !basecheck) {
+    strcpy(name, "basename");
+    printf("%s\n", "The temporary basename used is 'basename'");
+  }
+  printf("%s\n","First pass done!");
 }
 
 /*======== struct vary_node ** second_pass()) ==========
