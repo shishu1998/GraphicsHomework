@@ -239,9 +239,7 @@ void my_main( int polygons ) {
   g.blue = 255;
 
   first_pass();
-  if (num_frames>1){
-    knobs = second_pass();
-  }
+  knobs = second_pass();
 
   int current;
   char frame_num_string[4];
@@ -310,15 +308,15 @@ void my_main( int polygons ) {
 	zval = op[i].op.move.d[2];
 	if (op[i].op.move.p != NULL){
 	  vn = knobs[current];
-	  if(vn && op[i].op.move.p){
-	    knob_value = vn->value;
-	    printf("knob value: %f\n",knob_value);
-	  }
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
-	      xval*=vn->value;
-	      yval*=vn->value;
-	      zval*=vn->value;
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -340,15 +338,15 @@ void my_main( int polygons ) {
 
 	if (op[i].op.scale.p != NULL){
 	  vn = knobs[current];
-	  if(vn && op[i].op.move.p){
-	    knob_value = vn->value;
-	    printf("knob value: %f\n",knob_value);
-	  }
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
-	      xval*=vn->value;
-	      yval*=vn->value;
-	      zval*=vn->value;
+	      xval*=knob_value;
+	      yval*=knob_value;
+	      zval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -363,13 +361,13 @@ void my_main( int polygons ) {
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
 	if (op[i].op.scale.p == NULL){
 	  vn = knobs[current];
-	  if(vn && op[i].op.move.p){
-	    knob_value = vn->value;
-	    printf("knob value : %f\n",knob_value);
-	  }
 	  while (vn != NULL){
+	    if(vn && op[i].op.move.p){
+	      knob_value = vn->value;
+	      printf("knob value: %f\n",knob_value);
+	    }
 	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
-	      xval*=vn->value;
+	      xval*=knob_value;
 	    }
 	    vn = vn->next;
 	  }
@@ -400,11 +398,9 @@ void my_main( int polygons ) {
 	break;
       }
     }
-    if (num_frames > 1){
-      save_extension( t, frame_name );
-      clear_screen(t);
-      free_stack( s );
-      free_matrix( tmp );
-    }
+    save_extension( t, frame_name );
+    clear_screen(t);
+    free_stack( s );
+    free_matrix( tmp );
   }
 }
