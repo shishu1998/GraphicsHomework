@@ -209,11 +209,11 @@ void my_main( int polygons ) {
   g.green = 255;
   g.blue = 255;
   for(f = 0; f < num_frames; f++){
-    
-      struct matrix *transform;
-      struct matrix *tmp = new_matrix(4, 1000);
-      struct stack *s = new_stack();
-      for(i = 0; i < lastop; i++){
+    printf("%s%03d\n","generating frame #",f);
+    struct matrix *transform;
+    struct matrix *tmp = new_matrix(4, 1000);
+    struct stack *s = new_stack();
+    for(i = 0; i < lastop; i++){
       knob_value = 1;
       if(num_frames>1&&knobs)
 	vn = knobs[f];
@@ -229,7 +229,7 @@ void my_main( int polygons ) {
 	draw_polygons( tmp, t, g );
 	tmp->lastcol = 0;
 	break;
-
+	
       case TORUS:
 	add_torus( tmp, op[i].op.torus.d[0], //cx
 		   op[i].op.torus.d[1],     //cy

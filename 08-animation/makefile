@@ -1,4 +1,4 @@
-OBJECTS= symtab.o print_pcode.o matrix.o my_main1.o display.o draw.o gmath.o stack.o
+OBJECTS= symtab.o print_pcode.o matrix.o my_main.o display.o draw.o gmath.o stack.o
 CFLAGS= -g
 LDFLAGS= -lm
 CC= gcc
@@ -26,8 +26,8 @@ print_pcode.o: print_pcode.c parser.h matrix.h
 matrix.o: matrix.c matrix.h
 	gcc -c $(CFLAGS) matrix.c
 
-my_main1.o: my_main1.c misc_headers.h print_pcode.c matrix.h display.h ml6.h draw.h stack.h
-	gcc -c $(CFLAGS) my_main1.c
+my_main.o: my_main.c misc_headers.h print_pcode.c matrix.h display.h ml6.h draw.h stack.h
+	gcc -c $(CFLAGS) my_main.c
 
 display.o: display.c display.h ml6.h matrix.h
 	$(CC) $(CFLAGS) -c display.c
