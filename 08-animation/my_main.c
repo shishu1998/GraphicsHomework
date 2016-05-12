@@ -138,7 +138,7 @@ struct vary_node ** second_pass() {
   int start, end;
   struct vary_node** list = (struct vary_node**)malloc(sizeof(struct vary_node*) * num_frames);
   struct vary_node* temp;
-  int i;
+  int i,frame;
   for(i = 0; i < num_frames; i++) {
     switch(op[i].opcode) {
     case VARY:
@@ -146,15 +146,11 @@ struct vary_node ** second_pass() {
       end = op[i].op.vary.end_frame;
       knobinc = (op[i].op.vary.end_val - op[i].op.vary.start_val) / (end - start);
       temp = (struct vary_node*)malloc(sizeof(struct vary_node));
-      temp->value = op[i].op.vary.start_val;
-      strcpy(temp->name, op[i].op.vary.p->name);
-      list[start] = temp;
-      start ++;
-      for(start; start < end; start ++){
+      for(frame = start; frame < end; frame ++){
 	strcpy(temp->name, op[i].op.vary.p->name);
-	temp->value = list[start-1]->value + knobinc;
-	list[start -1]->next = temp;
-	list[start] = temp;
+	temp->value = op[i].op.vary.start_val + knobinc * (frame - start);
+	temp->next = list[frame];
+	list[frame] = temp;
       }
       break;
     }
@@ -369,7 +365,7 @@ void my_main( int polygons ) {
 	  vn = knobs[current];
 	  if(vn && op[i].op.move.p){
 	    knob_value = vn->value;
-	    printf("knob value: %f\n",knob_value);
+	    printf("knob value : %f\n",knob_value);
 	  }
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
