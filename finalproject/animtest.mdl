@@ -1,0 +1,13 @@
+frames 20
+basename ball
+push
+move 150 0 0 move1
+move 0 -150 0 move2
+sphere 100 250 0 100
+rotate y 180 spinny1
+rotate x 90 spinny2
+vary move1 0 19 0 1
+vary move2 0 9 0 1
+vary move2 10 19 1 0
+vary spinny1 0 19 0 1
+vary spinny2 0 19 0 1
