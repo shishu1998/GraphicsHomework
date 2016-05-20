@@ -74,7 +74,29 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c ) {
- 
+  /*
+  int bot,mid,top,temp;
+  bot=0;
+  for (temp=0;temp<3;temp++){
+    if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
+      bot = temp;
+    }
+  }
+  top=0;
+  for (temp=0;temp<3;temp++){
+    if (polygons->m[1][i+temp]>polygons->m[1][i+top]){
+      top = temp;
+    }
+  }
+  for (temp=0;temp<3;temp++){
+    if (temp!=top && temp!=bot){
+      mid=temp;
+    }
+  }
+  polygons->m[0][i+bot],polygons->m[1][i+bot] is bottom point
+  polygons->m[0][i+mid],polygons->m[1][i+mid] is middle point
+  polygons->m[0][i+top],polygons->m[1][i+top] is top point
+  */
   int botindex,midindex,topindex;
   for( i = 0; i < polygons ->lastcol-2; i +=3){
     if(polygons[1][i] >= polygons[1][i+1] && polygons[1][i] >= polygons[1][i+2]){
