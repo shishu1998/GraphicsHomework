@@ -74,37 +74,62 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c ) {
-  /*
+
   int bot,mid,top,temp;
-  bot=0;
-  for (temp=0;temp<3;temp++){
-    if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
-      bot = temp;
+  double BT,BM,X1,X2,Y1,Y2;
+  double botX,botY,midX,midY,topX,topY;
+  //Not sure if this is the right for loop to use but oh wells
+  for(i = 0; i < polygons->lastcol-2; i+=3){
+    bot=0;
+    for (temp=0;temp<3;temp++){
+      if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
+	bot = temp;
+      }
+    }
+    top=0;
+    for (temp=0;temp<3;temp++){
+      if (polygons->m[1][i+temp]>polygons->m[1][i+top]){
+	top = temp;
+      }
+    }
+    for (temp=0;temp<3;temp++){
+      if (temp!=top && temp!=bot){
+	mid=temp;
+      }
+    }
+    //polygons->m[0][i+bot],polygons->m[1][i+bot] is bottom point
+    //polygons->m[0][i+mid],polygons->m[1][i+mid] is middle point
+    //polygons->m[0][i+top],polygons->m[1][i+top] is top point
+    botX = polygons->m[0][i+bot];
+    botY = polygons->m[1][i+bot];
+    midX = polygons->m[0][i+mid];
+    midY = polygons->m[1][i+mid];
+    topX = polygons->m[0][i+top];
+    topY = polygons->m[1][i+top];
+    //initial slopes BT = bot to top BM = bot to Mid
+    BT = (topX - botX)/(topY - botY);
+    BM = (midX - botX)/(midY - botY);
+    //Cooridinates that we'll be working with
+    X1 = botX;
+    X2 = botX;
+    Y1 = botY;
+    Y2 = botY;
+    while(Y1 < topY){
+      draw_line(X1,Y1,X2,Y2,s,c);
+      //When it reaches the middle, not sure if it can go over but just in case
+      if(Y2 >= midY){
+	BM = (topX - midX)/(topY - midY);
+      }
+      Y1 += 1;
+      Y2 += 1;
+      X1 += BT;
+      X2 += BM;
     }
   }
-  top=0;
-  for (temp=0;temp<3;temp++){
-    if (polygons->m[1][i+temp]>polygons->m[1][i+top]){
-      top = temp;
-    }
-  }
-  for (temp=0;temp<3;temp++){
-    if (temp!=top && temp!=bot){
-      mid=temp;
-    }
-  }
-  polygons->m[0][i+bot],polygons->m[1][i+bot] is bottom point
-  polygons->m[0][i+mid],polygons->m[1][i+mid] is middle point
-  polygons->m[0][i+top],polygons->m[1][i+top] is top point
-  */
-  int botindex,midindex,topindex;
-  for( i = 0; i < polygons ->lastcol-2; i +=3){
-    if(polygons[1][i] >= polygons[1][i+1] && polygons[1][i] >= polygons[1][i+2]){
-      topindex = i;
-    }
-   
-  }
+  
+  
 }
+
 
 
 /*======== void add_sphere() ==========
