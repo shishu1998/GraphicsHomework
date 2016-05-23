@@ -74,7 +74,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c ) {
-
+  int i;
   int bot,mid,top,temp;
   double BT,BM,X1,X2,Y1,Y2;
   double botX,botY,midX,midY,topX,topY;

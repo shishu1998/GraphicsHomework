@@ -269,7 +269,7 @@ void my_main( int polygons ) {
 	xval = op[i].op.move.d[0];
 	yval = op[i].op.move.d[1];
 	zval = op[i].op.move.d[2];
-	if (op[i].op.move.p != NULL){
+	if (op[i].op.move.p != NULL && num_frames>1){
 	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
@@ -296,7 +296,7 @@ void my_main( int polygons ) {
 	yval = op[i].op.scale.d[1];
 	zval = op[i].op.scale.d[2];
 
-	if (op[i].op.scale.p != NULL){
+	if (op[i].op.scale.p != NULL && num_frames>1){
 	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.scale.p->name)==0){
@@ -316,7 +316,7 @@ void my_main( int polygons ) {
 	break;
       case ROTATE:
 	xval = op[i].op.rotate.degrees * ( M_PI / 180 );
-	if (op[i].op.scale.p == NULL){
+	if (op[i].op.scale.p == NULL && num_frames>1){
 	  vn = knobs[current];
 	  while (vn != NULL){
 	    if (strcmp(vn->name,op[i].op.rotate.p->name)==0){
@@ -348,7 +348,9 @@ void my_main( int polygons ) {
 	save_extension( t, op[i].op.save.p->name );
 	break;
       case DISPLAY:
+	printf("HILO\n");
 	display( t );
+	printf("HI\n");
 	break;
       }
     }

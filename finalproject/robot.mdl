@@ -12,3 +12,4 @@ move 100 150 0
 rotate x 65
 box 0 0 30 40 200 60
 display
+exit
