@@ -71,7 +71,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 		 s, c);
     }
   }
-  //scanline_conversion(polygons,s,c);
+  //  scanline_conversion(polygons,s,c);
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c ) {
@@ -115,20 +115,25 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
     X2 = botX;
     Y1 = botY;
     Y2 = botY;
-    while(Y1 < topY){
+    while (Y2 < midY){
+      printf("SOMETHING GOOFED %lf and %lf  < %lf\n",Y1,Y2,topY);
       draw_line(X1,Y1,X2,Y2,s,c);
-      //When it reaches the middle, not sure if it can go over but just in case
-      if(Y2 >= midY){
-	BM = (topX - midX)/(topY - midY);
-      }
       Y1 += 1;
       Y2 += 1;
       X1 += BT;
       X2 += BM;
     }
+    BM = (topX - midX)/(topY - midY);
+    while (Y2 < topY){printf("SOMETHING GOOFED %lf and %lf  < %lf\n",Y1,Y2,topY);
+      
+      draw_line(X1,Y1,X2,Y2,s,c);
+      Y1 += 1;
+      Y2 += 1;
+      X1 += BT;
+      X2 += BM;
+    }
+    printf("--------------------------%d------------------------\n",i);
   }
-  
-  
 }
 
 
