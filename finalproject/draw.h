@@ -20,6 +20,7 @@ void add_polygons( struct matrix * points,
 		   double x2, double y2, double z2);
 void draw_lines( struct matrix * points, screen s, color c);
 void draw_polygons( struct matrix * points, screen s, color c);
+void scaneline_conversion(struct matrix* points, screen s, color c);
 
 //advanced shapes
 void add_circle( struct matrix * points, 

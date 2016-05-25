@@ -124,7 +124,6 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       X1 += BT;
       X2 += BM;
     }
-    printf("--------------------------%d of %d------------------------\n",i,polygons->lastcol);
   }
 }
 
