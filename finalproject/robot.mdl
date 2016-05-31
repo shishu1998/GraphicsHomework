@@ -1,5 +1,8 @@
 push
 move 250 200 0
+rotate z 45
+rotate x 45
+rotate y 45
 rotate y 360 body
 box -100 150 40 200 300 80
 push

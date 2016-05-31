@@ -49,7 +49,9 @@ triangles
 jdyrlandweaver
 ====================*/
 void draw_polygons( struct matrix *polygons, screen s, color c ) {
-  
+  c.red=100;
+  scanline_conversion(polygons,s,c);
+  c.red=255;
   int i;  
   for( i=0; i < polygons->lastcol-2; i+=3 ) {
 
@@ -71,7 +73,6 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 		 s, c);
     }
   }
-  scanline_conversion(polygons,s,c);
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c ) {
@@ -110,16 +111,16 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       BM = (midX - botX)/(midY - botY);
       //Cooridinates that we'll be working with
       X1 = botX;
-      X2 = (int)(botY-midY)<0?botX:midX;
+      X2 = (ceil)(botY-midY)<0?botX:midX;
       Y = botY;
-      while ((int)(midY-Y) > 0){
+      while ((int)(midY) > (int)(Y)){
 	draw_line(X1,Y,X2,Y,s,c);
 	Y += 1;
 	X1 += BT;
 	X2 += BM;
       }
       BM = (topX - midX)/(topY - midY);
-      while ((int)(topY-Y) > 0){
+      while ((int)(topY) > (int)(Y)){
 	draw_line(X1,Y,X2,Y,s,c);
 	Y += 1;
 	X1 += BT;
