@@ -81,6 +81,12 @@ void plot( screen s, color c, int x, int y) {
     s[x][newy] = c;
 }
 
+void zplot( screen s, color c, int row, int column, double x, double y, double z, struct matrix * buffer){
+  if(z > buffer->m[row][column]){
+    buffer->m[row][column] = z;
+    plot(s,c,(int)x, (int)y);
+  }
+}
 /*======== void clear_screen() ==========
 Inputs:   screen s  
 Returns: 

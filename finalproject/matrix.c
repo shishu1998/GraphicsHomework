@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include <float.h>
 #include "matrix.h"
 
 /*-------------- struct matrix *new_matrix() --------------
@@ -32,6 +32,26 @@ struct matrix *new_matrix(int rows, int cols) {
   return m;
 }
 
+
+struct matrix *new_Zmatrix(int rows, int cols) {
+  double **tmp;
+  int i;
+  struct matrix *m;
+
+  tmp = (double **)malloc(rows * sizeof(double *));
+  for (i=0;i<rows;i++) {
+      tmp[i]=(double *)malloc(cols * sizeof(double));
+      tmp[i]= -DBL_MAX;
+  }
+
+  m=(struct matrix *)malloc(sizeof(struct matrix));
+  m->m=tmp;
+  m->rows = rows;
+  m->cols = cols;
+  m->lastcol = 0;
+
+  return m;
+}
 
 /*-------------- void free_matrix() --------------
 Inputs:  struct matrix *m 
