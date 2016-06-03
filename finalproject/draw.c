@@ -111,16 +111,19 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       BM = (midX - botX)/(midY - botY);
       //Cooridinates that we'll be working with
       X1 = botX;
-      X2 = (ceil)(botY-midY)<0?botX:midX;
+      X2 = botY<midY?botX:midX;
       Y = botY;
-      while ((int)(midY) > (int)(Y)){
+      while (midY > Y){
 	draw_line(X1,Y,X2,Y,s,c);
 	Y += 1;
 	X1 += BT;
 	X2 += BM;
+	if (fabs(X2-botX)>fabs(midX-botX)){
+	  X2=midX;
+	}
       }
       BM = (topX - midX)/(topY - midY);
-      while ((int)(topY) > (int)(Y)){
+      while (topY > Y){
 	draw_line(X1,Y,X2,Y,s,c);
 	Y += 1;
 	X1 += BT;
@@ -129,7 +132,6 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
     }
   }
 }
-
 
 
 /*======== void add_sphere() ==========
