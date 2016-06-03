@@ -10,6 +10,7 @@ for red, green and blue respectively
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "matrix.h"
 #include "ml6.h"
 #include "display.h"
 
@@ -81,9 +82,10 @@ void plot( screen s, color c, int x, int y) {
     s[x][newy] = c;
 }
 
-void zplot( screen s, color c, int row, int column, double x, double y, double z, struct matrix * buffer){
-  if(z > buffer->m[row][column]){
-    buffer->m[row][column] = z;
+void Zplot( screen s, color c, int x, int y, double z, struct matrix * zbuffer){
+  int newy = YRES - 1 - y;
+  if(z > zbuffer->m[x][newy]){
+    zbuffer->m[x][newy] = z;
     plot(s,c,(int)x, (int)y);
   }
 }

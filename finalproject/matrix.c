@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <float.h>
+#include <limits.h>
 #include "matrix.h"
 
 /*-------------- struct matrix *new_matrix() --------------
@@ -41,7 +41,7 @@ struct matrix *new_Zmatrix(int rows, int cols) {
   tmp = (double **)malloc(rows * sizeof(double *));
   for (i=0;i<rows;i++) {
       tmp[i]=(double *)malloc(cols * sizeof(double));
-      tmp[i]= -DBL_MAX;
+      tmp[i]= LONG_MIN;
   }
 
   m=(struct matrix *)malloc(sizeof(struct matrix));

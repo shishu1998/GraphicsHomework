@@ -757,3 +757,187 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
   }
 }
 
+void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, color c, struct matrix * zbuffer) {
+ 
+  int x, y, z,d, dx, dy, dz;
+  int steps;
+  double increment;
+
+  x = x0;
+  y = y0;
+  z = z0;
+
+  //swap points so we're always draing left to right
+  if ( x0 > x1 ) {
+    x = x1;
+    y = y1;
+    x1 = x0;
+    y1 = y0;
+    z1 = z0;
+  }
+
+  //need to know dx and dy for this version
+  dx = (x1 - x) * 2;
+  dy = (y1 - y) * 2;
+
+  //positive slope: Octants 1, 2 (5 and 6)
+  if ( dy > 0 ) {
+
+    //slope < 1: Octant 1 (5)
+    if ( dx > dy ) {
+      d = dy - ( dx / 2 );
+      steps = x1 - x;
+      increment = (z1 - z)/steps;
+      while ( x <= x1 ) {
+	Zplot(s, c, x, y, z,zbuffer);
+	z = z + increment;
+	if ( d < 0 ) {
+	  x = x + 1;
+	  d = d + dy;
+	}
+	else {
+	  x = x + 1;
+	  y = y + 1;
+	  d = d + dy - dx;
+	}
+      }
+    }
+
+    //slope > 1: Octant 2 (6)
+    else {
+      d = ( dy / 2 ) - dx;
+      steps = y1 - y;
+      increment = (z1 - z)/steps;
+      while ( y <= y1 ) {
+	Zplot(s, c, x, y, z,zbuffer);
+	z = z + increment;
+	if ( d > 0 ) {
+	  y = y + 1;
+	  d = d - dx;
+	}
+	else {
+	  y = y + 1;
+	  x = x + 1;
+	  d = d + dy - dx;
+	}
+      }
+    }
+  }
+
+  //negative slope: Octants 7, 8 (3 and 4)
+  else { 
+
+    //slope > -1: Octant 8 (4)
+    if ( dx > abs(dy) ) {
+
+      d = dy + ( dx / 2 );
+      
+      steps = x1 - x;
+      increment = (z1 - z)/steps;
+      while ( x <= x1 ) {
+	Zplot(s, c, x, y, z,zbuffer);
+	z = z + increment;
+	if ( d > 0 ) {
+	  x = x + 1;
+	  d = d + dy;
+	}
+	else {
+	  x = x + 1;
+	  y = y - 1;
+	  d = d + dy + dx;
+	}
+      }
+    }
+
+    //slope < -1: Octant 7 (3)
+    else {
+
+      d =  (dy / 2) + dx;
+      steps = y - y1;
+      increment = (z1 - z)/steps;
+      while ( y >= y1 ) {
+        Zplot(s, c, x, y, z,zbuffer);
+	z = z + increment;
+	if ( d < 0 ) {
+	  y = y - 1;
+	  d = d + dx;
+	}
+	else {
+	  y = y - 1;
+	  x = x + 1;
+	  d = d + dy + dx;
+	}
+      }
+    }
+  }
+}
+
+void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbuffer) {
+
+  int i;
+ 
+  if ( points->lastcol < 2 ) {
+    
+    printf("Need at least 2 points to draw a line!\n");
+    return;
+  }
+
+  for ( i = 0; i < points->lastcol - 1; i+=2 ) {
+
+    Zdraw_line( points->m[0][i], points->m[1][i], points->m[2][i], 
+		points->m[0][i+1], points->m[1][i+1], points->m[2][i+1], s, c, zbuffer);
+    //FOR DEMONSTRATION PURPOSES ONLY
+    //draw extra pixels so points can actually be seen    
+    /*
+      draw_line( points->m[0][i]+1, points->m[1][i], 
+      points->m[0][i+1]+1, points->m[1][i+1], s, c);
+      draw_line( points->m[0][i], points->m[1][i]+1, 
+      points->m[0][i+1], points->m[1][i+1]+1, s, c);
+      draw_line( points->m[0][i]-1, points->m[1][i], 
+      points->m[0][i+1]-1, points->m[1][i+1], s, c);
+      draw_line( points->m[0][i], points->m[1][i]-1, 
+      points->m[0][i+1], points->m[1][i+1]-1, s, c);
+      draw_line( points->m[0][i]+1, points->m[1][i]+1, 
+      points->m[0][i+1]+1, points->m[1][i+1]+1, s, c);
+      draw_line( points->m[0][i]-1, points->m[1][i]+1, 
+      points->m[0][i+1]-1, points->m[1][i+1]+1, s, c);
+      draw_line( points->m[0][i]-1, points->m[1][i]-1, 
+      points->m[0][i+1]-1, points->m[1][i+1]-1, s, c);
+      draw_line( points->m[0][i]+1, points->m[1][i]-1, 
+      points->m[0][i+1]+1, points->m[1][i+1]-1, s, c);
+    */
+  } 	       
+}
+
+void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer) {
+  c.red=100;
+  scanline_conversion(polygons,s,c);
+  c.red=255;
+  int i;  
+  for( i=0; i < polygons->lastcol-2; i+=3 ) {
+
+    if ( calculate_dot( polygons, i ) < 0 ) {
+      Zdraw_line( polygons->m[0][i],
+		 polygons->m[1][i],
+		  polygons->m[2][i],
+		 polygons->m[0][i+1],
+		 polygons->m[1][i+1],
+		  polygons->m[2][i+1],
+		  s, c, zbuffer);
+      Zdraw_line( polygons->m[0][i+1],
+		 polygons->m[1][i+1],
+		  polygons->m[2][i+1],
+		 polygons->m[0][i+2],
+		 polygons->m[1][i+2],
+		  polygons->m[2][i+2],
+		  s, c, zbuffer);
+      Zdraw_line( polygons->m[0][i+2],
+		 polygons->m[1][i+2],
+		  polygons->m[2][i+2],
+		 polygons->m[0][i],
+		 polygons->m[1][i],
+		  polygons->m[2][i],
+		  s, c, zbuffer);
+    }
+  }
+}
