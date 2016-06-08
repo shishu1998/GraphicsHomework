@@ -294,6 +294,8 @@ void my_main( int polygons ) {
   double xval, yval, zval, knob_value;
   struct matrix *transform;
   struct matrix *tmp;
+  struct matrix *zbuffer = new_Zmatrix(XRES,YRES);
+  //print_matrix(zbuffer);
   struct stack *s;
   screen t;
   color g;
@@ -357,8 +359,9 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	draw_polygons( tmp, t, g );
+	Zdraw_polygons( tmp, t, g ,zbuffer);
 	tmp->lastcol = 0;
+	printf("%s\n","drawing sphere");
 	break;
 
       case TORUS:
@@ -369,8 +372,9 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	draw_polygons( tmp, t, g );
+	Zdraw_polygons( tmp, t, g ,zbuffer);
 	tmp->lastcol = 0;
+	printf("%s\n","drawing torus");
 	break;
 
       case BOX:
@@ -381,8 +385,9 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	draw_polygons( tmp, t, g );
+	Zdraw_polygons( tmp, t, g ,zbuffer);
 	tmp->lastcol = 0;
+	printf("%s\n","drawing box");
 	break;
 
       case LINE:
@@ -392,7 +397,7 @@ void my_main( int polygons ) {
 		  op[i].op.line.p1[0],
 		  op[i].op.line.p1[1],
 		  op[i].op.line.p1[1]);
-	draw_lines( tmp, t, g );
+	Zdraw_lines( tmp, t, g ,zbuffer);
 	tmp->lastcol = 0;
 	break;
 

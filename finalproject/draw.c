@@ -773,6 +773,7 @@ void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, co
   if ( x0 > x1 ) {
     x = x1;
     y = y1;
+    z = z1;
     x1 = x0;
     y1 = y0;
     z1 = z0;
@@ -790,7 +791,9 @@ void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, co
       d = dy - ( dx / 2 );
       steps = x1 - x;
       increment = (z1 - z)/steps;
+      //printf("%s\n","drawing line1");
       while ( x <= x1 ) {
+	//printf("%d,%d,%g\n",x,y,z);
 	Zplot(s, c, x, y, z,zbuffer);
 	z = z + increment;
 	if ( d < 0 ) {
@@ -810,7 +813,9 @@ void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, co
       d = ( dy / 2 ) - dx;
       steps = y1 - y;
       increment = (z1 - z)/steps;
+      //printf("%s\n","drawing line2");
       while ( y <= y1 ) {
+	//printf("%d,%d,%g\n",x,y,z);
 	Zplot(s, c, x, y, z,zbuffer);
 	z = z + increment;
 	if ( d > 0 ) {
@@ -836,7 +841,9 @@ void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, co
       
       steps = x1 - x;
       increment = (z1 - z)/steps;
+      //printf("%s\n","drawing line3");
       while ( x <= x1 ) {
+	//printf("%d,%d,%g\n",x,y,z);
 	Zplot(s, c, x, y, z,zbuffer);
 	z = z + increment;
 	if ( d > 0 ) {
@@ -857,7 +864,9 @@ void Zdraw_line(int x0, int y0, double z0,int x1, int y1, double z1,screen s, co
       d =  (dy / 2) + dx;
       steps = y - y1;
       increment = (z1 - z)/steps;
+      //printf("%s\n","drawing line4");
       while ( y >= y1 ) {
+	//printf("%d,%d,%g\n",x,y,z);
         Zplot(s, c, x, y, z,zbuffer);
 	z = z + increment;
 	if ( d < 0 ) {
@@ -883,7 +892,7 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
     printf("Need at least 2 points to draw a line!\n");
     return;
   }
-
+  // printf("%s\n","drawing lines");
   for ( i = 0; i < points->lastcol - 1; i+=2 ) {
 
     Zdraw_line( points->m[0][i], points->m[1][i], points->m[2][i], 
@@ -908,14 +917,15 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
       draw_line( points->m[0][i]+1, points->m[1][i]-1, 
       points->m[0][i+1]+1, points->m[1][i+1]-1, s, c);
     */
-  } 	       
+  }
 }
 
 void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer) {
   c.red=100;
   scanline_conversion(polygons,s,c);
   c.red=255;
-  int i;  
+  int i;
+  //printf("%s\n","drawing polygon");
   for( i=0; i < polygons->lastcol-2; i+=3 ) {
 
     if ( calculate_dot( polygons, i ) < 0 ) {

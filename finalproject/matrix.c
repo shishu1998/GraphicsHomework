@@ -36,12 +36,12 @@ struct matrix *new_matrix(int rows, int cols) {
 struct matrix *new_Zmatrix(int rows, int cols) {
   double **tmp;
   int i;
+  int a; int b;
   struct matrix *m;
 
   tmp = (double **)malloc(rows * sizeof(double *));
   for (i=0;i<rows;i++) {
       tmp[i]=(double *)malloc(cols * sizeof(double));
-      *tmp[i]= -1 * DBL_MAX;
   }
 
   m=(struct matrix *)malloc(sizeof(struct matrix));
@@ -49,7 +49,11 @@ struct matrix *new_Zmatrix(int rows, int cols) {
   m->rows = rows;
   m->cols = cols;
   m->lastcol = 0;
-
+  for(a = 0;a < rows; a ++){
+    for(b = 0;b < rows; b ++){
+      m->m[a][b] = -1 * DBL_MAX;
+    }
+  }
   return m;
 }
 
