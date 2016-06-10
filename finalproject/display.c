@@ -84,12 +84,22 @@ void plot( screen s, color c, int x, int y) {
 
 void Zplot( screen s, color c, int x, int y, double z, struct matrix * zbuffer){
   int newy = YRES - 1 - y;
+  color temp;
   if(x >= 0 && x < XRES && newy >=0 && newy < YRES && z > zbuffer->m[x][newy]){
-    printf("%s%g\n","plotting",z);
-    printf("%g\n",zbuffer->m[x][newy]);
+    //printf("%s%g\n","plotting",z);
+    //printf("%g\n",zbuffer->m[x][newy]);
     zbuffer->m[x][newy] = z;
-    printf("%g\n",zbuffer->m[x][newy]);
-    s[x][newy] = c;
+    //printf("%g\n",zbuffer->m[x][newy]);
+    if(c.red >= 255){
+      c.red = 255;
+    }
+    if(c.green >= 255){
+      c.green = 255;
+    }
+    if(c.blue >= 255){
+      c.blue = 255;
+    }
+    s[x][newy] = temp;
   }
   /*
   else if(x >= 0 && x < XRES && newy >=0 && newy < YRES){

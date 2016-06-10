@@ -289,6 +289,7 @@ void process_knobs() {
   ====================*/
 void my_main( int polygons ) {
 
+  int red,green,blue;
   int i, f, j;
   double step;
   double xval, yval, zval, knob_value;
@@ -465,7 +466,14 @@ void my_main( int polygons ) {
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
-
+      case AMBIENT:
+	red = op[i].op.ambient.c[0]; 
+	green = op[i].op.ambient.c[1];
+	blue = op[i].op.ambient.c[2];
+	g.red += red;
+	g.green += green;
+	g.blue += blue;
+	break;
       case PUSH:
 	push( s );
 	break;
