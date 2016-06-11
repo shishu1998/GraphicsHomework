@@ -113,7 +113,7 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       //Cooridinates that we'll be working with
       X1 = botX;
       X2 = botY<midY?botX:midX;
-      Y = botY;
+      Y = (int)botY;
       while (midY > Y){
 	draw_line(X1,Y,X2,Y,s,c);
 	Y += 1;
