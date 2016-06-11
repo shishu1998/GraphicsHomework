@@ -3,9 +3,10 @@
 #include <math.h>
 
 #include "ml6.h"
+#include "matrix.h"
 #include "display.h"
 #include "draw.h"
-#include "matrix.h"
+#include "symtab.h"
 #include "gmath.h"
 
 /*======== void add_polygon() ==========

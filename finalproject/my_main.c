@@ -290,6 +290,10 @@ void process_knobs() {
 void my_main( int polygons ) {
 
   int red,green,blue;
+  double kambient,kdiffuse,kspecular;
+  kambient = 1.0;
+  kdiffuse = 1.0;
+  kspecular = 1.0;
   int i, f, j;
   double step;
   double xval, yval, zval, knob_value;

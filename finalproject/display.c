@@ -93,11 +93,20 @@ void Zplot( screen s, color c, int x, int y, double z, struct matrix * zbuffer){
     if(c.red >= 255){
       c.red = 255;
     }
+    else if(c.red <= 0){
+      c.red = 0;
+    }
     if(c.green >= 255){
       c.green = 255;
     }
+    else if(c.green <= 0){
+      c.green = 0;
+    }
     if(c.blue >= 255){
       c.blue = 255;
+    }
+    else if(c.blue <= 0){
+      c.blue = 0;
     }
     s[x][newy] = temp;
   }
