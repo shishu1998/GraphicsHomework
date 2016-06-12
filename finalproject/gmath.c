@@ -103,9 +103,9 @@ color calculate_diffuse(struct light* l,color light, struct constants* constants
   L[2] = l->l[2]-pointz;
   double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
-  light.red = ((double)(light.red))* scalar * constants->red;
-  light.green = ((double)(light.green))* scalar * constants->green;
-  light.blue = ((double)(light.blue))* scalar * constants->blue;
+  light.red = ((double)(l->c[0]))* scalar * constants->red;
+  light.green = ((double)(l->c[1]))* scalar * constants->green;
+  light.blue = ((double)(l->c[2]))* scalar * constants->blue;
   light.red = light.red<255? light.red : 255;
   light.red = light.red>0? light.red : 0;
   light.green = light.green<255? light.green : 255;

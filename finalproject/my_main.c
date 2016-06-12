@@ -304,7 +304,9 @@ void my_main( int polygons ) {
   struct stack *s;
   screen t;
   color g;
-  struct light* light;
+  struct light* light=(struct light*)malloc(sizeof(struct light));
+  light->l[0]=0;light->l[1]=0;light->l[2]=0;
+  light->c[0]=0;light->c[0]=0;light->c[0]=0;
   struct constants* constants=(struct constants*)malloc(sizeof(struct constants));
   constants->red=1.0;constants->blue=1.0;constants->green=1.0;
   struct vary_node **knobs;
