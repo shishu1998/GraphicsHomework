@@ -49,7 +49,7 @@ triangles
 04/16/13 13:13:27
 jdyrlandweaver
 ====================*/
-void draw_polygons( struct matrix *polygons, screen s, color c) {
+void draw_polygons( struct matrix *polygons, screen s, color c, double vx,double vy, double vz) {
   c.red=100;
   //scanline_conversion(polygons,s,c);
   c.red=255;
@@ -58,7 +58,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c) {
   double* normal;
   for( i=0; i < polygons->lastcol-2; i+=3 ) {
 
-    if ( calculate_dot( polygons, i ) < 0 ) {
+    if ( calculate_dot( polygons, i ,vx, vy, vz) < 0 ) {
       draw_line( polygons->m[0][i],
 		 polygons->m[1][i],
 		 polygons->m[0][i+1],
@@ -80,7 +80,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c) {
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c , 
-			  struct light* light, struct constants* constants) {
+			  struct light* light, struct constants* constants, double vx, double vy, double vz) {
   int i;
   int bot,mid,top,temp;
   double ax,ay,az,bx,by,bz;
@@ -90,7 +90,7 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ,
   //Not sure if this is the right for loop to use but oh wells
   color shaded;
   for(i = 0; i < polygons->lastcol-2; i+=3){
-    if ( calculate_dot( polygons, i ) < 0 ) {
+    if ( calculate_dot( polygons, i ,vx, vy, vz) < 0 ) {
 
 	ax = polygons->m[0][i+1] - polygons->m[0][i];
 	ay = polygons->m[1][i+1] - polygons->m[1][i];
@@ -942,8 +942,8 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
 }
 
 void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer, 
-		     struct light* light, struct constants* constants ) {
-  scanline_conversion(polygons,s,c,light,constants);
+		     struct light* light, struct constants* constants , double vx, double vy, double vz) {
+  scanline_conversion(polygons,s,c,light,constants,vx,vy,vz);
   int i;
   double ax,ay,az,bx,by,bz;
   double* normal;

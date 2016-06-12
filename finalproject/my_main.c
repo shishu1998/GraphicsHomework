@@ -290,10 +290,10 @@ void process_knobs() {
 void my_main( int polygons ) {
 
   int red,green,blue;
-  double kambient,kdiffuse,kspecular;
-  kambient = 1.0;
-  kdiffuse = 1.0;
-  kspecular = 1.0;
+  double vx,vy,vz;
+  vx = 0;
+  vy = 0;
+  vz = -1;
   int i, f, j;
   double step;
   double xval, yval, zval, knob_value;
@@ -367,7 +367,11 @@ void my_main( int polygons ) {
       case LIGHT:
 	light=lookup_symbol(op[i].op.light.p->name)->s.l;
 	break;
-	
+      case CAMERA:
+	vx = op[i].op.camera.eye[0] - op[i].op.camera.aim[0];
+	vy = op[i].op.camera.eye[1] - op[i].op.camera.aim[1];
+	vz = op[i].op.camera.eye[2] - op[i].op.camera.aim[2];
+	break;
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy
@@ -376,7 +380,7 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing sphere");
 	break;
@@ -389,7 +393,7 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -402,7 +406,7 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,light, constants);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing box");
 	break;

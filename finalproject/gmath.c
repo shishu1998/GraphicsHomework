@@ -46,11 +46,10 @@ double * calculate_normal( double ax, double ay, double az,
   04/17/12 16:38:34
   jonalf
   ====================*/
-double calculate_dot( struct matrix *points, int i ) {
+double calculate_dot( struct matrix *points, double vx, double vy, double vz,int i ) {
 
   double ax, ay, az, bx, by, bz;
   double *normal;
-  double vx, vy, vz;
   double dot;
 
   //calculate A and B vectors
@@ -64,11 +63,6 @@ double calculate_dot( struct matrix *points, int i ) {
 
   //get the surface normal
   normal = calculate_normal( ax, ay, az, bx, by, bz );
-  
-  //set up view vector
-  vx = 0;
-  vy = 0;
-  vz = -1;
 
   //calculate dot product
   dot = normal[0] * vx + normal[1] * vy + normal[2] * vz;

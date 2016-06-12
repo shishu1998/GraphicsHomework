@@ -5,3 +5,4 @@ rotate x 45
 rotate y 45
 torus 0 0 0 150 250
 display
+quit
