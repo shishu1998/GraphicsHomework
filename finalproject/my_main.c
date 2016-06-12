@@ -314,7 +314,7 @@ void my_main( int polygons ) {
   step = 5;
  
   g.red = 0;
-  g.green = 255;
+  g.green = 155;
   g.blue = 255;
 
 
@@ -359,9 +359,6 @@ void my_main( int polygons ) {
 
       case LIGHT:
 	light=lookup_symbol(op[i].op.light.p->name)->s.l;
-	print_light(light);
-	calculate_diffuse(&light,g,1.0,2.0,3.0);
-	print_light(light);
 	break;
 	
       case SPHERE:
@@ -372,7 +369,7 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing sphere");
 	break;
@@ -385,7 +382,7 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -398,7 +395,7 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing box");
 	break;

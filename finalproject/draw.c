@@ -49,11 +49,13 @@ triangles
 04/16/13 13:13:27
 jdyrlandweaver
 ====================*/
-void draw_polygons( struct matrix *polygons, screen s, color c ) {
+void draw_polygons( struct matrix *polygons, screen s, color c) {
   c.red=100;
-  scanline_conversion(polygons,s,c);
+  //scanline_conversion(polygons,s,c);
   c.red=255;
-  int i;  
+  int i;
+  double ax,ay,az,bx,by,bz;
+  double* normal;
   for( i=0; i < polygons->lastcol-2; i+=3 ) {
 
     if ( calculate_dot( polygons, i ) < 0 ) {
@@ -72,18 +74,37 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 		 polygons->m[0][i],
 		 polygons->m[1][i],
 		 s, c);
+      
     }
   }
 }
 
-void scanline_conversion( struct matrix *polygons, screen s, color c ) {
+void scanline_conversion( struct matrix *polygons, screen s, color c , struct light* light) {
   int i;
   int bot,mid,top,temp;
+  double ax,ay,az,bx,by,bz;
+  double* normal;
   double BT,BM,X1,X2,Y;
   double botX,botY,midX,midY,topX,topY;
   //Not sure if this is the right for loop to use but oh wells
+  color test;
   for(i = 0; i < polygons->lastcol-2; i+=3){
     if ( calculate_dot( polygons, i ) < 0 ) {
+
+
+      
+	ax = polygons->m[0][i+1] - polygons->m[0][i];
+	ay = polygons->m[1][i+1] - polygons->m[1][i];
+	az = polygons->m[2][i+1] - polygons->m[2][i];
+	bx = polygons->m[0][i+2] - polygons->m[0][i];
+	by = polygons->m[1][i+2] - polygons->m[1][i];
+	bz = polygons->m[2][i+2] - polygons->m[2][i];
+	normal = calculate_normal(ax,ay,az,bx,by,bz);
+	test=calculate_diffuse(light,c,polygons->m[0][i],polygons->m[1][i],polygons->m[2][i],normal[0],normal[1],normal[2]);
+	printf("%d,%d,%d or %lf,%lf,%lf\n",c.red,c.green,c.blue,c.red,c.green,c.blue);
+
+      
+
       bot=0;
       for (temp=0;temp<3;temp++){
 	if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
@@ -115,7 +136,7 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       X2 = botY<midY?botX:midX;
       Y = (int)botY;
       while (midY > Y){
-	draw_line(X1,Y,X2,Y,s,c);
+	draw_line(X1,Y,X2,Y,s,test);
 	Y += 1;
 	X1 += BT;
 	X2 += BM;
@@ -125,7 +146,7 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ) {
       }
       BM = (topX - midX)/(topY - midY);
       while (topY > Y){
-	draw_line(X1,Y,X2,Y,s,c);
+	draw_line(X1,Y,X2,Y,s,test);
 	Y += 1;
 	X1 += BT;
 	X2 += BM;
@@ -921,11 +942,13 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
   }
 }
 
-void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer) {
-  c.red=100;
-  scanline_conversion(polygons,s,c);
-  c.red=255;
+void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer, struct light* light) {
+  //c.red=100;
+  scanline_conversion(polygons,s,c,light);
+  //c.red=255;
   int i;
+  double ax,ay,az,bx,by,bz;
+  double* normal;
   //printf("%s\n","drawing polygon");
   for( i=0; i < polygons->lastcol-2; i+=3 ) {
 
@@ -951,6 +974,15 @@ void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix*
 		 polygons->m[1][i],
 		  polygons->m[2][i],
 		  s, c, zbuffer);
+      /*
+      ax = polygons->m[0][i+1] - polygons->m[0][i];
+      ay = polygons->m[1][i+1] - polygons->m[1][i];
+      az = polygons->m[2][i+1] - polygons->m[2][i];
+      bx = polygons->m[0][i+2] - polygons->m[0][i];
+      by = polygons->m[1][i+2] - polygons->m[1][i];
+      bz = polygons->m[2][i+2] - polygons->m[2][i];
+      normal = calculate_normal(ax,ay,az,bx,by,bz);
+      c=calculate_diffuse(light,c,polygons->m[0][i],polygons->m[1][i],polygons->m[2][i],normal[0],normal[1],normal[2]);*/
     }
   }
 }

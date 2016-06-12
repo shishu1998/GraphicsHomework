@@ -8,5 +8,6 @@ double * calculate_normal( double a1, double a2, double a3,
 double calculate_dot( struct matrix *points, int i );
 double * normalized(double x, double y, double z);
 color calculate_diffuse(struct light* l, color light,
+			double pointx, double pointy, double pointz,
 			double normx, double normy, double normz);
 #endif

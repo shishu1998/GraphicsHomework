@@ -85,7 +85,7 @@ double * normalize(double x, double y, double z){
   y = vector[1];
   z = vector[2];
   */
-  double magnitude = sqrt(x*x + x*x + z*z);
+  double magnitude = sqrt(x*x + y*y + z*z);
   double * normalized = (double *)malloc(3 * sizeof(double));
   normalized[0] = x / magnitude;
   normalized[1] = y / magnitude;
@@ -94,19 +94,26 @@ double * normalize(double x, double y, double z){
 }
 
 color calculate_diffuse(struct light* l,color light,
+			double pointx, double pointy, double pointz,
 			double normx, double normy, double normz){
-  printf("SUUUUUUUUUUUUUUUUUUUUUPER\n");
-  printf("%f\n",l->c[1]);
   double* normN = normalize(normx,normy,normz);
-  printf("HI\n");
   double* L = (double *)malloc(3 * sizeof(double));
-  L[0] = l->l[0];L[1] = l->l[1];L[2] = l->l[2];
-  printf("SUP\n");
-  printf("%lf,%lf,%lf\n",normN[0],normN[1],normN[2]);
+  L[0] = l->l[0]-pointx;
+  L[1] = l->l[1]-pointy;
+  L[2] = l->l[2]-pointz;
   double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
-  light.red *= scalar * l->c[1];
-  light.green *= scalar * l->c[1];
-  light.blue *= scalar * l->c[1];
+  light.red = ((double)(light.red))* scalar * 0.5;
+  light.green = ((double)(light.green))* scalar * 0.5;
+  light.blue = ((double)(light.blue))* scalar * 0.5;
+  light.red = light.red<255? light.red : 255;
+  light.red = light.red>0? light.red : 0;
+  light.green = light.green<255? light.green : 255;
+  light.green = light.green>0? light.green : 0;
+  light.blue = light.blue<255? light.blue : 255;
+  light.blue = light.blue>0? light.blue : 0;
+  printf("%d\n",light.green);
+  printf("%lf\n",scalar*0.5);
+  printf("=[%d,%d,%d\n",light.red,light.green,light.blue);
   return light;
 }
