@@ -304,7 +304,8 @@ void my_main( int polygons ) {
   struct stack *s;
   screen t;
   color g;
-
+  struct light* light;
+  color testcolor;
   struct vary_node **knobs;
   struct vary_node *vn;
   char frame_name[128];
@@ -356,6 +357,13 @@ void my_main( int polygons ) {
 	    symtab[j].s.value = op[i].op.setknobs.value;
 	break;
 
+      case LIGHT:
+	light=lookup_symbol(op[i].op.light.p->name)->s.l;
+	print_light(light);
+	calculate_diffuse(&light,g,1.0,2.0,3.0);
+	print_light(light);
+	break;
+	
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
 		    op[i].op.sphere.d[1],  //cy

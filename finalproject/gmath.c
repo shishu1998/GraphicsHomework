@@ -64,7 +64,7 @@ double calculate_dot( struct matrix *points, int i ) {
 
   //get the surface normal
   normal = calculate_normal( ax, ay, az, bx, by, bz );
-
+  
   //set up view vector
   vx = 0;
   vy = 0;
@@ -77,26 +77,33 @@ double calculate_dot( struct matrix *points, int i ) {
   return dot;
 }
 
-double * normalize(double* vector){
-  double x,y,z;
-  double * normalized;
+double * normalize(double x, double y, double z){
+  //double x,y,z;
+  //double * normalized = (double *)malloc(3 * sizeof(double));
+  /*
   x = vector[0];
   y = vector[1];
   z = vector[2];
+  */
   double magnitude = sqrt(x*x + x*x + z*z);
-  normalized = (double *)malloc(3 * sizeof(double));
+  double * normalized = (double *)malloc(3 * sizeof(double));
   normalized[0] = x / magnitude;
   normalized[1] = y / magnitude;
   normalized[2] = z / magnitude;
   return normalized;
 }
-color calculate_diffuse(struct light* l,color light, double * normal){
-  double* normN = normalize(normal);
+
+color calculate_diffuse(struct light* l,color light,
+			double normx, double normy, double normz){
+  printf("SUUUUUUUUUUUUUUUUUUUUUPER\n");
+  printf("%f\n",l->c[1]);
+  double* normN = normalize(normx,normy,normz);
+  printf("HI\n");
   double* L = (double *)malloc(3 * sizeof(double));
-  L[0] = l->l[0];
-  L[1] = l->l[1];
-  L[2] = l->l[2];
-  double* normL = normalize(L);
+  L[0] = l->l[0];L[1] = l->l[1];L[2] = l->l[2];
+  printf("SUP\n");
+  printf("%lf,%lf,%lf\n",normN[0],normN[1],normN[2]);
+  double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
   light.red *= scalar * l->c[1];
   light.green *= scalar * l->c[1];

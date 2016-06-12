@@ -68,7 +68,7 @@ LIGHT STRING DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE
 }|
 
 MOVE DOUBLE DOUBLE DOUBLE STRING
-{ 
+{
   lineno++;
   op[lastop].opcode = MOVE;
   op[lastop].op.move.d[0] = $2;
@@ -127,7 +127,7 @@ CONSTANTS STRING DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE DOUBLE 
   c->r[1]=$4;
   c->r[2]=$5;
   c->r[3]=0;
-
+ 
   c->g[0]=$6;
   c->g[1]=$7;
   c->g[2]=$8;
