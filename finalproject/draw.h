@@ -11,7 +11,8 @@ void draw_line(int x0, int y0,
 void Zdraw_line(int x0, int y0, double z0, 
 		int x1, int y1, double z1,
 		screen s, color c, struct matrix * zbuffer);
-void scanline_conversion( struct matrix *polygons, screen s, color c, struct light* light);
+void scanline_conversion( struct matrix *polygons, screen s, color c, 
+			  struct light* light, struct constants* constants);
 void add_point( struct matrix * points, 
 		 double x, double y, double z);
 void add_edge( struct matrix * points, 
@@ -24,7 +25,8 @@ void add_polygons( struct matrix * points,
 void draw_lines( struct matrix * points, screen s, color c);
 void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbuffer);
 void draw_polygons( struct matrix * points, screen s, color c);
-void Zdraw_polygons( struct matrix *polygons, screen s, color c, struct matrix *zbuffer, struct light* light);
+void Zdraw_polygons( struct matrix *polygons, screen s, color c, struct matrix *zbuffer, 
+		     struct light* light, struct constants* constants);
 //void scanline_conversion(struct matrix* points, screen s, color c, struct light* light);
 
 //advanced shapes

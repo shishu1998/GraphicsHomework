@@ -305,7 +305,8 @@ void my_main( int polygons ) {
   screen t;
   color g;
   struct light* light;
-  color testcolor;
+  struct constants* constants=(struct constants*)malloc(sizeof(struct constants));
+  constants->red=1.0;constants->blue=1.0;constants->green=1.0;
   struct vary_node **knobs;
   struct vary_node *vn;
   char frame_name[128];
@@ -356,6 +357,10 @@ void my_main( int polygons ) {
 	  if ( symtab[j].type == SYM_VALUE )
 	    symtab[j].s.value = op[i].op.setknobs.value;
 	break;
+	
+      case CONSTANTS:
+	constants=lookup_symbol(op[i].op.constants.p->name)->s.c;
+	break;
 
       case LIGHT:
 	light=lookup_symbol(op[i].op.light.p->name)->s.l;
@@ -369,7 +374,7 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,light);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing sphere");
 	break;
@@ -382,7 +387,7 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,light);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -395,7 +400,7 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,light);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light, constants);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing box");
 	break;
