@@ -46,7 +46,7 @@ double * calculate_normal( double ax, double ay, double az,
   04/17/12 16:38:34
   jonalf
   ====================*/
-double calculate_dot( struct matrix *points, double vx, double vy, double vz,int i ) {
+double calculate_dot( struct matrix *points, int i, double vx, double vy, double vz ) {
 
   double ax, ay, az, bx, by, bz;
   double *normal;
