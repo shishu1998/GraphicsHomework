@@ -295,6 +295,7 @@ void my_main( int polygons ) {
   vy = 0;
   vz = -1;
   int i, f, j;
+  double* vector;
   double step;
   double xval, yval, zval, knob_value;
   struct matrix *transform;
@@ -371,6 +372,10 @@ void my_main( int polygons ) {
 	vx = op[i].op.camera.eye[0] - op[i].op.camera.aim[0];
 	vy = op[i].op.camera.eye[1] - op[i].op.camera.aim[1];
 	vz = op[i].op.camera.eye[2] - op[i].op.camera.aim[2];
+	vector = normalize(vx,vy,vz);
+	vx = vector[0];
+	vy = vector[1];
+	vz = vector[2];
 	break;
       case SPHERE:
 	add_sphere( tmp,op[i].op.sphere.d[0], //cx
