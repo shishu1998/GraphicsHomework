@@ -308,9 +308,9 @@ void my_main( int polygons ) {
   struct light* light=(struct light*)malloc(sizeof(struct light));
   light->l[0]=0;light->l[1]=0;light->l[2]=0;
   light->c[0]=0;light->c[0]=0;light->c[0]=0;
+  light->next=NULL;
   struct light* cur_light;
-  //  struct light** lights=(struct light**)malloc(20*sizeof(struct light*));
-  //lights[0]=light;
+
   int ind;
   struct constants* constants=(struct constants*)malloc(sizeof(struct constants));
   constants->red=1.0;constants->blue=1.0;constants->green=1.0;
@@ -337,8 +337,8 @@ void my_main( int polygons ) {
     switch (op[i].opcode) {
     case LIGHT:
       cur_light = light;
-      for (;light->next!=NULL;light=light->next){}
-      light->next=lookup_symbol(op[i].op.light.p->name)->s.l;
+      for (;cur_light->next!=NULL;cur_light=cur_light->next){}
+      cur_light->next=lookup_symbol(op[i].op.light.p->name)->s.l;
       break;
     case AMBIENT:
       g.red += op[i].op.ambient.c[0];
@@ -364,11 +364,9 @@ void my_main( int polygons ) {
 	set_value( lookup_symbol( vn->name ), vn->value );
 	vn = vn-> next;
       }
-      printf("TEST\n");
     }
     
     for (i=0;i<lastop;i++) {
-      printf("YO\n");
       switch (op[i].opcode) {
 
       case SET:
