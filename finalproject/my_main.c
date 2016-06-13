@@ -321,8 +321,8 @@ void my_main( int polygons ) {
   step = 5;
  
   g.red = 0;
-  g.green = 155;
-  g.blue = 255;
+  g.green = 0;
+  g.blue = 0;
 
 
   first_pass();
@@ -347,10 +347,11 @@ void my_main( int polygons ) {
 	set_value( lookup_symbol( vn->name ), vn->value );
 	vn = vn-> next;
       }
+      printf("TEST\n");
     }
     
     for (i=0;i<lastop;i++) {
-  
+      printf("YO\n");
       switch (op[i].opcode) {
 
       case SET:
@@ -402,7 +403,9 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
+	printf("WEEEEEEEEE2EEE\n");
 	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
+	printf("WEEEEEEEEE3EEE\n");
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -525,6 +528,7 @@ void my_main( int polygons ) {
       sprintf( frame_name, "anim/%s%03d.png", name, f );
       save_extension( t, frame_name );
     }
+    
   } //end frame loop
 
 }

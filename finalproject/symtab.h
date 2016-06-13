@@ -21,6 +21,7 @@ struct light
 {
   double l[4];
   double c[4];
+  struct light* next;
 };
 
 typedef struct 
