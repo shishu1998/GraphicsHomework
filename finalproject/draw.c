@@ -79,7 +79,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c, double vx,double
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c, 
-			  struct light** lights, struct constants* constants, double vx, double vy, double vz) {
+			  struct light* light, struct constants* constants, double vx, double vy, double vz) {
   int i;
   int bot,mid,top,temp;
   double ax,ay,az,bx,by,bz,centerx,centery,centerz;
@@ -104,13 +104,14 @@ void scanline_conversion( struct matrix *polygons, screen s, color c,
 	shaded.blue=0;
 	shaded.green=0;
 	printf("=--=-=-=\n");
-	for (cur_light=0;lights[cur_light]!=0;cur_light++){
-	  printf("%s\n",lights[cur_light]);
-	  printf("curlight-%d\n",cur_light);
-	  temp_l=calculate_diffuse(lights[cur_light],c,constants,
+	for (;light->next!=NULL;light=light->next){
+	  //printf("%s\n",lights[cur_light]);
+	  //printf("curlight-%d\n",cur_light);
+	  printf("%lf,%lf,%lf\n",light->c[0],light->c[1],light->c[2]);
+	  temp_l=calculate_diffuse(light,c,constants,
 				   centerx,centery,centerz,
 				   normal[0],normal[1],normal[2]);
-	  printf("curlight-%d\n",cur_light);
+	  //printf("curlight-%d\n",cur_light);
 	  shaded.red+=temp_l.red;
 	  shaded.blue+=temp_l.blue;
 	  shaded.green+=temp_l.green;
@@ -946,6 +947,6 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
 }
 
 void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer, 
-		     struct light** lights, struct constants* constants , double vx, double vy, double vz) {
-  scanline_conversion(polygons,s,c,lights,constants,vx,vy,vz);
+		     struct light* light, struct constants* constants , double vx, double vy, double vz) {
+  scanline_conversion(polygons,s,c,light,constants,vx,vy,vz);
 }
