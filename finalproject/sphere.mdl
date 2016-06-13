@@ -1,6 +1,6 @@
 push
 light a 0 0 1 200 150 60
-light b 500 500 500 255 0 0
+light b 500 500 0 255 0 0
 move 250 250 0
 rotate x 45
 rotate y 45

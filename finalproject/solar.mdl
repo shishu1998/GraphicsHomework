@@ -1,0 +1,72 @@
+frames 100
+basename revolve
+push
+light a 250 250 0 255 165 0
+light b 500 500 0 200 200 255
+light c 500 0 0 100 200 100
+move 250 250 0
+rotate y 360 mercury
+push
+move 15 0 0
+//mercury
+sphere 0 0 0 7
+pop
+rotate y 360 venus
+push
+move 35 0 0
+//venus
+sphere 0 0 0 10
+pop
+rotate y -360 earth
+push
+move 70 0 0
+//earth
+sphere 0 0 0 25
+pop
+rotate z 360 mars
+push
+move 90 0 0
+//mars
+sphere 0 0 0 12
+pop
+rotate y -720 jupiter
+push
+move 200 0 0
+//jupiter
+sphere 0 0 0 75
+pop
+rotate z 360 saturn
+push
+move 300 0 0
+//saturn
+sphere 0 0 0 55
+pop
+rotate z 360 neptune
+push
+move 370 0 0
+//neptune
+sphere 0 0 0 40
+pop
+rotate y 1080 uranus 
+push
+move 420 0 0
+//uranus
+sphere 0 0 0 45
+pop
+rotate x 360 pluto
+push
+move 450 0 0
+//pluto
+sphere 0 0 0 3
+pop
+//stop
+vary mercury 0 99 0 1
+vary venus 0 99 0 1
+vary earth 0 99 0 1
+vary mars 0 99 0 1
+vary jupiter 0 99 0 1
+vary saturn 0 99 0 1
+vary neptune 0 99 0 1
+vary uranus 0 99 0 1
+vary pluto 0 99 0 1
+quit

@@ -85,9 +85,12 @@ color calculate_diffuse(struct light* l, color light, struct constants* constant
 			double normx, double normy, double normz){
   double* normN = normalize(normx,normy,normz);
   double* L = (double *)malloc(3 * sizeof(double));
-  L[0] = l->l[0]-pointx;
-  L[1] = l->l[1]-pointy;
-  L[2] = l->l[2]-pointz;
+  L[0] = pointx-l->l[0];
+  L[1] = pointy-l->l[1];
+  L[2] = pointz-l->l[2];/*
+  L[0]*=-1;
+  L[1]*=-1;
+  L[2]*=-1;*/
   double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
   light.red = ((double)(l->c[0]))* scalar * constants->red;

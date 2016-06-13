@@ -344,7 +344,7 @@ void my_main( int polygons ) {
       g.red += op[i].op.ambient.c[0];
       g.green += op[i].op.ambient.c[1];
       g.blue += op[i].op.ambient.c[2];
-      break;
+      break;      
     }
   }
   
@@ -380,7 +380,7 @@ void my_main( int polygons ) {
 	break;
 	
       case CONSTANTS:
-	constants=lookup_symbol(op[i].op.constants.p->name)->s.c;
+	//constants=lookup_symbol(op[i].op.constants.p->name)->s.c;
 	break;
 	/*
       case LIGHT:
