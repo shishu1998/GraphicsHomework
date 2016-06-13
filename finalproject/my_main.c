@@ -331,6 +331,20 @@ void my_main( int polygons ) {
     process_knobs();
   else
     knobs = second_pass();
+
+  for (i=0;i<lastop;i++) {
+    switch (op[i].opcode) {
+    case LIGHT:
+      for (ind=0;lights[ind]!=NULL;ind++){}
+      lights[ind]=lookup_symbol(op[i].op.light.p->name)->s.l;
+      break;
+    case AMBIENT:
+      g.red += op[i].op.ambient.c[0];
+      g.green += op[i].op.ambient.c[1];
+      g.blue += op[i].op.ambient.c[2];	
+      break;
+    }
+  }
   
   for ( f=0; f < num_frames; f++ ) {
 
@@ -367,11 +381,12 @@ void my_main( int polygons ) {
       case CONSTANTS:
 	constants=lookup_symbol(op[i].op.constants.p->name)->s.c;
 	break;
-
+	/*
       case LIGHT:
 	for (ind=0;lights[ind]!=NULL;ind++){}
 	lights[ind]=lookup_symbol(op[i].op.light.p->name)->s.l;
 	break;
+	*/
       case CAMERA:
 	vx = op[i].op.camera.eye[0] - op[i].op.camera.aim[0];
 	vy = op[i].op.camera.eye[1] - op[i].op.camera.aim[1];
@@ -496,11 +511,13 @@ void my_main( int polygons ) {
 	copy_matrix( transform, s->data[ s->top ] );
 	free_matrix( transform );
 	break;
+	/*
       case AMBIENT:
 	g.red += op[i].op.ambient.c[0];
 	g.green += op[i].op.ambient.c[1];
 	g.blue += op[i].op.ambient.c[2];
 	break;
+	*/
       case PUSH:
 	push( s );
 	break;

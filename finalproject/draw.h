@@ -3,7 +3,7 @@
 #include "symtab.h"
 #include "matrix.h"
 
-#define MAX_STEPS 100
+#define MAX_STEPS 500
 
 void draw_line(int x0, int y0, 
 	       int x1, int y1, 
