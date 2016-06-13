@@ -79,15 +79,15 @@ void draw_polygons( struct matrix *polygons, screen s, color c, double vx,double
 }
 
 void scanline_conversion( struct matrix *polygons, screen s, color c, 
-			  struct light* light, struct constants* constants, double vx, double vy, double vz) {
+			  struct light** lights, struct constants* constants, double vx, double vy, double vz) {
   int i;
   int bot,mid,top,temp;
-  double ax,ay,az,bx,by,bz;
+  double ax,ay,az,bx,by,bz,centerx,centery,centerz;
   double* normal;
   double BT,BM,X1,X2,Y;
   double botX,botY,midX,midY,topX,topY;
-  //Not sure if this is the right for loop to use but oh wells
-  color shaded;
+  int cur_light;
+  color shaded,temp_l;
   for(i = 0; i < polygons->lastcol-2; i+=3){
     if ( calculate_dot( polygons, i ,vx, vy, vz) < 0 ) {
 
@@ -97,12 +97,33 @@ void scanline_conversion( struct matrix *polygons, screen s, color c,
 	bx = polygons->m[0][i+2] - polygons->m[0][i];
 	by = polygons->m[1][i+2] - polygons->m[1][i];
 	bz = polygons->m[2][i+2] - polygons->m[2][i];
+	centerx=(polygons->m[0][i]+polygons->m[0][i+1]+polygons->m[0][i+2])/3;
+	centery=(polygons->m[1][i]+polygons->m[1][i+1]+polygons->m[1][i+2])/3;
+	centerz=(polygons->m[2][i]+polygons->m[2][i+1]+polygons->m[2][i+2])/3;
 	normal = calculate_normal(ax,ay,az,bx,by,bz);
-	shaded=calculate_diffuse(light,c,constants,
-				 (polygons->m[0][i]+polygons->m[0][i+1]+polygons->m[0][i+2])/3,
-				 (polygons->m[1][i]+polygons->m[1][i+1]+polygons->m[1][i+2])/3,
-				 (polygons->m[2][i]+polygons->m[2][i+1]+polygons->m[2][i+2])/3,
-				 normal[0],normal[1],normal[2]);	
+	shaded.red=0;
+	shaded.blue=0;
+	shaded.green=0;
+
+	for (cur_light=0;lights[cur_light];cur_light++){
+	  temp_l=calculate_diffuse(lights[cur_light],c,constants,
+				   centerx,centery,centerz,
+				   normal[0],normal[1],normal[2]);
+	  shaded.red+=temp_l.red;
+	  shaded.blue+=temp_l.blue;
+	  shaded.green+=temp_l.green;
+	}
+
+	shaded.red+=c.red * constants->red;
+	shaded.green+=c.green * constants->green;
+	shaded.blue+=c.blue * constants->blue;
+	
+	shaded.red = shaded.red<255? shaded.red : 255;
+	shaded.red = shaded.red>0? shaded.red : 0;
+	shaded.green = shaded.green<255? shaded.green : 255;
+	shaded.green = shaded.green>0? shaded.green : 0;
+	shaded.blue = shaded.blue<255? shaded.blue : 255;
+	shaded.blue = shaded.blue>0? shaded.blue : 0;
 	
       bot=0;
       for (temp=0;temp<3;temp++){
@@ -922,38 +943,7 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
 }
 
 void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer, 
-		     struct light* light, struct constants* constants , double vx, double vy, double vz) {
+		     struct light** lights, struct constants* constants , double vx, double vy, double vz) {
 
-  scanline_conversion(polygons,s,c,light,constants,vx,vy,vz);
-  int i;
-  double ax,ay,az,bx,by,bz;
-  double* normal;
-  //printf("%s\n","drawing polygon");
-  /*
-  for( i=0; i < polygons->lastcol-2; i+=3 ) {
-
-    if ( calculate_dot( polygons, i ) < 0 ) {
-      Zdraw_line( polygons->m[0][i],
-		 polygons->m[1][i],
-		  polygons->m[2][i],
-		 polygons->m[0][i+1],
-		 polygons->m[1][i+1],
-		  polygons->m[2][i+1],
-		  s, c, zbuffer);
-      Zdraw_line( polygons->m[0][i+1],
-		 polygons->m[1][i+1],
-		  polygons->m[2][i+1],
-		 polygons->m[0][i+2],
-		 polygons->m[1][i+2],
-		  polygons->m[2][i+2],
-		  s, c, zbuffer);
-      Zdraw_line( polygons->m[0][i+2],
-		 polygons->m[1][i+2],
-		  polygons->m[2][i+2],
-		 polygons->m[0][i],
-		 polygons->m[1][i],
-		  polygons->m[2][i],
-		  s, c, zbuffer);
-    }
-    }*/
+  scanline_conversion(polygons,s,c,lights,constants,vx,vy,vz);
 }

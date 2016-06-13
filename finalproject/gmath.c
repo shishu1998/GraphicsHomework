@@ -80,7 +80,7 @@ double * normalize(double x, double y, double z){
   return normalized;
 }
 
-color calculate_diffuse(struct light* l,color light, struct constants* constants,
+color calculate_diffuse(struct light* l, color light, struct constants* constants,
 			double pointx, double pointy, double pointz,
 			double normx, double normy, double normz){
   double* normN = normalize(normx,normy,normz);
@@ -90,15 +90,9 @@ color calculate_diffuse(struct light* l,color light, struct constants* constants
   L[2] = l->l[2]-pointz;
   double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
-  light.red = ((double)(l->c[0]))* scalar * constants->red + light.red * constants->red;
-  light.green = ((double)(l->c[1]))* scalar * constants->green + light.green * constants->green;
-  light.blue = ((double)(l->c[2]))* scalar * constants->blue + light.blue * constants->blue;
-  light.red = light.red<255? light.red : 255;
-  light.red = light.red>0? light.red : 0;
-  light.green = light.green<255? light.green : 255;
-  light.green = light.green>0? light.green : 0;
-  light.blue = light.blue<255? light.blue : 255;
-  light.blue = light.blue>0? light.blue : 0;
+  light.red = ((double)(l->c[0]))* scalar * constants->red;
+  light.green = ((double)(l->c[1]))* scalar * constants->green;
+  light.blue = ((double)(l->c[2]))* scalar * constants->blue;
   free(L);
   free(normL);
   free(normN);

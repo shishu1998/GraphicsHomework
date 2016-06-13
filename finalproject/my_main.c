@@ -308,6 +308,9 @@ void my_main( int polygons ) {
   struct light* light=(struct light*)malloc(sizeof(struct light));
   light->l[0]=0;light->l[1]=0;light->l[2]=0;
   light->c[0]=0;light->c[0]=0;light->c[0]=0;
+  struct light** lights=(struct light**)malloc(20*sizeof(struct light*));
+  lights[0]=light;
+  int ind;
   struct constants* constants=(struct constants*)malloc(sizeof(struct constants));
   constants->red=1.0;constants->blue=1.0;constants->green=1.0;
   struct vary_node **knobs;
@@ -366,7 +369,8 @@ void my_main( int polygons ) {
 	break;
 
       case LIGHT:
-	light=lookup_symbol(op[i].op.light.p->name)->s.l;
+	for (ind=0;lights[ind]!=NULL;ind++){}
+	lights[ind]=lookup_symbol(op[i].op.light.p->name)->s.l;
 	break;
       case CAMERA:
 	vx = op[i].op.camera.eye[0] - op[i].op.camera.aim[0];
@@ -385,7 +389,7 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing sphere");
 	break;
@@ -398,7 +402,7 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -411,7 +415,7 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,light, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer,lights, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing box");
 	break;
