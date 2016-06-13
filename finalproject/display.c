@@ -91,22 +91,22 @@ void Zplot( screen s, color c, int x, int y, double z, struct matrix * zbuffer){
     zbuffer->m[x][newy] = z;
     //printf("%g\n",zbuffer->m[x][newy]);
     if(c.red >= 255){
-      c.red = 255;
+      temp.red = 255;
     }
     else if(c.red <= 0){
-      c.red = 0;
+      temp.red = 0;
     }
     if(c.green >= 255){
-      c.green = 255;
+      temp.green = 255;
     }
     else if(c.green <= 0){
-      c.green = 0;
+      temp.green = 0;
     }
     if(c.blue >= 255){
-      c.blue = 255;
+      temp.blue = 255;
     }
     else if(c.blue <= 0){
-      c.blue = 0;
+      temp.blue = 0;
     }
     s[x][newy] = temp;
   }

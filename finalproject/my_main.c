@@ -321,8 +321,8 @@ void my_main( int polygons ) {
   step = 5;
  
   g.red = 0;
-  g.green = 155;
-  g.blue = 255;
+  g.green = 0;
+  g.blue = 0;
 
 
   first_pass();
@@ -391,7 +391,8 @@ void my_main( int polygons ) {
 	matrix_mult( s->data[ s->top ], tmp );
 	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
 	tmp->lastcol = 0;
-	printf("%s\n","drawing sphere");
+	//printf("%s\n","drawing sphere");
+	printf("%i,%i,%i\n",g.red,g.green,g.blue);
 	break;
 
       case TORUS:

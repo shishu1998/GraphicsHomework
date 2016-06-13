@@ -117,14 +117,14 @@ void scanline_conversion( struct matrix *polygons, screen s, color c,
 	shaded.red+=c.red * constants->red;
 	shaded.green+=c.green * constants->green;
 	shaded.blue+=c.blue * constants->blue;
-	
+	/*
 	shaded.red = shaded.red<255? shaded.red : 255;
 	shaded.red = shaded.red>0? shaded.red : 0;
 	shaded.green = shaded.green<255? shaded.green : 255;
 	shaded.green = shaded.green>0? shaded.green : 0;
 	shaded.blue = shaded.blue<255? shaded.blue : 255;
 	shaded.blue = shaded.blue>0? shaded.blue : 0;
-	
+	*/
       bot=0;
       for (temp=0;temp<3;temp++){
 	if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
