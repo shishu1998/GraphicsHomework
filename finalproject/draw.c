@@ -107,7 +107,7 @@ void scanline_conversion( struct matrix *polygons, screen s, color c,
 	for (;light->next!=NULL;light=light->next){
 	  //printf("%s\n",lights[cur_light]);
 	  //printf("curlight-%d\n",cur_light);
-	  printf("%lf,%lf,%lf\n",light->c[0],light->c[1],light->c[2]);
+	  //printf("%lf,%lf,%lf\n",light->c[0],light->c[1],light->c[2]);
 	  temp_l=calculate_diffuse(light,c,constants,
 				   centerx,centery,centerz,
 				   normal[0],normal[1],normal[2]);
