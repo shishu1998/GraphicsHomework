@@ -72,13 +72,6 @@ double calculate_dot( struct matrix *points, int i, double vx, double vy, double
 }
 
 double * normalize(double x, double y, double z){
-  //double x,y,z;
-  //double * normalized = (double *)malloc(3 * sizeof(double));
-  /*
-  x = vector[0];
-  y = vector[1];
-  z = vector[2];
-  */
   double magnitude = sqrt(x*x + y*y + z*z);
   double * normalized = (double *)malloc(3 * sizeof(double));
   normalized[0] = x / magnitude;
@@ -97,14 +90,17 @@ color calculate_diffuse(struct light* l,color light, struct constants* constants
   L[2] = l->l[2]-pointz;
   double* normL = normalize(L[0],L[1],L[2]);
   double scalar = normN[0] * normL[0] + normN[1] * normL[1] + normN[2] * normL[2];
-  light.red = ((double)(l->c[0]))* scalar * constants->red;
-  light.green = ((double)(l->c[1]))* scalar * constants->green;
-  light.blue = ((double)(l->c[2]))* scalar * constants->blue;
+  light.red = ((double)(l->c[0]))* scalar * constants->red + light.red * constants->red;
+  light.green = ((double)(l->c[1]))* scalar * constants->green + light.green * constants->green;
+  light.blue = ((double)(l->c[2]))* scalar * constants->blue + light.blue * constants->blue;
   light.red = light.red<255? light.red : 255;
   light.red = light.red>0? light.red : 0;
   light.green = light.green<255? light.green : 255;
   light.green = light.green>0? light.green : 0;
   light.blue = light.blue<255? light.blue : 255;
   light.blue = light.blue>0? light.blue : 0;
+  free(L);
+  free(normL);
+  free(normN);
   return light;
 }

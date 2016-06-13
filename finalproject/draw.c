@@ -73,13 +73,12 @@ void draw_polygons( struct matrix *polygons, screen s, color c, double vx,double
 		 polygons->m[1][i+2],
 		 polygons->m[0][i],
 		 polygons->m[1][i],
-		 s, c);
-      
+		 s, c);      
     }
   }
 }
 
-void scanline_conversion( struct matrix *polygons, screen s, color c , 
+void scanline_conversion( struct matrix *polygons, screen s, color c, 
 			  struct light* light, struct constants* constants, double vx, double vy, double vz) {
   int i;
   int bot,mid,top,temp;
@@ -100,10 +99,11 @@ void scanline_conversion( struct matrix *polygons, screen s, color c ,
 	bz = polygons->m[2][i+2] - polygons->m[2][i];
 	normal = calculate_normal(ax,ay,az,bx,by,bz);
 	shaded=calculate_diffuse(light,c,constants,
-				 polygons->m[0][i],polygons->m[1][i],polygons->m[2][i],
-				 normal[0],normal[1],normal[2]);
+				 (polygons->m[0][i]+polygons->m[0][i+1]+polygons->m[0][i+2])/3,
+				 (polygons->m[1][i]+polygons->m[1][i+1]+polygons->m[1][i+2])/3,
+				 (polygons->m[2][i]+polygons->m[2][i+1]+polygons->m[2][i+2])/3,
+				 normal[0],normal[1],normal[2]);	
 	
-
       bot=0;
       for (temp=0;temp<3;temp++){
 	if (polygons->m[1][i+temp]<polygons->m[1][i+bot]){
@@ -918,31 +918,12 @@ void Zdraw_lines( struct matrix * points, screen s, color c, struct matrix * zbu
 
     Zdraw_line( points->m[0][i], points->m[1][i], points->m[2][i], 
 		points->m[0][i+1], points->m[1][i+1], points->m[2][i+1], s, c, zbuffer);
-    //FOR DEMONSTRATION PURPOSES ONLY
-    //draw extra pixels so points can actually be seen    
-    /*
-      draw_line( points->m[0][i]+1, points->m[1][i], 
-      points->m[0][i+1]+1, points->m[1][i+1], s, c);
-      draw_line( points->m[0][i], points->m[1][i]+1, 
-      points->m[0][i+1], points->m[1][i+1]+1, s, c);
-      draw_line( points->m[0][i]-1, points->m[1][i], 
-      points->m[0][i+1]-1, points->m[1][i+1], s, c);
-      draw_line( points->m[0][i], points->m[1][i]-1, 
-      points->m[0][i+1], points->m[1][i+1]-1, s, c);
-      draw_line( points->m[0][i]+1, points->m[1][i]+1, 
-      points->m[0][i+1]+1, points->m[1][i+1]+1, s, c);
-      draw_line( points->m[0][i]-1, points->m[1][i]+1, 
-      points->m[0][i+1]-1, points->m[1][i+1]+1, s, c);
-      draw_line( points->m[0][i]-1, points->m[1][i]-1, 
-      points->m[0][i+1]-1, points->m[1][i+1]-1, s, c);
-      draw_line( points->m[0][i]+1, points->m[1][i]-1, 
-      points->m[0][i+1]+1, points->m[1][i+1]-1, s, c);
-    */
   }
 }
 
 void Zdraw_polygons( struct matrix *polygons, screen s, color c , struct matrix* zbuffer, 
 		     struct light* light, struct constants* constants , double vx, double vy, double vz) {
+
   scanline_conversion(polygons,s,c,light,constants,vx,vy,vz);
   int i;
   double ax,ay,az,bx,by,bz;

@@ -1,8 +1,8 @@
 //body
 push
-camera 0 0 0 100 100 0
+camera 0 0 0 0 0 1
 //ambient 100 100 100
-light a 0 0 0 200 150 60
+light a 0 0 0 50 150 250
 move 250 250 0
 rotate y 45
 box -100 150 25 200 300 50

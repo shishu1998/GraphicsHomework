@@ -230,7 +230,7 @@ void print_knobs() {
   Inputs:   
   Returns: 
   Displays the current knob values and provides
-  an interface for the user to set them
+  an rface for the user to set them
   jdyrlandweaver
   ====================*/
 void process_knobs() {
@@ -492,12 +492,9 @@ void my_main( int polygons ) {
 	free_matrix( transform );
 	break;
       case AMBIENT:
-	red = op[i].op.ambient.c[0]; 
-	green = op[i].op.ambient.c[1];
-	blue = op[i].op.ambient.c[2];
-	g.red += red;
-	g.green += green;
-	g.blue += blue;
+	g.red += op[i].op.ambient.c[0];
+	g.green += op[i].op.ambient.c[1];
+	g.blue += op[i].op.ambient.c[2];
 	break;
       case PUSH:
 	push( s );
