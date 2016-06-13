@@ -308,8 +308,9 @@ void my_main( int polygons ) {
   struct light* light=(struct light*)malloc(sizeof(struct light));
   light->l[0]=0;light->l[1]=0;light->l[2]=0;
   light->c[0]=0;light->c[0]=0;light->c[0]=0;
-  struct light** lights=(struct light**)malloc(20*sizeof(struct light*));
-  lights[0]=light;
+  light->next=NULL;
+  struct light* cur_light;
+
   int ind;
   struct constants* constants=(struct constants*)malloc(sizeof(struct constants));
   constants->red=1.0;constants->blue=1.0;constants->green=1.0;
@@ -335,13 +336,14 @@ void my_main( int polygons ) {
   for (i=0;i<lastop;i++) {
     switch (op[i].opcode) {
     case LIGHT:
-      for (ind=0;lights[ind]!=NULL;ind++){}
-      lights[ind]=lookup_symbol(op[i].op.light.p->name)->s.l;
+      cur_light = light;
+      for (;cur_light->next!=NULL;cur_light=cur_light->next){}
+      cur_light->next=lookup_symbol(op[i].op.light.p->name)->s.l;
       break;
     case AMBIENT:
       g.red += op[i].op.ambient.c[0];
       g.green += op[i].op.ambient.c[1];
-      g.blue += op[i].op.ambient.c[2];	
+      g.blue += op[i].op.ambient.c[2];
       break;
     }
   }
@@ -364,7 +366,6 @@ void my_main( int polygons ) {
     }
     
     for (i=0;i<lastop;i++) {
-  
       switch (op[i].opcode) {
 
       case SET:
@@ -383,8 +384,9 @@ void my_main( int polygons ) {
 	break;
 	/*
       case LIGHT:
-	for (ind=0;lights[ind]!=NULL;ind++){}
-	lights[ind]=lookup_symbol(op[i].op.light.p->name)->s.l;
+	cur_light = light;
+	for (;light->next!=NULL;light=light->next){}
+	light->next=lookup_symbol(op[i].op.light.p->name)->s.l;
 	break;
 	*/
       case CAMERA:
@@ -404,10 +406,9 @@ void my_main( int polygons ) {
 		    step);
 	//apply the current top origin
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	//printf("%s\n","drawing sphere");
-	printf("%i,%i,%i\n",g.red,g.green,g.blue);
 	break;
 
       case TORUS:
@@ -418,7 +419,7 @@ void my_main( int polygons ) {
 		   op[i].op.torus.r1,
 		   step);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer, lights, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer, light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing torus");
 	break;
@@ -431,7 +432,7 @@ void my_main( int polygons ) {
 		 op[i].op.box.d1[1],
 		 op[i].op.box.d1[2]);
 	matrix_mult( s->data[ s->top ], tmp );
-	Zdraw_polygons( tmp, t, g ,zbuffer,lights, constants,vx,vy,vz);
+	Zdraw_polygons( tmp, t, g ,zbuffer,light, constants,vx,vy,vz);
 	tmp->lastcol = 0;
 	printf("%s\n","drawing box");
 	break;
@@ -543,6 +544,7 @@ void my_main( int polygons ) {
       sprintf( frame_name, "anim/%s%03d.png", name, f );
       save_extension( t, frame_name );
     }
+    
   } //end frame loop
 
 }
